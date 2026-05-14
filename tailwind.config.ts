@@ -16,9 +16,16 @@ export default {
           600: "#2563eb",
         }
       },
+      fontFamily: {
+        heading: ["var(--font-heading)", "serif"],
+        body: ["var(--font-body)", "sans-serif"],
+      },
       letterSpacing: {
         tighter: "-0.05em",
         widest: "0.25em",
+      },
+      borderRadius: {
+        DEFAULT: "9999px",
       },
     },
   },

@@ -1,67 +1,65 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X } from "lucide-react";
-import { RESTAURANT_DATA } from "@/constants/data";
+import { Menu, X, ArrowUpRight } from "lucide-react";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
 const navLinks = [
   { name: "Home", href: "/" },
-  { name: "Menu", href: "/menu" },
-  { name: "Reservations", href: "/reservations" },
-  { name: "About", href: "/about" },
-  { name: "Contact", href: "/contact" },
+  { name: "Voyages", href: "/menu" },
+  { name: "Worlds", href: "/reservations" },
+  { name: "Innovation", href: "/about" },
+  { name: "Plan Launch", href: "/contact" },
 ];
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
 
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
   return (
-    <nav
-      className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-        scrolled ? "bg-black/80 backdrop-blur-lg border-b border-white/10 py-3" : "bg-transparent py-6"
-      }`}
-    >
-      <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
-        <Link href="/" className="text-2xl font-black tracking-tighter flex items-center gap-2 group">
-          <div className="w-8 h-8 bg-blue-600 group-hover:rotate-45 transition-transform duration-500" />
-          <span className="group-hover:text-blue-500 transition-colors">AETHERIA</span>
-        </Link>
+    <nav className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl z-50 flex justify-between items-center px-8 py-6">
+      {/* Left Logo */}
+      <Link href="/" className="text-3xl tracking-tight font-heading text-foreground flex items-center">
+        Velorah<sup className="text-xs ml-0.5">®</sup>
+      </Link>
 
-        {/* Desktop Nav */}
-        <div className="hidden md:flex gap-8 items-center">
-          {navLinks.map((link) => (
-            <Link
-              key={link.name}
-              href={link.href}
-              className={`text-sm font-medium tracking-widest uppercase hover:text-blue-500 transition-colors ${
-                pathname === link.href ? "text-blue-500" : "text-zinc-400"
-              }`}
-            >
-              {link.name}
-            </Link>
-          ))}
+      {/* Center Nav (Desktop Only) */}
+      <div className="hidden md:flex items-center gap-8">
+        {navLinks.map((link) => (
           <Link
-            href="/reservations"
-            className="px-6 py-2 bg-blue-600 text-white text-xs font-bold uppercase tracking-widest hover:bg-blue-500 transition-colors"
+            key={link.name}
+            href={link.href}
+            className={`text-sm font-body transition-colors ${
+              pathname === link.href ? "text-foreground font-medium" : "text-muted-foreground hover:text-foreground"
+            }`}
           >
-            Book
+            {link.name}
           </Link>
-        </div>
+        ))}
+      </div>
 
-        {/* Mobile Toggle */}
-        <button className="md:hidden text-white" onClick={() => setIsOpen(!isOpen)}>
-          {isOpen ? <X /> : <Menu />}
+      {/* Right CTA & Toggle */}
+      <div className="hidden md:flex items-center gap-4">
+        <ThemeToggle />
+        <Link
+          href="/reservations"
+          className="liquid-glass rounded-full px-6 py-2.5 text-sm font-medium text-foreground hover:scale-[1.03] transition-transform block"
+        >
+          Begin Journey
+        </Link>
+      </div>
+
+      {/* Mobile Toggle */}
+      <div className="md:hidden flex items-center gap-2">
+        <ThemeToggle />
+        <button
+          className="w-10 h-10 liquid-glass rounded-full flex items-center justify-center text-foreground"
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          {isOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
         </button>
       </div>
 
@@ -72,20 +70,27 @@ export function Navbar() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="absolute top-full left-0 w-full bg-black border-b border-white/10 p-6 flex flex-col gap-6 md:hidden"
+            className="absolute top-full left-8 right-8 mt-4 liquid-glass-strong p-8 flex flex-col gap-6 md:hidden rounded-[2rem] z-50 bg-background/80 backdrop-blur-2xl"
           >
             {navLinks.map((link) => (
               <Link
                 key={link.name}
                 href={link.href}
                 onClick={() => setIsOpen(false)}
-                className={`text-xl font-bold tracking-tighter uppercase ${
-                  pathname === link.href ? "text-blue-500" : "text-white"
+                className={`text-2xl font-heading italic ${
+                  pathname === link.href ? "text-foreground" : "text-muted-foreground"
                 }`}
               >
                 {link.name}
               </Link>
             ))}
+            <Link
+              href="/reservations"
+              onClick={() => setIsOpen(false)}
+              className="liquid-glass-strong rounded-full py-4 text-center text-sm font-bold uppercase tracking-widest text-foreground"
+            >
+              Begin Journey
+            </Link>
           </motion.div>
         )}
       </AnimatePresence>

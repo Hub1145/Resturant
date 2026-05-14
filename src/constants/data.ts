@@ -34,7 +34,17 @@ export const MENU_CATEGORIES = [
   "Astral Drinks",
 ];
 
-export const MENU_ITEMS = [
+export interface MenuItem {
+  id: string;
+  name: string;
+  description: string;
+  price: string;
+  category: string;
+  dietary: string[];
+  image?: string;
+}
+
+export const MENU_ITEMS: MenuItem[] = [
   {
     id: "1",
     name: "Plasma Scallops",

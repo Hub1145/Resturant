@@ -42,7 +42,7 @@ export default function ReservationsPage() {
               </div>
             </div>
 
-            <GlassCard>
+            <div className="liquid-glass rounded-[1.25rem] p-8">
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-2 gap-4">
                   <div className="col-span-2 md:col-span-1">
@@ -76,9 +76,11 @@ export default function ReservationsPage() {
                   <input type="number" min="1" max="10" defaultValue="2" className="w-full bg-black border border-white/10 px-4 py-3 text-sm focus:border-blue-500 outline-none transition-colors" required />
                 </div>
 
-                <CyberButton className="w-full">Initialize Booking</CyberButton>
+                <button className="w-full liquid-glass-strong rounded-full py-4 text-sm font-bold uppercase tracking-widest text-white hover:scale-[1.02] transition-transform">
+                  Initialize Booking
+                </button>
               </form>
-            </GlassCard>
+            </div>
           </div>
         ) : (
           <motion.div
@@ -96,7 +98,9 @@ export default function ReservationsPage() {
               Your stasis coordinates have been synced with our master server.
               Check your neural link (email) for confirmation.
             </p>
-            <CyberButton variant="secondary" onClick={() => setSubmitted(false)}>Modify Timeline</CyberButton>
+            <button className="liquid-glass rounded-full px-8 py-3 text-sm font-bold uppercase tracking-widest text-white hover:bg-white/10 transition-colors" onClick={() => setSubmitted(false)}>
+              Modify Timeline
+            </button>
           </motion.div>
         )}
       </div>
