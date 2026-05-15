@@ -1,0 +1,86 @@
+{
+  "name": "Aetheria Gastronomy",
+  "slogan": "The Future of Flavor",
+  "description": "Experience a culinary journey beyond time and space. Aetheria blends molecular gastronomy with zero-gravity aesthetics to redefine the dining experience in 2026.",
+  "cuisine": "Neo-Molecular Fusion",
+  "established": 2026,
+  "contact": {
+    "address": "7 Nova Plaza, Neo-Tokyo District, SF 94103",
+    "phone": "+1 (555) AETHERIA",
+    "email": "concierge@aetheria.future",
+    "googleMaps": "https://maps.google.com/?q=San+Francisco"
+  },
+  "menu": [
+    {
+      "id": "1",
+      "name": "Plasma Scallops",
+      "description": "Searing scallops with bioluminescent citrus foam and neon radish.",
+      "price": "$28",
+      "category": "Starters",
+      "dietary": ["GF", "Seafood"],
+      "image": "https://images.unsplash.com/photo-1599458252281-968987d6092f?auto=format&fit=crop&q=80&w=800"
+    },
+    {
+      "id": "2",
+      "name": "Cyber-Steak 2.0",
+      "description": "Lab-grown wagyu with carbon-infused butter and digital truffle essence.",
+      "price": "$85",
+      "category": "Nebula Mains",
+      "dietary": ["Halal"],
+      "image": "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&q=80&w=800"
+    },
+    {
+      "id": "3",
+      "name": "The Event Horizon Burger",
+      "description": "Black charcoal bun, synthetic gold leaf, and pressurized onion rings.",
+      "price": "$42",
+      "category": "Quantum Burgers",
+      "dietary": [],
+      "image": "https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&q=80&w=800"
+    },
+    {
+      "id": "4",
+      "name": "Liquid Nitrogen Mousse",
+      "description": "Sub-zero chocolate sphere that shatters upon sonic resonance.",
+      "price": "$24",
+      "category": "Stardust Desserts",
+      "dietary": ["V"],
+      "image": "https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&q=80&w=800"
+    },
+    {
+      "id": "5",
+      "name": "Supernova Cocktail",
+      "description": "Floating gin pearls in a shimmering violet elderflower nebula.",
+      "price": "$19",
+      "category": "Astral Drinks",
+      "dietary": ["Vegan"],
+      "image": "https://images.unsplash.com/photo-1536935338788-846bb9981813?auto=format&fit=crop&q=80&w=800"
+    },
+    {
+      "id": "6",
+      "name": "Nebula Risotto",
+      "description": "Algae-infused rice with crystalline parmesan and space-dust saffron.",
+      "price": "$36",
+      "category": "Nebula Mains",
+      "dietary": ["V", "GF"],
+      "image": "https://images.unsplash.com/photo-1476124369491-e7addf5db371?auto=format&fit=crop&q=80&w=800"
+    }
+  ],
+  "testimonials": [
+    {
+      "name": "Dr. Elara Vance",
+      "role": "Quantum Physicist",
+      "text": "The flavor profiles at Aetheria are quite literally out of this world. It's the only place where science and soul truly collide."
+    },
+    {
+      "name": "Kaelen Voss",
+      "role": "Cyber-Art Collector",
+      "text": "The aesthetic alone is worth the interstellar journey. Every dish is a masterpiece of digital-organic fusion."
+    },
+    {
+      "name": "Sarah Chen",
+      "role": "Tech Visionary",
+      "text": "Finally, a restaurant that understands the 2026 palate. It's precise, clean, and utterly revolutionary."
+    }
+  ]
+}

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aetheria Gastronomy | The Future of Flavor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@1&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        background: 'hsl(var(--background))',
+                        foreground: 'hsl(var(--foreground))',
+                        muted: 'hsl(var(--muted-foreground))',
+                    },
+                    borderRadius: {
+                        DEFAULT: '9999px',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="dark overflow-x-hidden">
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl z-50 flex justify-between items-center px-8 py-6">
+        <a href="/" class="text-3xl tracking-tight font-heading text-foreground flex items-center">
+            Velorah<sup class="text-xs ml-0.5">®</sup>
+        </a>
+        <div class="hidden md:flex items-center gap-8">
+            <a href="#home" class="text-sm transition-colors text-foreground font-medium">Home</a>
+            <a href="#menu" class="text-sm transition-colors text-muted hover:text-foreground">Voyages</a>
+            <a href="#philosophy" class="text-sm transition-colors text-muted hover:text-foreground">Worlds</a>
+            <a href="/about" class="text-sm transition-colors text-muted hover:text-foreground">Innovation</a>
+        </div>
+        <div class="flex items-center gap-4">
+            <button id="theme-toggle" class="w-10 h-10 liquid-glass rounded-full flex items-center justify-center text-foreground">
+                <!-- Sun/Moon icons handled by JS -->
+            </button>
+            <a href="#reservations" class="liquid-glass rounded-full px-6 py-2.5 text-sm font-medium text-foreground hover:scale-[1.03] transition-transform hidden md:block">
+                Begin Journey
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="relative h-screen w-full flex flex-col items-center justify-center overflow-hidden">
+        <div id="canvas-container" class="absolute inset-0 z-0"></div>
+        <video id="hero-video" class="absolute inset-0 w-full h-full object-cover z-[-1]" muted playsinline style="opacity: 0;"></video>
+
+        <div class="relative z-10 flex flex-col items-center text-center px-6 pt-32 pb-40">
+            <h1 class="blur-text text-5xl sm:text-7xl md:text-8xl lg:text-9xl leading-[0.95] tracking-[-2.46px] max-w-7xl font-normal font-heading text-foreground">
+                Where dreams rise through the silence.
+            </h1>
+            <p class="animate-fade-rise-delay text-muted text-base sm:text-lg max-w-2xl mt-8 leading-relaxed">
+                We're designing tools for deep thinkers, bold creators, and quiet rebels. Amid the chaos, we build digital spaces for sharp focus and inspired work.
+            </p>
+            <div class="animate-fade-rise-delay-2 mt-12">
+                <a href="#menu" class="liquid-glass rounded-full px-14 py-5 text-base font-medium text-foreground hover:scale-[1.03] transition-transform flex items-center gap-2 group">
+                    Begin Journey
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section id="menu" class="py-32 px-6 bg-background relative z-10 border-t border-foreground/5">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
+                <div class="flex flex-col gap-4">
+                    <div class="text-sm text-muted uppercase tracking-widest">// Digital Codex</div>
+                    <h2 class="font-heading italic text-foreground text-6xl md:text-8xl leading-[0.9] tracking-[-4px]">
+                        SYNTHETIC <span class="text-muted">SAVOR</span>
+                    </h2>
+                </div>
+                <p class="text-muted text-lg max-w-sm mb-2 leading-tight italic">
+                    A multi-sensory exploration of biological structures and digital artifacts.
+                </p>
+            </div>
+
+            <div id="menu-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-24">
+                <!-- Menu items injected by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="py-32 px-6 bg-foreground text-background relative z-10 overflow-hidden">
+        <div class="absolute top-0 right-0 w-96 h-96 bg-blue-500/10 blur-[120px] rounded-full -translate-y-1/2 translate-x-1/2"></div>
+        <div class="max-w-7xl mx-auto">
+            <div class="text-xs uppercase tracking-widest mb-16 opacity-50">// Resonance</div>
+            <div id="testimonials-container" class="grid grid-cols-1 md:grid-cols-3 gap-16">
+                <!-- Testimonials injected by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="py-32 px-6 bg-background border-t border-foreground/5 relative z-10">
+        <div class="max-w-3xl mx-auto text-center">
+            <h2 class="font-heading italic text-5xl md:text-7xl mb-8 tracking-tighter">Enter the Nebula.</h2>
+            <p class="text-muted text-lg mb-12">Receive weekly updates on our culinary voyages and technological breakthroughs.</p>
+            <form class="flex flex-col sm:flex-row gap-4 p-2 liquid-glass rounded-[2rem] sm:rounded-full">
+                <input type="email" placeholder="communications@future.io" class="flex-1 bg-transparent px-8 py-4 outline-none text-foreground placeholder:text-muted/50">
+                <button class="bg-foreground text-background px-10 py-4 rounded-full font-medium hover:scale-[1.03] transition-transform">
+                    Subscribe
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <footer class="py-20 border-t border-foreground/5 bg-background">
+        <div class="max-w-7xl mx-auto px-8 flex flex-col md:flex-row justify-between items-start gap-16">
+            <div class="flex flex-col gap-6">
+                <div class="font-heading text-4xl italic tracking-tighter">VELORAH</div>
+                <p class="text-muted text-sm max-w-xs leading-relaxed">
+                    Neo-Tokyo District, Sector 7<br>
+                    SF 94103, Earth Orbit
+                </p>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-12 md:gap-24">
+                <div class="flex flex-col gap-4">
+                    <div class="text-[10px] uppercase tracking-widest text-muted">Pages</div>
+                    <a href="#" class="text-sm hover:text-blue-500 transition-colors">Home</a>
+                    <a href="#" class="text-sm hover:text-blue-500 transition-colors">Voyages</a>
+                    <a href="#" class="text-sm hover:text-blue-500 transition-colors">Innovation</a>
+                </div>
+                <div class="flex flex-col gap-4">
+                    <div class="text-[10px] uppercase tracking-widest text-muted">Social</div>
+                    <a href="#" class="text-sm hover:text-blue-500 transition-colors">Neuralink</a>
+                    <a href="#" class="text-sm hover:text-blue-500 transition-colors">Instagram</a>
+                    <a href="#" class="text-sm hover:text-blue-500 transition-colors">X</a>
+                </div>
+                <div class="flex flex-col gap-4">
+                    <div class="text-[10px] uppercase tracking-widest text-muted">Nexus</div>
+                    <a href="/admin/login.html" class="text-sm hover:text-blue-500 transition-colors">Admin</a>
+                    <a href="#" class="text-sm hover:text-blue-500 transition-colors">Privacy</a>
+                </div>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto px-8 mt-20 pt-10 border-t border-foreground/5 flex justify-between items-center text-[10px] text-muted uppercase tracking-widest">
+            <div>© 2026 VELORAH GASTROMONY®</div>
+            <div>[STATUS: OPTIMAL]</div>
+        </div>
+    </footer>
+
+    <script type="module">
+        import { FadingVideo, initBlurAnimations } from '/js/animations.js';
+        import { initTheme } from '/js/utils.js';
+
+        initTheme();
+
+        // Video
+        const video = document.getElementById('hero-video');
+        video.src = "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260418_080021_d598092b-c4c2-4e53-8e46-94cf9064cd50.mp4";
+        new FadingVideo(video);
+
+        // Data Loading
+        fetch('/api/restaurant-data')
+            .then(res => res.json())
+            .then(data => {
+                // Menu
+                const menuContainer = document.getElementById('menu-container');
+                data.menu.forEach(item => {
+                    menuContainer.innerHTML += `
+                        <div class="group relative">
+                            <div class="liquid-glass rounded-[3rem] p-5 mb-8 group-hover:scale-[1.02] transition-all duration-700 hover:shadow-2xl hover:shadow-blue-500/10">
+                                <div class="aspect-[1/1] overflow-hidden rounded-[2.5rem] relative bg-zinc-100 dark:bg-zinc-900/50">
+                                    <img src="${item.image}" alt="${item.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 grayscale group-hover:grayscale-0">
+                                    <div class="absolute inset-0 bg-gradient-to-t from-background/20 to-transparent"></div>
+                                    <div class="absolute top-6 right-6 liquid-glass px-4 py-2 rounded-full text-xs font-medium backdrop-blur-xl">
+                                        ${item.category}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="px-4">
+                                <div class="flex justify-between items-baseline mb-4">
+                                    <h3 class="font-heading italic text-foreground text-4xl tracking-tight group-hover:text-blue-500 transition-colors">${item.name}</h3>
+                                    <span class="text-foreground font-heading italic text-2xl opacity-50">${item.price}</span>
+                                </div>
+                                <p class="text-muted text-base font-body font-light leading-relaxed mb-6 opacity-70 group-hover:opacity-100 transition-opacity">
+                                    ${item.description}
+                                </p>
+                                <div class="flex gap-2">
+                                    ${(item.dietary || []).map(tag => `
+                                        <span class="text-[10px] uppercase tracking-widest text-muted border border-foreground/10 px-3 py-1 rounded-full">
+                                            ${tag}
+                                        </span>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                // Testimonials
+                const testimonialContainer = document.getElementById('testimonials-container');
+                (data.testimonials || []).forEach(t => {
+                    testimonialContainer.innerHTML += `
+                        <div class="flex flex-col gap-8">
+                            <div class="text-5xl font-heading italic tracking-tighter leading-[1.1]">
+                                "${t.text}"
+                            </div>
+                            <div class="flex flex-col">
+                                <span class="font-medium text-lg">${t.name}</span>
+                                <span class="text-sm opacity-50 italic">${t.role}</span>
+                            </div>
+                        </div>
+                    `;
+                });
+            });
+
+        initBlurAnimations();
+    </script>
+    <script type="module" src="/js/scene.js"></script>
+</body>
+</html>

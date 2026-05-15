@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login | Aetheria</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/css/style.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        background: 'hsl(var(--background))',
+                        foreground: 'hsl(var(--foreground))',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="dark bg-background text-foreground h-screen flex items-center justify-center font-sans">
+    <div class="p-8 bg-zinc-900/50 backdrop-blur-xl border border-zinc-800 rounded-2xl w-full max-w-md">
+        <h1 class="text-3xl font-bold mb-6 text-center tracking-tighter uppercase font-heading italic">Aetheria <span class="text-blue-500">Admin</span></h1>
+        <form id="login-form" class="space-y-4">
+            <div>
+                <label class="block text-sm font-medium text-zinc-400 mb-1">Username</label>
+                <input type="text" id="username" class="w-full px-4 py-2 bg-black border border-zinc-700 rounded-lg focus:outline-none focus:border-blue-500 transition-colors" required>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-zinc-400 mb-1">Password</label>
+                <input type="password" id="password" class="w-full px-4 py-2 bg-black border border-zinc-700 rounded-lg focus:outline-none focus:border-blue-500 transition-colors" required>
+            </div>
+            <p id="error" class="text-red-500 text-sm hidden">Invalid credentials</p>
+            <button type="submit" class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg transition-colors shadow-lg shadow-blue-500/20">
+                Login
+            </button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const error = document.getElementById('error');
+
+            const res = await fetch('/api/admin/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password })
+            });
+
+            if (res.ok) {
+                localStorage.setItem('isAdmin', 'true');
+                window.location.href = '/admin/dashboard.html';
+            } else {
+                error.classList.remove('hidden');
+            }
+        });
+    </script>
+</body>
+</html>
