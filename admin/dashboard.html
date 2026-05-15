@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard | Aetheria</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 <body class="dark bg-black text-white p-8 font-sans">
     <div class="max-w-4xl mx-auto">
@@ -46,12 +46,12 @@
 
     <script>
         if (localStorage.getItem('isAdmin') !== 'true') {
-            window.location.href = '/admin/login.html';
+            window.location.href = 'login.html';
         }
 
         document.getElementById('logout').addEventListener('click', () => {
             localStorage.removeItem('isAdmin');
-            window.location.href = '/admin/login.html';
+            window.location.href = 'login.html';
         });
 
         document.getElementById('update-password-form').addEventListener('submit', async (e) => {
@@ -60,7 +60,7 @@
             const newPassword = document.getElementById('new-password').value;
             const message = document.getElementById('message');
 
-            const res = await fetch('/api/admin/update-password', {
+            const res = await fetch('../api/admin/update-password', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ currentPassword, newPassword })

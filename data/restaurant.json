@@ -1,86 +1,75 @@
 {
-  "name": "Aetheria Gastronomy",
-  "slogan": "The Future of Flavor",
-  "description": "Experience a culinary journey beyond time and space. Aetheria blends molecular gastronomy with zero-gravity aesthetics to redefine the dining experience in 2026.",
-  "cuisine": "Neo-Molecular Fusion",
-  "established": 2026,
-  "contact": {
-    "address": "7 Nova Plaza, Neo-Tokyo District, SF 94103",
-    "phone": "+1 (555) AETHERIA",
-    "email": "concierge@aetheria.future",
-    "googleMaps": "https://maps.google.com/?q=San+Francisco"
+  "restaurant": {
+    "name": "Velorah",
+    "slogan": "Gastronomy for the Next Century",
+    "description": "At Velorah, we synthesize biological precision with digital artifacting. Experience molecular resonance and curated flavor-scapes designed for the year 2026.",
+    "cuisine": "Futuristic Molecular Gastronomy",
+    "established": 2026,
+    "address": "Neo-Tokyo District, Sector 7, SF 94103, Earth Orbit",
+    "phone": "+1 (555) NEBULA-0",
+    "email": "atelier@velorah.io",
+    "hours": {
+      "Mon-Fri": "18:00 - 24:00",
+      "Sat-Sun": "12:00 - 02:00"
+    }
   },
   "menu": [
     {
-      "id": "1",
-      "name": "Plasma Scallops",
-      "description": "Searing scallops with bioluminescent citrus foam and neon radish.",
-      "price": "$28",
-      "category": "Starters",
-      "dietary": ["GF", "Seafood"],
-      "image": "https://images.unsplash.com/photo-1599458252281-968987d6092f?auto=format&fit=crop&q=80&w=800"
-    },
-    {
-      "id": "2",
-      "name": "Cyber-Steak 2.0",
-      "description": "Lab-grown wagyu with carbon-infused butter and digital truffle essence.",
-      "price": "$85",
-      "category": "Nebula Mains",
-      "dietary": ["Halal"],
-      "image": "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&q=80&w=800"
-    },
-    {
-      "id": "3",
-      "name": "The Event Horizon Burger",
-      "description": "Black charcoal bun, synthetic gold leaf, and pressurized onion rings.",
-      "price": "$42",
-      "category": "Quantum Burgers",
-      "dietary": [],
-      "image": "https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&q=80&w=800"
-    },
-    {
-      "id": "4",
-      "name": "Liquid Nitrogen Mousse",
-      "description": "Sub-zero chocolate sphere that shatters upon sonic resonance.",
+      "name": "Liquid Nebula",
       "price": "$24",
-      "category": "Stardust Desserts",
-      "dietary": ["V"],
-      "image": "https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&q=80&w=800"
+      "description": "Suspended sphere of carbonated yuzu and ionized mint, served in a zero-gravity vessel.",
+      "category": "Starters",
+      "image": "https://images.unsplash.com/photo-1574096079513-d8259312b785?auto=format&fit=crop&q=80&w=800",
+      "dietary": ["Vegan", "GF"]
     },
     {
-      "id": "5",
-      "name": "Supernova Cocktail",
-      "description": "Floating gin pearls in a shimmering violet elderflower nebula.",
-      "price": "$19",
-      "category": "Astral Drinks",
-      "dietary": ["Vegan"],
-      "image": "https://images.unsplash.com/photo-1536935338788-846bb9981813?auto=format&fit=crop&q=80&w=800"
+      "name": "Orbital Wagyu",
+      "price": "$85",
+      "description": "A5 Wagyu seared with concentrated solar-flare thermal tech, paired with digital truffle essence.",
+      "category": "Mains",
+      "image": "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&q=80&w=800",
+      "dietary": ["Keto"]
     },
     {
-      "id": "6",
-      "name": "Nebula Risotto",
-      "description": "Algae-infused rice with crystalline parmesan and space-dust saffron.",
-      "price": "$36",
-      "category": "Nebula Mains",
-      "dietary": ["V", "GF"],
-      "image": "https://images.unsplash.com/photo-1476124369491-e7addf5db371?auto=format&fit=crop&q=80&w=800"
+      "name": "Cyber-Sashimi",
+      "price": "$42",
+      "description": "Bio-printed Bluefin Tuna infused with omega-3 luminescence and neon-wasabi foam.",
+      "category": "Mains",
+      "image": "https://images.unsplash.com/photo-1534422298391-e4f8c170db06?auto=format&fit=crop&q=80&w=800",
+      "dietary": ["GF", "Bio-Safe"]
+    },
+    {
+      "name": "Fractal Tartare",
+      "price": "$38",
+      "description": "Geometric arrangement of bison and pickled algorithm-aged beets.",
+      "category": "Starters",
+      "image": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&q=80&w=800",
+      "dietary": ["Organic"]
+    },
+    {
+      "name": "Void Mousse",
+      "price": "$18",
+      "description": "99% dark chocolate textured with sound-wave vibration, creating a gravity-defying airiness.",
+      "category": "Desserts",
+      "image": "https://images.unsplash.com/photo-1509482560494-4126f8225994?auto=format&fit=crop&q=80&w=800",
+      "dietary": ["Vegetarian"]
     }
   ],
   "testimonials": [
     {
-      "name": "Dr. Elara Vance",
-      "role": "Quantum Physicist",
-      "text": "The flavor profiles at Aetheria are quite literally out of this world. It's the only place where science and soul truly collide."
+      "text": "The flavor-scapes here are unlike anything in the quadrant. Pure digital bliss.",
+      "name": "Commander Elara",
+      "role": "Orbital Explorer"
     },
     {
-      "name": "Kaelen Voss",
-      "role": "Cyber-Art Collector",
-      "text": "The aesthetic alone is worth the interstellar journey. Every dish is a masterpiece of digital-organic fusion."
+      "text": "Molecular precision meets artistic chaos. Velorah is the peak of 2026 dining.",
+      "name": "Julian Vane",
+      "role": "Cuisine Critic"
     },
     {
-      "name": "Sarah Chen",
-      "role": "Tech Visionary",
-      "text": "Finally, a restaurant that understands the 2026 palate. It's precise, clean, and utterly revolutionary."
+      "text": "The Liquid Nebula changed my perception of hydration. A masterclass in synthesis.",
+      "name": "Sora Tech",
+      "role": "Bio-Engineer"
     }
   ]
 }

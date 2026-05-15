@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@1&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="css/style.css">
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -30,14 +30,14 @@
 <body class="dark overflow-x-hidden">
     <!-- Navbar -->
     <nav class="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl z-50 flex justify-between items-center px-8 py-6">
-        <a href="/" class="text-3xl tracking-tight font-heading text-foreground flex items-center">
+        <a href="index.html" class="text-3xl tracking-tight font-heading text-foreground flex items-center">
             Velorah<sup class="text-xs ml-0.5">®</sup>
         </a>
         <div class="hidden md:flex items-center gap-8">
-            <a href="#home" class="text-sm transition-colors text-foreground font-medium">Home</a>
-            <a href="#menu" class="text-sm transition-colors text-muted hover:text-foreground">Voyages</a>
-            <a href="#philosophy" class="text-sm transition-colors text-muted hover:text-foreground">Worlds</a>
-            <a href="/about" class="text-sm transition-colors text-muted hover:text-foreground">Innovation</a>
+            <a href="#home" class="text-sm transition-colors text-foreground font-medium">Atelier</a>
+            <a href="#menu" class="text-sm transition-colors text-muted hover:text-foreground">The Codex</a>
+            <a href="#philosophy" class="text-sm transition-colors text-muted hover:text-foreground">Philosophy</a>
+            <a href="#reservations" class="text-sm transition-colors text-muted hover:text-foreground">Reservations</a>
         </div>
         <div class="flex items-center gap-4">
             <button id="theme-toggle" class="w-10 h-10 liquid-glass rounded-full flex items-center justify-center text-foreground">
@@ -56,14 +56,14 @@
 
         <div class="relative z-10 flex flex-col items-center text-center px-6 pt-32 pb-40">
             <h1 class="blur-text text-5xl sm:text-7xl md:text-8xl lg:text-9xl leading-[0.95] tracking-[-2.46px] max-w-7xl font-normal font-heading text-foreground">
-                Where dreams rise through the silence.
+                Gastronomy for the next century.
             </h1>
             <p class="animate-fade-rise-delay text-muted text-base sm:text-lg max-w-2xl mt-8 leading-relaxed">
-                We're designing tools for deep thinkers, bold creators, and quiet rebels. Amid the chaos, we build digital spaces for sharp focus and inspired work.
+                At Velorah, we synthesize biological precision with digital artifacting. Experience molecular resonance and curated flavor-scapes designed for the year 2026.
             </p>
             <div class="animate-fade-rise-delay-2 mt-12">
                 <a href="#menu" class="liquid-glass rounded-full px-14 py-5 text-base font-medium text-foreground hover:scale-[1.03] transition-transform flex items-center gap-2 group">
-                    Begin Journey
+                    Explore Codex
                 </a>
             </div>
         </div>
@@ -74,18 +74,56 @@
         <div class="max-w-7xl mx-auto">
             <div class="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
                 <div class="flex flex-col gap-4">
-                    <div class="text-sm text-muted uppercase tracking-widest">// Digital Codex</div>
+                    <div class="text-sm text-muted uppercase tracking-widest">// Seasonal Codex</div>
                     <h2 class="font-heading italic text-foreground text-6xl md:text-8xl leading-[0.9] tracking-[-4px]">
                         SYNTHETIC <span class="text-muted">SAVOR</span>
                     </h2>
                 </div>
                 <p class="text-muted text-lg max-w-sm mb-2 leading-tight italic">
-                    A multi-sensory exploration of biological structures and digital artifacts.
+                    A multi-sensory exploration of molecular gastronomy and bio-mimetic plating.
                 </p>
             </div>
 
             <div id="menu-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-24">
                 <!-- Menu items injected by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Philosophy Section -->
+    <section id="philosophy" class="py-32 px-6 bg-background relative z-10 border-t border-foreground/5">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-20 items-center">
+                <div class="relative">
+                    <div class="aspect-[4/5] liquid-glass rounded-[4rem] overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1550966841-3ee7adac1661?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000" alt="Kitchen Lab">
+                    </div>
+                    <div class="absolute -bottom-10 -right-10 liquid-glass p-8 rounded-[2rem] max-w-xs backdrop-blur-3xl">
+                        <div class="text-xs uppercase tracking-widest text-muted mb-2">Technique</div>
+                        <p class="italic font-heading text-xl">"Flavor is an algorithm we have finally solved."</p>
+                    </div>
+                </div>
+                <div class="flex flex-col gap-8">
+                    <div class="text-xs uppercase tracking-widest text-muted">// Our Ethos</div>
+                    <h2 class="font-heading italic text-6xl md:text-8xl leading-[0.9] tracking-[-4px]">AT THE EDGE OF <span class="text-muted">TASTE</span></h2>
+                    <p class="text-muted text-lg leading-relaxed">
+                        In 2026, dining is no longer just about consumption. It's about resonance. Our atelier focuses on the intersection of biological ingredients and hyper-modern synthesis. We treat the plate as a canvas for the future.
+                    </p>
+                    <ul class="space-y-4">
+                        <li class="flex items-center gap-4 text-sm font-medium">
+                            <span class="w-2 h-2 bg-blue-500 rounded-full"></span>
+                            Molecular Deconstruction
+                        </li>
+                        <li class="flex items-center gap-4 text-sm font-medium">
+                            <span class="w-2 h-2 bg-blue-500 rounded-full"></span>
+                            Bio-Mimetic Plating
+                        </li>
+                        <li class="flex items-center gap-4 text-sm font-medium">
+                            <span class="w-2 h-2 bg-blue-500 rounded-full"></span>
+                            Ionized Flavor Profiling
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </section>
@@ -101,11 +139,11 @@
         </div>
     </section>
 
-    <!-- Newsletter -->
-    <section class="py-32 px-6 bg-background border-t border-foreground/5 relative z-10">
+    <!-- Reservations -->
+    <section id="reservations" class="py-32 px-6 bg-background border-t border-foreground/5 relative z-10">
         <div class="max-w-3xl mx-auto text-center">
-            <h2 class="font-heading italic text-5xl md:text-7xl mb-8 tracking-tighter">Enter the Nebula.</h2>
-            <p class="text-muted text-lg mb-12">Receive weekly updates on our culinary voyages and technological breakthroughs.</p>
+            <h2 class="font-heading italic text-5xl md:text-7xl mb-8 tracking-tighter">Secure your slot.</h2>
+            <p class="text-muted text-lg mb-12">Reservations for the 2026 season are now being digitized. Join the priority nebula.</p>
             <form class="flex flex-col sm:flex-row gap-4 p-2 liquid-glass rounded-[2rem] sm:rounded-full">
                 <input type="email" placeholder="communications@future.io" class="flex-1 bg-transparent px-8 py-4 outline-none text-foreground placeholder:text-muted/50">
                 <button class="bg-foreground text-background px-10 py-4 rounded-full font-medium hover:scale-[1.03] transition-transform">
@@ -126,10 +164,10 @@
             </div>
             <div class="grid grid-cols-2 md:grid-cols-3 gap-12 md:gap-24">
                 <div class="flex flex-col gap-4">
-                    <div class="text-[10px] uppercase tracking-widest text-muted">Pages</div>
-                    <a href="#" class="text-sm hover:text-blue-500 transition-colors">Home</a>
-                    <a href="#" class="text-sm hover:text-blue-500 transition-colors">Voyages</a>
-                    <a href="#" class="text-sm hover:text-blue-500 transition-colors">Innovation</a>
+                    <div class="text-[10px] uppercase tracking-widest text-muted">Gastronomy</div>
+                    <a href="#home" class="text-sm hover:text-blue-500 transition-colors">Atelier</a>
+                    <a href="#menu" class="text-sm hover:text-blue-500 transition-colors">The Codex</a>
+                    <a href="#philosophy" class="text-sm hover:text-blue-500 transition-colors">Philosophy</a>
                 </div>
                 <div class="flex flex-col gap-4">
                     <div class="text-[10px] uppercase tracking-widest text-muted">Social</div>
@@ -139,7 +177,7 @@
                 </div>
                 <div class="flex flex-col gap-4">
                     <div class="text-[10px] uppercase tracking-widest text-muted">Nexus</div>
-                    <a href="/admin/login.html" class="text-sm hover:text-blue-500 transition-colors">Admin</a>
+                    <a href="admin/login.html" class="text-sm hover:text-blue-500 transition-colors">Admin</a>
                     <a href="#" class="text-sm hover:text-blue-500 transition-colors">Privacy</a>
                 </div>
             </div>
@@ -151,8 +189,8 @@
     </footer>
 
     <script type="module">
-        import { FadingVideo, initBlurAnimations } from '/js/animations.js';
-        import { initTheme } from '/js/utils.js';
+        import { FadingVideo, initBlurAnimations } from './js/animations.js';
+        import { initTheme } from './js/utils.js';
 
         initTheme();
 
@@ -162,7 +200,7 @@
         new FadingVideo(video);
 
         // Data Loading
-        fetch('/api/restaurant-data')
+        fetch('api/restaurant-data')
             .then(res => res.json())
             .then(data => {
                 // Menu
@@ -218,6 +256,6 @@
 
         initBlurAnimations();
     </script>
-    <script type="module" src="/js/scene.js"></script>
+    <script type="module" src="js/scene.js"></script>
 </body>
 </html>

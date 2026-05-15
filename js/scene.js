@@ -36,14 +36,28 @@ class Scene3D {
     }
 
     initSphere() {
-        const geometry = new THREE.SphereGeometry(1.5, 64, 64);
+        // Molecular/Geometric structure for Gastronomy theme
+        const geometry = new THREE.IcosahedronGeometry(1.8, 1);
         const material = new THREE.MeshStandardMaterial({
             color: 0x3b82f6,
-            roughness: 0,
-            metalness: 1,
-            wireframe: true
+            roughness: 0.1,
+            metalness: 0.8,
+            wireframe: true,
+            transparent: true,
+            opacity: 0.4
         });
         this.sphere = new THREE.Mesh(geometry, material);
+
+        // Inner core
+        const coreGeo = new THREE.SphereGeometry(0.5, 32, 32);
+        const coreMat = new THREE.MeshPhongMaterial({
+            color: 0xffffff,
+            emissive: 0x3b82f6,
+            shininess: 100
+        });
+        const core = new THREE.Mesh(coreGeo, coreMat);
+        this.sphere.add(core);
+
         this.scene.add(this.sphere);
     }
 
