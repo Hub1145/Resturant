@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aetheria Gastronomy | The Future of Flavor</title>
+    <title>Foodiecious | The Best Taste in Town</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@1&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@1&family=Barlow:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <script>
         tailwind.config = {
@@ -17,174 +17,215 @@
                     colors: {
                         background: 'hsl(var(--background))',
                         foreground: 'hsl(var(--foreground))',
+                        primary: 'hsl(var(--primary))',
+                        secondary: 'hsl(var(--secondary))',
                         muted: 'hsl(var(--muted-foreground))',
                     },
-                    borderRadius: {
-                        DEFAULT: '9999px',
-                    }
                 }
             }
         }
     </script>
 </head>
-<body class="dark overflow-x-hidden">
+<body class="light overflow-x-hidden">
     <!-- Navbar -->
     <nav class="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl z-50 flex justify-between items-center px-8 py-6">
-        <a href="index.html" class="text-3xl tracking-tight font-heading text-foreground flex items-center">
-            Velorah<sup class="text-xs ml-0.5">®</sup>
+        <a href="index.html" class="text-3xl tracking-tight font-heading text-primary flex items-center font-bold">
+            Foodiecious<span class="text-foreground italic">.</span>
         </a>
-        <div class="hidden md:flex items-center gap-8">
-            <a href="#home" class="text-sm transition-colors text-foreground font-medium">Atelier</a>
-            <a href="#menu" class="text-sm transition-colors text-muted hover:text-foreground">The Codex</a>
-            <a href="#philosophy" class="text-sm transition-colors text-muted hover:text-foreground">Philosophy</a>
-            <a href="#reservations" class="text-sm transition-colors text-muted hover:text-foreground">Reservations</a>
+        <div class="hidden md:flex items-center gap-10">
+            <a href="#home" class="text-sm transition-colors text-foreground font-semibold hover:text-primary uppercase tracking-widest">Home</a>
+            <a href="#about" class="text-sm transition-colors text-muted hover:text-primary uppercase tracking-widest">About</a>
+            <a href="#menu" class="text-sm transition-colors text-muted hover:text-primary uppercase tracking-widest">Menu</a>
+            <a href="#testimonials" class="text-sm transition-colors text-muted hover:text-primary uppercase tracking-widest">Reviews</a>
+            <a href="#reservations" class="text-sm transition-colors text-muted hover:text-primary uppercase tracking-widest">Contact</a>
         </div>
         <div class="flex items-center gap-4">
             <button id="theme-toggle" class="w-10 h-10 liquid-glass rounded-full flex items-center justify-center text-foreground">
-                <!-- Sun/Moon icons handled by JS -->
+                <!-- Theme icon -->
             </button>
-            <a href="#reservations" class="liquid-glass rounded-full px-6 py-2.5 text-sm font-medium text-foreground hover:scale-[1.03] transition-transform hidden md:block">
-                Begin Journey
+            <a href="#reservations" class="bg-primary text-white rounded-full px-6 py-2.5 text-sm font-bold hover:scale-[1.05] transition-transform hidden md:block">
+                Book a Table
             </a>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <section id="home" class="relative h-screen w-full flex flex-col items-center justify-center overflow-hidden">
-        <div id="canvas-container" class="absolute inset-0 z-0"></div>
-        <video id="hero-video" class="absolute inset-0 w-full h-full object-cover z-[-1]" muted playsinline style="opacity: 0;"></video>
+    <section id="home" class="relative min-h-screen w-full flex flex-col items-center justify-center overflow-hidden pt-20">
+        <div id="canvas-container" class="absolute inset-0 z-0 opacity-40"></div>
 
-        <div class="relative z-10 flex flex-col items-center text-center px-6 pt-32 pb-40">
-            <h1 class="blur-text text-5xl sm:text-7xl md:text-8xl lg:text-9xl leading-[0.95] tracking-[-2.46px] max-w-7xl font-normal font-heading text-foreground">
-                Gastronomy for the next century.
-            </h1>
-            <p class="animate-fade-rise-delay text-muted text-base sm:text-lg max-w-2xl mt-8 leading-relaxed">
-                At Velorah, we synthesize biological precision with digital artifacting. Experience molecular resonance and curated flavor-scapes designed for the year 2026.
-            </p>
-            <div class="animate-fade-rise-delay-2 mt-12">
-                <a href="#menu" class="liquid-glass rounded-full px-14 py-5 text-base font-medium text-foreground hover:scale-[1.03] transition-transform flex items-center gap-2 group">
-                    Explore Codex
-                </a>
+        <div class="relative z-10 flex flex-col md:flex-row items-center max-w-7xl mx-auto px-6 gap-12">
+            <div class="flex-1 text-center md:text-left">
+                <div class="inline-block px-4 py-1 bg-primary/10 text-primary rounded-full text-xs font-bold uppercase tracking-widest mb-6 animate-fade-rise">
+                    The Best Food in Town
+                </div>
+                <h1 class="blur-text text-6xl sm:text-7xl md:text-8xl lg:text-9xl leading-[0.9] tracking-[-0.04em] font-normal font-heading text-foreground mb-8">
+                    Taste the <span class="text-primary italic">Joy</span> of Great Food.
+                </h1>
+                <p class="animate-fade-rise-delay text-muted text-lg md:text-xl max-w-xl mb-10 leading-relaxed">
+                    We serve the most delicious dishes crafted with farm-fresh ingredients and culinary expertise. Join us for an unforgettable dining experience.
+                </p>
+                <div class="animate-fade-rise-delay-2 flex flex-col sm:flex-row items-center gap-4 justify-center md:justify-start">
+                    <a href="#menu" class="btn-primary">Explore Our Menu</a>
+                    <a href="#reservations" class="text-foreground font-bold flex items-center gap-2 group px-6 py-3">
+                        Book Your Table <span class="group-hover:translate-x-2 transition-transform">→</span>
+                    </a>
+                </div>
+            </div>
+            <div class="flex-1 relative animate-fade-rise-delay-2">
+                <div class="relative w-full aspect-square max-w-lg mx-auto">
+                    <div class="absolute inset-0 bg-primary/20 rounded-full blur-[100px]"></div>
+                    <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&q=80&w=800" alt="Delicious Food" class="relative z-10 w-full h-full object-cover rounded-[3rem] shadow-2xl rotate-3 hover:rotate-0 transition-transform duration-700">
+                    <div class="absolute -bottom-6 -left-6 liquid-glass p-6 rounded-2xl z-20 hidden sm:block">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-secondary rounded-full flex items-center justify-center text-white text-xl">★</div>
+                            <div>
+                                <div class="font-bold">4.9/5 Rating</div>
+                                <div class="text-xs text-muted">From 2k+ Customers</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-32 px-6 bg-background relative z-10">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-20 items-center">
+                <div class="relative">
+                    <div class="grid grid-cols-2 gap-4">
+                        <img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExcTdkY2ljZDN0czFiNWYxdWxuem93ZnJoOTljOGc5Z2thaW5wczJsMCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/7JzHsh3UTip20/giphy.gif" class="rounded-3xl mt-12 w-full h-full object-cover shadow-2xl" alt="Chef Cooking">
+                        <img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&q=80&w=400" class="rounded-3xl shadow-xl" alt="Food 2">
+                    </div>
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <div class="w-32 h-32 bg-primary rounded-full flex items-center justify-center text-white font-heading italic text-4xl shadow-xl shadow-primary/30 -rotate-12">
+                            Est. 2012
+                        </div>
+                    </div>
+                </div>
+                <div class="flex flex-col gap-8">
+                    <div class="text-xs uppercase tracking-widest text-primary font-bold">// Our Story</div>
+                    <h2 class="font-heading text-6xl md:text-7xl leading-[0.9] tracking-tight">Tradition Meets <span class="text-muted">Innovation</span></h2>
+                    <p class="text-muted text-lg leading-relaxed">
+                        Foodiecious started as a small family kitchen with one goal: to serve honest, flavorful food that makes people smile. Over the years, we've evolved into a local favorite, blending traditional recipes with modern techniques.
+                    </p>
+                    <div class="grid grid-cols-2 gap-8">
+                        <div>
+                            <div class="text-4xl font-heading text-primary mb-2">100%</div>
+                            <div class="text-sm font-bold uppercase tracking-widest">Fresh Ingredients</div>
+                        </div>
+                        <div>
+                            <div class="text-4xl font-heading text-primary mb-2">25+</div>
+                            <div class="text-sm font-bold uppercase tracking-widest">Expert Chefs</div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- Menu Section -->
-    <section id="menu" class="py-32 px-6 bg-background relative z-10 border-t border-foreground/5">
+    <section id="menu" class="py-32 px-6 bg-zinc-50 dark:bg-zinc-900/20 relative z-10">
         <div class="max-w-7xl mx-auto">
-            <div class="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
-                <div class="flex flex-col gap-4">
-                    <div class="text-sm text-muted uppercase tracking-widest">// Seasonal Codex</div>
-                    <h2 class="font-heading italic text-foreground text-6xl md:text-8xl leading-[0.9] tracking-[-4px]">
-                        SYNTHETIC <span class="text-muted">SAVOR</span>
-                    </h2>
-                </div>
-                <p class="text-muted text-lg max-w-sm mb-2 leading-tight italic">
-                    A multi-sensory exploration of molecular gastronomy and bio-mimetic plating.
-                </p>
+            <div class="text-center mb-20">
+                <div class="text-xs uppercase tracking-widest text-primary font-bold mb-4">// Popular Dishes</div>
+                <h2 class="font-heading text-6xl md:text-8xl leading-[0.9] mb-6">Our Signature <span class="italic text-muted">Menu</span></h2>
+                <p class="text-muted text-lg max-w-2xl mx-auto">From juicy burgers to artisanal pizzas, explore the dishes that made us famous.</p>
             </div>
 
-            <div id="menu-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-24">
+            <div id="menu-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <!-- Menu items injected by JS -->
             </div>
-        </div>
-    </section>
 
-    <!-- Philosophy Section -->
-    <section id="philosophy" class="py-32 px-6 bg-background relative z-10 border-t border-foreground/5">
-        <div class="max-w-7xl mx-auto">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-20 items-center">
-                <div class="relative">
-                    <div class="aspect-[4/5] liquid-glass rounded-[4rem] overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1550966841-3ee7adac1661?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000" alt="Kitchen Lab">
-                    </div>
-                    <div class="absolute -bottom-10 -right-10 liquid-glass p-8 rounded-[2rem] max-w-xs backdrop-blur-3xl">
-                        <div class="text-xs uppercase tracking-widest text-muted mb-2">Technique</div>
-                        <p class="italic font-heading text-xl">"Flavor is an algorithm we have finally solved."</p>
-                    </div>
-                </div>
-                <div class="flex flex-col gap-8">
-                    <div class="text-xs uppercase tracking-widest text-muted">// Our Ethos</div>
-                    <h2 class="font-heading italic text-6xl md:text-8xl leading-[0.9] tracking-[-4px]">AT THE EDGE OF <span class="text-muted">TASTE</span></h2>
-                    <p class="text-muted text-lg leading-relaxed">
-                        In 2026, dining is no longer just about consumption. It's about resonance. Our atelier focuses on the intersection of biological ingredients and hyper-modern synthesis. We treat the plate as a canvas for the future.
-                    </p>
-                    <ul class="space-y-4">
-                        <li class="flex items-center gap-4 text-sm font-medium">
-                            <span class="w-2 h-2 bg-blue-500 rounded-full"></span>
-                            Molecular Deconstruction
-                        </li>
-                        <li class="flex items-center gap-4 text-sm font-medium">
-                            <span class="w-2 h-2 bg-blue-500 rounded-full"></span>
-                            Bio-Mimetic Plating
-                        </li>
-                        <li class="flex items-center gap-4 text-sm font-medium">
-                            <span class="w-2 h-2 bg-blue-500 rounded-full"></span>
-                            Ionized Flavor Profiling
-                        </li>
-                    </ul>
-                </div>
+            <div class="mt-16 text-center">
+                <a href="#" class="btn-primary">View All Menu Items</a>
             </div>
         </div>
     </section>
 
     <!-- Testimonials Section -->
-    <section class="py-32 px-6 bg-foreground text-background relative z-10 overflow-hidden">
-        <div class="absolute top-0 right-0 w-96 h-96 bg-blue-500/10 blur-[120px] rounded-full -translate-y-1/2 translate-x-1/2"></div>
+    <section id="testimonials" class="py-32 px-6 bg-primary text-white relative z-10 overflow-hidden">
+        <div class="absolute top-0 right-0 w-96 h-96 bg-white/10 blur-[120px] rounded-full -translate-y-1/2 translate-x-1/2"></div>
         <div class="max-w-7xl mx-auto">
-            <div class="text-xs uppercase tracking-widest mb-16 opacity-50">// Resonance</div>
+            <div class="text-xs uppercase tracking-widest mb-16 opacity-80 font-bold">// What They Say</div>
             <div id="testimonials-container" class="grid grid-cols-1 md:grid-cols-3 gap-16">
                 <!-- Testimonials injected by JS -->
             </div>
         </div>
     </section>
 
-    <!-- Reservations -->
-    <section id="reservations" class="py-32 px-6 bg-background border-t border-foreground/5 relative z-10">
-        <div class="max-w-3xl mx-auto text-center">
-            <h2 class="font-heading italic text-5xl md:text-7xl mb-8 tracking-tighter">Secure your slot.</h2>
-            <p class="text-muted text-lg mb-12">Reservations for the 2026 season are now being digitized. Join the priority nebula.</p>
-            <form class="flex flex-col sm:flex-row gap-4 p-2 liquid-glass rounded-[2rem] sm:rounded-full">
-                <input type="email" placeholder="communications@future.io" class="flex-1 bg-transparent px-8 py-4 outline-none text-foreground placeholder:text-muted/50">
-                <button class="bg-foreground text-background px-10 py-4 rounded-full font-medium hover:scale-[1.03] transition-transform">
-                    Subscribe
-                </button>
-            </form>
+    <!-- Reservations Section -->
+    <section id="reservations" class="py-32 px-6 bg-background relative z-10">
+        <div class="max-w-7xl mx-auto">
+            <div class="bg-zinc-50 dark:bg-zinc-900 rounded-[3rem] overflow-hidden grid grid-cols-1 md:grid-cols-2 shadow-2xl">
+                <div class="p-12 md:p-20">
+                    <h2 class="font-heading text-5xl md:text-7xl mb-8 leading-tight">Ready to <span class="text-primary italic">Dine</span> with us?</h2>
+                    <p class="text-muted text-lg mb-12">Book your table now and ensure a spot at Foodiecious. We can't wait to serve you!</p>
+                    <form class="space-y-6">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <input type="text" placeholder="Your Name" class="bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 px-6 py-4 rounded-2xl outline-none focus:ring-2 ring-primary/20 transition-all">
+                            <input type="email" placeholder="Email Address" class="bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 px-6 py-4 rounded-2xl outline-none focus:ring-2 ring-primary/20 transition-all">
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <input type="date" class="bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 px-6 py-4 rounded-2xl outline-none focus:ring-2 ring-primary/20 transition-all">
+                            <select class="bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 px-6 py-4 rounded-2xl outline-none focus:ring-2 ring-primary/20 transition-all">
+                                <option>2 Persons</option>
+                                <option>4 Persons</option>
+                                <option>6+ Persons</option>
+                            </select>
+                        </div>
+                        <button class="w-full bg-primary text-white py-5 rounded-2xl font-bold text-lg hover:scale-[1.02] transition-transform shadow-xl shadow-primary/20">
+                            Confirm Reservation
+                        </button>
+                    </form>
+                </div>
+                <div class="relative min-h-[400px]">
+                    <img src="https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&q=80&w=800" class="absolute inset-0 w-full h-full object-cover" alt="Restaurant Interior">
+                </div>
+            </div>
         </div>
     </section>
 
     <footer class="py-20 border-t border-foreground/5 bg-background">
         <div class="max-w-7xl mx-auto px-8 flex flex-col md:flex-row justify-between items-start gap-16">
             <div class="flex flex-col gap-6">
-                <div class="font-heading text-4xl italic tracking-tighter">VELORAH</div>
+                <div class="font-heading text-4xl font-bold text-primary">Foodiecious<span class="text-foreground">.</span></div>
                 <p class="text-muted text-sm max-w-xs leading-relaxed">
-                    Neo-Tokyo District, Sector 7<br>
-                    SF 94103, Earth Orbit
+                    452 Flavor Avenue, Downtown City<br>
+                    SF 94103, United States
                 </p>
+                <div class="flex gap-4">
+                    <a href="#" class="w-10 h-10 bg-zinc-100 dark:bg-zinc-800 rounded-full flex items-center justify-center hover:bg-primary hover:text-white transition-all">FB</a>
+                    <a href="#" class="w-10 h-10 bg-zinc-100 dark:bg-zinc-800 rounded-full flex items-center justify-center hover:bg-primary hover:text-white transition-all">IG</a>
+                    <a href="#" class="w-10 h-10 bg-zinc-100 dark:bg-zinc-800 rounded-full flex items-center justify-center hover:bg-primary hover:text-white transition-all">TW</a>
+                </div>
             </div>
             <div class="grid grid-cols-2 md:grid-cols-3 gap-12 md:gap-24">
                 <div class="flex flex-col gap-4">
-                    <div class="text-[10px] uppercase tracking-widest text-muted">Gastronomy</div>
-                    <a href="#home" class="text-sm hover:text-blue-500 transition-colors">Atelier</a>
-                    <a href="#menu" class="text-sm hover:text-blue-500 transition-colors">The Codex</a>
-                    <a href="#philosophy" class="text-sm hover:text-blue-500 transition-colors">Philosophy</a>
+                    <div class="text-[10px] uppercase tracking-widest text-primary font-bold">Explore</div>
+                    <a href="#home" class="text-sm hover:text-primary transition-colors">Home</a>
+                    <a href="#about" class="text-sm hover:text-primary transition-colors">About Us</a>
+                    <a href="#menu" class="text-sm hover:text-primary transition-colors">Our Menu</a>
                 </div>
                 <div class="flex flex-col gap-4">
-                    <div class="text-[10px] uppercase tracking-widest text-muted">Social</div>
-                    <a href="#" class="text-sm hover:text-blue-500 transition-colors">Neuralink</a>
-                    <a href="#" class="text-sm hover:text-blue-500 transition-colors">Instagram</a>
-                    <a href="#" class="text-sm hover:text-blue-500 transition-colors">X</a>
+                    <div class="text-[10px] uppercase tracking-widest text-primary font-bold">Support</div>
+                    <a href="#" class="text-sm hover:text-primary transition-colors">FAQ</a>
+                    <a href="#" class="text-sm hover:text-primary transition-colors">Contact</a>
+                    <a href="#" class="text-sm hover:text-primary transition-colors">Delivery</a>
                 </div>
                 <div class="flex flex-col gap-4">
-                    <div class="text-[10px] uppercase tracking-widest text-muted">Nexus</div>
-                    <a href="admin/login.html" class="text-sm hover:text-blue-500 transition-colors">Admin</a>
-                    <a href="#" class="text-sm hover:text-blue-500 transition-colors">Privacy</a>
+                    <div class="text-[10px] uppercase tracking-widest text-primary font-bold">Admin</div>
+                    <a href="admin/login.html" class="text-sm hover:text-primary transition-colors">Login</a>
                 </div>
             </div>
         </div>
-        <div class="max-w-7xl mx-auto px-8 mt-20 pt-10 border-t border-foreground/5 flex justify-between items-center text-[10px] text-muted uppercase tracking-widest">
-            <div>© 2026 VELORAH GASTROMONY®</div>
-            <div>[STATUS: OPTIMAL]</div>
+        <div class="max-w-7xl mx-auto px-8 mt-20 pt-10 border-t border-foreground/5 flex flex-col sm:flex-row justify-between items-center text-xs text-muted uppercase tracking-widest gap-4">
+            <div>© 2024 FOODIECIOUS RESTAURANT. ALL RIGHTS RESERVED.</div>
+            <div class="flex gap-8">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+            </div>
         </div>
     </footer>
 
@@ -194,11 +235,6 @@
 
         initTheme();
 
-        // Video
-        const video = document.getElementById('hero-video');
-        video.src = "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260418_080021_d598092b-c4c2-4e53-8e46-94cf9064cd50.mp4";
-        new FadingVideo(video);
-
         // Data Loading
         fetch('api/restaurant-data')
             .then(res => res.json())
@@ -207,30 +243,26 @@
                 const menuContainer = document.getElementById('menu-container');
                 data.menu.forEach(item => {
                     menuContainer.innerHTML += `
-                        <div class="group relative">
-                            <div class="liquid-glass rounded-[3rem] p-5 mb-8 group-hover:scale-[1.02] transition-all duration-700 hover:shadow-2xl hover:shadow-blue-500/10">
-                                <div class="aspect-[1/1] overflow-hidden rounded-[2.5rem] relative bg-zinc-100 dark:bg-zinc-900/50">
-                                    <img src="${item.image}" alt="${item.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 grayscale group-hover:grayscale-0">
-                                    <div class="absolute inset-0 bg-gradient-to-t from-background/20 to-transparent"></div>
-                                    <div class="absolute top-6 right-6 liquid-glass px-4 py-2 rounded-full text-xs font-medium backdrop-blur-xl">
-                                        ${item.category}
+                        <div class="group menu-card">
+                            <div class="bg-white dark:bg-zinc-800/50 rounded-[2.5rem] p-4 shadow-xl shadow-black/5 hover:shadow-primary/10 transition-all duration-500">
+                                <div class="aspect-[4/3] overflow-hidden rounded-[2rem] mb-6">
+                                    <img src="${item.image}" alt="${item.name}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                                </div>
+                                <div class="px-4 pb-4">
+                                    <div class="flex justify-between items-center mb-2">
+                                        <h3 class="font-heading text-3xl font-bold text-foreground">${item.name}</h3>
+                                        <span class="text-primary font-bold text-xl">${item.price}</span>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="px-4">
-                                <div class="flex justify-between items-baseline mb-4">
-                                    <h3 class="font-heading italic text-foreground text-4xl tracking-tight group-hover:text-blue-500 transition-colors">${item.name}</h3>
-                                    <span class="text-foreground font-heading italic text-2xl opacity-50">${item.price}</span>
-                                </div>
-                                <p class="text-muted text-base font-body font-light leading-relaxed mb-6 opacity-70 group-hover:opacity-100 transition-opacity">
-                                    ${item.description}
-                                </p>
-                                <div class="flex gap-2">
-                                    ${(item.dietary || []).map(tag => `
-                                        <span class="text-[10px] uppercase tracking-widest text-muted border border-foreground/10 px-3 py-1 rounded-full">
-                                            ${tag}
-                                        </span>
-                                    `).join('')}
+                                    <p class="text-muted text-sm leading-relaxed mb-6 line-clamp-2">
+                                        ${item.description}
+                                    </p>
+                                    <div class="flex flex-wrap gap-2">
+                                        ${(item.dietary || []).map(tag => `
+                                            <span class="text-[10px] uppercase tracking-widest text-primary bg-primary/10 px-3 py-1 rounded-full font-bold">
+                                                ${tag}
+                                            </span>
+                                        `).join('')}
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -241,13 +273,16 @@
                 const testimonialContainer = document.getElementById('testimonials-container');
                 (data.testimonials || []).forEach(t => {
                     testimonialContainer.innerHTML += `
-                        <div class="flex flex-col gap-8">
-                            <div class="text-5xl font-heading italic tracking-tighter leading-[1.1]">
+                        <div class="flex flex-col gap-8 bg-white/10 p-10 rounded-[3rem] backdrop-blur-md">
+                            <div class="text-2xl font-medium leading-relaxed italic">
                                 "${t.text}"
                             </div>
-                            <div class="flex flex-col">
-                                <span class="font-medium text-lg">${t.name}</span>
-                                <span class="text-sm opacity-50 italic">${t.role}</span>
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 bg-white/20 rounded-full"></div>
+                                <div class="flex flex-col">
+                                    <span class="font-bold text-lg">${t.name}</span>
+                                    <span class="text-sm opacity-70 uppercase tracking-tighter">${t.role}</span>
+                                </div>
                             </div>
                         </div>
                     `;

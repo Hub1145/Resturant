@@ -15,71 +15,48 @@ class Scene3D {
         this.camera.position.z = 5;
 
         this.initLights();
-        this.initSphere();
-        this.initParticles();
+        this.initElements();
         this.animate();
 
         window.addEventListener('resize', () => this.onWindowResize());
     }
 
     initLights() {
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
         this.scene.add(ambientLight);
 
-        const spotLight = new THREE.SpotLight(0xffffff, 1);
-        spotLight.position.set(10, 10, 10);
-        this.scene.add(spotLight);
-
-        const pointLight = new THREE.PointLight(0x3b82f6, 1);
-        pointLight.position.set(-10, -10, -10);
+        const pointLight = new THREE.PointLight(0xffa500, 1);
+        pointLight.position.set(5, 5, 5);
         this.scene.add(pointLight);
     }
 
-    initSphere() {
-        // Molecular/Geometric structure for Gastronomy theme
-        const geometry = new THREE.IcosahedronGeometry(1.8, 1);
+    initElements() {
+        // Floating organic 'spice' particles for a warm atmosphere
+        this.elements = [];
+        const geometry = new THREE.IcosahedronGeometry(0.1, 0);
         const material = new THREE.MeshStandardMaterial({
-            color: 0x3b82f6,
-            roughness: 0.1,
-            metalness: 0.8,
-            wireframe: true,
-            transparent: true,
-            opacity: 0.4
+            color: 0xffa500,
+            roughness: 0.5,
+            metalness: 0.2
         });
-        this.sphere = new THREE.Mesh(geometry, material);
 
-        // Inner core
-        const coreGeo = new THREE.SphereGeometry(0.5, 32, 32);
-        const coreMat = new THREE.MeshPhongMaterial({
-            color: 0xffffff,
-            emissive: 0x3b82f6,
-            shininess: 100
-        });
-        const core = new THREE.Mesh(coreGeo, coreMat);
-        this.sphere.add(core);
+        for (let i = 0; i < 40; i++) {
+            const mesh = new THREE.Mesh(geometry, material);
+            mesh.position.set(
+                (Math.random() - 0.5) * 10,
+                (Math.random() - 0.5) * 10,
+                (Math.random() - 0.5) * 5
+            );
+            mesh.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, 0);
+            mesh.scale.setScalar(Math.random() * 2 + 0.5);
 
-        this.scene.add(this.sphere);
-    }
-
-    initParticles() {
-        const count = 1000;
-        const geometry = new THREE.BufferGeometry();
-        const positions = new Float32Array(count * 3);
-
-        for (let i = 0; i < count * 3; i++) {
-            positions[i] = (Math.random() - 0.5) * 15;
+            this.elements.push({
+                mesh,
+                speed: Math.random() * 0.01 + 0.005,
+                rotSpeed: Math.random() * 0.02
+            });
+            this.scene.add(mesh);
         }
-
-        geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-        const material = new THREE.PointsMaterial({
-            size: 0.02,
-            color: 0xffffff,
-            transparent: true,
-            opacity: 0.5
-        });
-
-        this.particles = new THREE.Points(geometry, material);
-        this.scene.add(this.particles);
     }
 
     onWindowResize() {
@@ -93,16 +70,11 @@ class Scene3D {
 
         const time = Date.now() * 0.001;
 
-        if (this.sphere) {
-            this.sphere.rotation.x = time * 0.2;
-            this.sphere.rotation.y = time * 0.3;
-            const scale = 1 + Math.sin(time) * 0.1;
-            this.sphere.scale.set(scale, scale, scale);
-        }
-
-        if (this.particles) {
-            this.particles.rotation.y = time * 0.05;
-        }
+        this.elements.forEach(el => {
+            el.mesh.rotation.x += el.rotSpeed;
+            el.mesh.rotation.y += el.rotSpeed;
+            el.mesh.position.y += Math.sin(time + el.mesh.position.x) * 0.002;
+        });
 
         this.renderer.render(this.scene, this.camera);
     }

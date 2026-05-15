@@ -1,75 +1,75 @@
 {
   "restaurant": {
-    "name": "Velorah",
-    "slogan": "Gastronomy for the Next Century",
-    "description": "At Velorah, we synthesize biological precision with digital artifacting. Experience molecular resonance and curated flavor-scapes designed for the year 2026.",
-    "cuisine": "Futuristic Molecular Gastronomy",
-    "established": 2026,
-    "address": "Neo-Tokyo District, Sector 7, SF 94103, Earth Orbit",
-    "phone": "+1 (555) NEBULA-0",
-    "email": "atelier@velorah.io",
+    "name": "Foodiecious",
+    "slogan": "The Best Taste in Town",
+    "description": "Welcome to Foodiecious, where every dish is a masterpiece. We use only the freshest ingredients to bring you a dining experience that stays with you long after the meal is over.",
+    "cuisine": "Gourmet International Cuisine",
+    "established": 2012,
+    "address": "452 Flavor Avenue, Downtown City, SF 94103",
+    "phone": "+1 (555) 123-FOOD",
+    "email": "hello@foodiecious.com",
     "hours": {
-      "Mon-Fri": "18:00 - 24:00",
-      "Sat-Sun": "12:00 - 02:00"
+      "Mon-Fri": "10:00 AM - 10:00 PM",
+      "Sat-Sun": "09:00 AM - 11:30 PM"
     }
   },
   "menu": [
     {
-      "name": "Liquid Nebula",
-      "price": "$24",
-      "description": "Suspended sphere of carbonated yuzu and ionized mint, served in a zero-gravity vessel.",
+      "name": "Truffle Beef Burger",
+      "price": "$18.50",
+      "description": "Juicy prime beef patty, black truffle aioli, melted swiss cheese, and caramelized onions on a toasted brioche bun.",
+      "category": "Main Course",
+      "image": "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&q=80&w=800",
+      "dietary": ["Meat Lover"]
+    },
+    {
+      "name": "Artisanal Margherita Pizza",
+      "price": "$16.00",
+      "description": "San Marzano tomato sauce, fresh buffalo mozzarella, aromatic basil, and a drizzle of extra virgin olive oil.",
+      "category": "Pizzas",
+      "image": "https://images.unsplash.com/photo-1574071318508-1cdbad80ad50?auto=format&fit=crop&q=80&w=800",
+      "dietary": ["Vegetarian"]
+    },
+    {
+      "name": "Grilled Salmon Fillet",
+      "price": "$24.00",
+      "description": "Wild-caught salmon, lemon-herb butter sauce, served with roasted asparagus and garlic mashed potatoes.",
+      "category": "Main Course",
+      "image": "https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&q=80&w=800",
+      "dietary": ["Healthy", "GF"]
+    },
+    {
+      "name": "Honey Glazed Chicken Wings",
+      "price": "$12.99",
+      "description": "Crispy wings tossed in our signature honey-chili glaze, served with a cooling ranch dip.",
       "category": "Starters",
-      "image": "https://images.unsplash.com/photo-1574096079513-d8259312b785?auto=format&fit=crop&q=80&w=800",
-      "dietary": ["Vegan", "GF"]
+      "image": "https://images.unsplash.com/photo-1567620905732-2d1ec7bb7445?auto=format&fit=crop&q=80&w=800",
+      "dietary": ["Popular"]
     },
     {
-      "name": "Orbital Wagyu",
-      "price": "$85",
-      "description": "A5 Wagyu seared with concentrated solar-flare thermal tech, paired with digital truffle essence.",
-      "category": "Mains",
-      "image": "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&q=80&w=800",
-      "dietary": ["Keto"]
-    },
-    {
-      "name": "Cyber-Sashimi",
-      "price": "$42",
-      "description": "Bio-printed Bluefin Tuna infused with omega-3 luminescence and neon-wasabi foam.",
-      "category": "Mains",
-      "image": "https://images.unsplash.com/photo-1534422298391-e4f8c170db06?auto=format&fit=crop&q=80&w=800",
-      "dietary": ["GF", "Bio-Safe"]
-    },
-    {
-      "name": "Fractal Tartare",
-      "price": "$38",
-      "description": "Geometric arrangement of bison and pickled algorithm-aged beets.",
-      "category": "Starters",
-      "image": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&q=80&w=800",
-      "dietary": ["Organic"]
-    },
-    {
-      "name": "Void Mousse",
-      "price": "$18",
-      "description": "99% dark chocolate textured with sound-wave vibration, creating a gravity-defying airiness.",
+      "name": "Triple Chocolate Lava Cake",
+      "price": "$9.50",
+      "description": "Warm chocolate cake with a molten center, served with a scoop of Madagascar vanilla bean ice cream.",
       "category": "Desserts",
-      "image": "https://images.unsplash.com/photo-1509482560494-4126f8225994?auto=format&fit=crop&q=80&w=800",
+      "image": "https://images.unsplash.com/photo-1563805042-7684c019e1cb?auto=format&fit=crop&q=80&w=800",
       "dietary": ["Vegetarian"]
     }
   ],
   "testimonials": [
     {
-      "text": "The flavor-scapes here are unlike anything in the quadrant. Pure digital bliss.",
-      "name": "Commander Elara",
-      "role": "Orbital Explorer"
+      "text": "The Truffle Burger was incredible! Best meal I've had in a long time. The atmosphere is so cozy.",
+      "name": "Sarah Jenkins",
+      "role": "Local Foodie"
     },
     {
-      "text": "Molecular precision meets artistic chaos. Velorah is the peak of 2026 dining.",
-      "name": "Julian Vane",
-      "role": "Cuisine Critic"
+      "text": "Amazing service and even better food. The Margherita pizza tastes exactly like it does in Italy.",
+      "name": "Marco Rossi",
+      "role": "Frequent Guest"
     },
     {
-      "text": "The Liquid Nebula changed my perception of hydration. A masterclass in synthesis.",
-      "name": "Sora Tech",
-      "role": "Bio-Engineer"
+      "text": "A perfect spot for family dinners. My kids loved the honey wings, and the desserts are to die for!",
+      "name": "Emily Watson",
+      "role": "Happy Parent"
     }
   ]
 }
