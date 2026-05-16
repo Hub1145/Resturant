@@ -1,81 +1,569 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard | Foodiecious</title>
+    <title>Dashboard | Foodiecious Admin</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@1&family=Barlow:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        background: 'hsl(var(--background))',
+                        foreground: 'hsl(var(--foreground))',
+                        primary:    'hsl(var(--primary))',
+                        muted:      'hsl(var(--muted-foreground))',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .sidebar-link { display:flex; align-items:center; gap:0.75rem; padding:0.65rem 1rem; border-radius:0.75rem; font-size:0.875rem; font-weight:600; color:hsl(var(--muted-foreground)); transition:all .2s; cursor:pointer; }
+        .sidebar-link:hover, .sidebar-link.active { background:hsl(var(--primary)/0.12); color:hsl(var(--primary)); }
+        .panel { display:none; }
+        .panel.active { display:block; }
+    </style>
 </head>
-<body class="dark bg-black text-white p-8 font-sans">
-    <div class="max-w-4xl mx-auto">
-        <div class="flex justify-between items-center mb-12">
-            <h1 class="text-4xl font-bold tracking-tighter uppercase font-heading italic text-primary">Foodiecious <span class="text-foreground">Dashboard</span></h1>
-            <button id="logout" class="px-4 py-2 border border-zinc-700 hover:bg-zinc-800 rounded-lg transition-colors">
+<body class="bg-background text-foreground min-h-screen">
+
+<!-- Auth check overlay -->
+<div id="auth-check" class="fixed inset-0 bg-background z-50 flex items-center justify-center">
+    <div class="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
+</div>
+
+<!-- ─── Layout ─────────────────────────────────────────────────────────── -->
+<div class="flex min-h-screen">
+
+    <!-- Sidebar -->
+    <aside class="w-64 shrink-0 border-r border-foreground/8 p-6 flex flex-col gap-6 hidden md:flex">
+        <div>
+            <a href="/" class="font-heading text-2xl font-bold text-primary">
+                Foodiecious<span class="text-foreground italic">.</span>
+            </a>
+            <div class="text-xs uppercase tracking-widest text-muted mt-1">Admin Panel</div>
+        </div>
+        <nav class="flex flex-col gap-1 flex-1">
+            <button class="sidebar-link active" data-panel="overview">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+                Overview
+            </button>
+            <button class="sidebar-link" data-panel="reservations">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                Reservations
+            </button>
+            <button class="sidebar-link" data-panel="menu">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+                Menu Items
+            </button>
+            <button class="sidebar-link" data-panel="settings">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3" stroke-width="2"/></svg>
+                Settings
+            </button>
+        </nav>
+        <div>
+            <a href="/" class="sidebar-link" style="color:hsl(var(--muted-foreground))">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                View Site
+            </a>
+            <button id="logout-btn" class="sidebar-link w-full text-left" style="color:hsl(0 80% 60%)">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
                 Logout
             </button>
         </div>
+    </aside>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div class="p-6 bg-zinc-900/50 backdrop-blur-xl border border-zinc-800 rounded-2xl">
-                <h2 class="text-xl font-semibold mb-4">Settings</h2>
-                <form id="update-password-form" class="space-y-4">
-                    <div>
-                        <label class="block text-sm font-medium text-zinc-400 mb-1">Current Password</label>
-                        <input type="password" id="current-password" class="w-full px-4 py-2 bg-black border border-zinc-700 rounded-lg focus:outline-none focus:border-blue-500 transition-colors mb-4" required>
-                        <label class="block text-sm font-medium text-zinc-400 mb-1">New Password</label>
-                        <input type="password" id="new-password" class="w-full px-4 py-2 bg-black border border-zinc-700 rounded-lg focus:outline-none focus:border-blue-500 transition-colors" required>
-                    </div>
-                    <button type="submit" class="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg transition-colors">
-                        Save Password
-                    </button>
-                    <p id="message" class="text-sm hidden"></p>
-                </form>
+    <!-- Main -->
+    <main class="flex-1 p-6 md:p-10 overflow-x-hidden">
+
+        <!-- Mobile header -->
+        <div class="md:hidden flex justify-between items-center mb-8">
+            <div class="font-heading text-2xl font-bold text-primary">Foodiecious<span class="text-foreground italic">.</span></div>
+            <button id="logout-btn-mobile" class="text-sm text-muted hover:text-red-400 transition-colors">Logout</button>
+        </div>
+
+        <!-- Mobile nav tabs -->
+        <div class="md:hidden flex gap-2 mb-8 overflow-x-auto pb-2">
+            <button class="sidebar-link active shrink-0" data-panel="overview">Overview</button>
+            <button class="sidebar-link shrink-0" data-panel="reservations">Reservations</button>
+            <button class="sidebar-link shrink-0" data-panel="menu">Menu</button>
+            <button class="sidebar-link shrink-0" data-panel="settings">Settings</button>
+        </div>
+
+        <!-- ── Overview Panel ──────────────────────────────────────────── -->
+        <div id="panel-overview" class="panel active">
+            <div class="mb-8">
+                <h1 class="font-heading text-4xl md:text-5xl text-foreground mb-1">Dashboard</h1>
+                <p class="text-muted text-sm" id="date-display"></p>
             </div>
 
-            <div class="p-6 bg-zinc-900/50 backdrop-blur-xl border border-zinc-800 rounded-2xl">
-                <h2 class="text-xl font-semibold mb-4">Quick Stats</h2>
-                <div class="space-y-2 text-zinc-400">
-                    <p>Total Reservations: <span class="text-white">0</span></p>
-                    <p>Menu Items: <span class="text-white">5</span></p>
-                    <p>Website Visits: <span class="text-white">1,240</span></p>
+            <!-- Stats grid -->
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
+                <div class="stat-card">
+                    <div class="text-xs uppercase tracking-widest text-muted font-bold mb-3">Total Reservations</div>
+                    <div class="font-heading text-4xl text-foreground" id="stat-total">—</div>
+                    <div class="text-xs text-muted mt-1">all time</div>
+                </div>
+                <div class="stat-card">
+                    <div class="text-xs uppercase tracking-widest text-muted font-bold mb-3">Pending</div>
+                    <div class="font-heading text-4xl text-primary" id="stat-pending">—</div>
+                    <div class="text-xs text-muted mt-1">awaiting confirmation</div>
+                </div>
+                <div class="stat-card">
+                    <div class="text-xs uppercase tracking-widest text-muted font-bold mb-3">Confirmed</div>
+                    <div class="font-heading text-4xl text-green-500" id="stat-confirmed">—</div>
+                    <div class="text-xs text-muted mt-1">accepted bookings</div>
+                </div>
+                <div class="stat-card">
+                    <div class="text-xs uppercase tracking-widest text-muted font-bold mb-3">Menu Items</div>
+                    <div class="font-heading text-4xl text-foreground" id="stat-menu">—</div>
+                    <div class="text-xs text-muted mt-1">active dishes</div>
+                </div>
+            </div>
+
+            <!-- Recent reservations preview -->
+            <div class="mb-2 flex items-center justify-between">
+                <h2 class="font-heading text-2xl text-foreground">Recent Reservations</h2>
+                <button class="text-sm text-primary font-bold hover:underline" data-panel="reservations" id="see-all-btn">See All →</button>
+            </div>
+            <div class="overflow-x-auto rounded-2xl border border-foreground/8">
+                <table class="admin-table w-full">
+                    <thead><tr>
+                        <th>Name</th><th>Date</th><th>Time</th><th>Guests</th><th>Status</th>
+                    </tr></thead>
+                    <tbody id="recent-tbody">
+                        <tr><td colspan="5" class="text-center text-muted py-8">Loading…</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ── Reservations Panel ──────────────────────────────────────── -->
+        <div id="panel-reservations" class="panel">
+            <div class="mb-8 flex items-center justify-between gap-4">
+                <h1 class="font-heading text-4xl text-foreground">Reservations</h1>
+                <div class="flex gap-2">
+                    <select id="res-filter" class="form-input py-2 px-4 text-sm rounded-xl w-auto">
+                        <option value="">All</option>
+                        <option value="pending">Pending</option>
+                        <option value="confirmed">Confirmed</option>
+                        <option value="cancelled">Cancelled</option>
+                    </select>
+                </div>
+            </div>
+            <div class="overflow-x-auto rounded-2xl border border-foreground/8">
+                <table class="admin-table w-full">
+                    <thead><tr>
+                        <th>Name</th><th>Email</th><th>Date</th><th>Time</th><th>Guests</th><th>Notes</th><th>Status</th><th>Actions</th>
+                    </tr></thead>
+                    <tbody id="reservations-tbody">
+                        <tr><td colspan="8" class="text-center text-muted py-8">Loading…</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ── Menu Panel ──────────────────────────────────────────────── -->
+        <div id="panel-menu" class="panel">
+            <div class="mb-8 flex items-center justify-between">
+                <h1 class="font-heading text-4xl text-foreground">Menu Items</h1>
+                <button id="add-item-btn" class="btn-primary py-2.5 px-6 text-sm">+ Add Item</button>
+            </div>
+            <div class="overflow-x-auto rounded-2xl border border-foreground/8">
+                <table class="admin-table w-full">
+                    <thead><tr>
+                        <th>Image</th><th>Name</th><th>Category</th><th>Price</th><th>Dietary</th><th>Actions</th>
+                    </tr></thead>
+                    <tbody id="menu-tbody">
+                        <tr><td colspan="6" class="text-center text-muted py-8">Loading…</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ── Settings Panel ──────────────────────────────────────────── -->
+        <div id="panel-settings" class="panel">
+            <div class="mb-8">
+                <h1 class="font-heading text-4xl text-foreground">Settings</h1>
+                <p class="text-muted text-sm mt-1">Manage your admin account.</p>
+            </div>
+            <div class="max-w-md">
+                <div class="border border-foreground/8 rounded-2xl p-8">
+                    <h2 class="font-heading text-2xl text-foreground mb-6">Change Password</h2>
+                    <form id="pw-form" class="space-y-5" novalidate>
+                        <div>
+                            <label class="block text-xs uppercase tracking-widest font-bold text-muted mb-2">Current Password</label>
+                            <input type="password" id="cur-pw" class="form-input" required>
+                        </div>
+                        <div>
+                            <label class="block text-xs uppercase tracking-widest font-bold text-muted mb-2">New Password (min 6 chars)</label>
+                            <input type="password" id="new-pw" class="form-input" required minlength="6">
+                        </div>
+                        <div id="pw-message" class="hidden text-sm px-4 py-3 rounded-xl"></div>
+                        <button type="submit" class="btn-primary w-full py-3 text-sm">Update Password</button>
+                    </form>
                 </div>
             </div>
         </div>
+    </main>
+</div>
+
+<!-- ─── Menu Item Modal ────────────────────────────────────────────────── -->
+<div id="item-modal" class="modal-overlay hidden">
+    <div class="modal-box">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="font-heading text-2xl text-foreground" id="modal-title">Add Menu Item</h2>
+            <button id="modal-close" class="w-8 h-8 rounded-full bg-foreground/8 flex items-center justify-center text-muted hover:bg-foreground/15">✕</button>
+        </div>
+        <form id="item-form" class="space-y-4">
+            <input type="hidden" id="item-index" value="">
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-xs uppercase tracking-widest font-bold text-muted mb-2">Name *</label>
+                    <input type="text" id="item-name" class="form-input" required placeholder="Dish name">
+                </div>
+                <div>
+                    <label class="block text-xs uppercase tracking-widest font-bold text-muted mb-2">Price *</label>
+                    <input type="text" id="item-price" class="form-input" required placeholder="$18.50">
+                </div>
+            </div>
+            <div>
+                <label class="block text-xs uppercase tracking-widest font-bold text-muted mb-2">Description</label>
+                <textarea id="item-desc" class="form-input resize-none" rows="3" placeholder="Describe the dish…"></textarea>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-xs uppercase tracking-widest font-bold text-muted mb-2">Category</label>
+                    <select id="item-cat" class="form-input">
+                        <option>Starters</option>
+                        <option>Main Course</option>
+                        <option>Pizzas</option>
+                        <option>Desserts</option>
+                        <option>Drinks</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs uppercase tracking-widest font-bold text-muted mb-2">Image URL</label>
+                    <input type="text" id="item-image" class="form-input" placeholder="https://…">
+                </div>
+            </div>
+            <div>
+                <label class="block text-xs uppercase tracking-widest font-bold text-muted mb-2">Dietary Tags</label>
+                <div class="flex flex-wrap gap-2">
+                    <label class="flex items-center gap-2 text-sm cursor-pointer"><input type="checkbox" class="dietary-cb" value="Vegetarian"><span class="text-foreground">Vegetarian</span></label>
+                    <label class="flex items-center gap-2 text-sm cursor-pointer"><input type="checkbox" class="dietary-cb" value="Vegan"><span class="text-foreground">Vegan</span></label>
+                    <label class="flex items-center gap-2 text-sm cursor-pointer"><input type="checkbox" class="dietary-cb" value="GF"><span class="text-foreground">Gluten Free</span></label>
+                    <label class="flex items-center gap-2 text-sm cursor-pointer"><input type="checkbox" class="dietary-cb" value="Healthy"><span class="text-foreground">Healthy</span></label>
+                    <label class="flex items-center gap-2 text-sm cursor-pointer"><input type="checkbox" class="dietary-cb" value="Meat Lover"><span class="text-foreground">Meat Lover</span></label>
+                    <label class="flex items-center gap-2 text-sm cursor-pointer"><input type="checkbox" class="dietary-cb" value="Popular"><span class="text-foreground">Popular</span></label>
+                </div>
+            </div>
+            <div id="item-error" class="hidden bg-red-500/10 border border-red-500/20 text-red-400 text-sm px-4 py-3 rounded-xl"></div>
+            <div class="flex gap-3 pt-2">
+                <button type="submit" id="item-save-btn" class="btn-primary flex-1 py-3 text-sm">Save Item</button>
+                <button type="button" id="modal-cancel" class="btn-outline flex-1 py-3 text-sm">Cancel</button>
+            </div>
+        </form>
     </div>
+</div>
 
-    <script>
-        if (localStorage.getItem('isAdmin') !== 'true') {
-            window.location.href = 'login.html';
+<script>
+// ─── Auth ────────────────────────────────────────────────────────────────
+async function checkAuth() {
+    try {
+        const res = await fetch('/api/admin/check');
+        if (!res.ok) window.location.href = '/admin';
+    } catch {
+        window.location.href = '/admin';
+    } finally {
+        document.getElementById('auth-check').style.display = 'none';
+    }
+}
+checkAuth();
+
+// ─── Date display ────────────────────────────────────────────────────────
+document.getElementById('date-display').textContent = new Date().toLocaleDateString('en-US', {
+    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+});
+
+// ─── Panel routing ───────────────────────────────────────────────────────
+function switchPanel(name) {
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
+    document.getElementById('panel-' + name)?.classList.add('active');
+    document.querySelectorAll('[data-panel="' + name + '"]').forEach(l => l.classList.add('active'));
+
+    if (name === 'overview')     loadStats(), loadRecentReservations();
+    if (name === 'reservations') loadReservations();
+    if (name === 'menu')         loadMenuItems();
+}
+
+document.querySelectorAll('[data-panel]').forEach(btn => {
+    btn.addEventListener('click', () => switchPanel(btn.dataset.panel));
+});
+document.getElementById('see-all-btn').addEventListener('click', () => switchPanel('reservations'));
+
+// ─── Logout ──────────────────────────────────────────────────────────────
+async function logout() {
+    await fetch('/api/admin/logout', { method: 'POST' });
+    window.location.href = '/admin';
+}
+document.getElementById('logout-btn').addEventListener('click', logout);
+document.getElementById('logout-btn-mobile').addEventListener('click', logout);
+
+// ─── Stats ───────────────────────────────────────────────────────────────
+async function loadStats() {
+    try {
+        const res  = await fetch('/api/admin/stats');
+        const data = await res.json();
+        document.getElementById('stat-total').textContent     = data.totalReservations;
+        document.getElementById('stat-pending').textContent   = data.pendingReservations;
+        document.getElementById('stat-confirmed').textContent = data.confirmedReservations;
+        document.getElementById('stat-menu').textContent      = data.menuItems;
+    } catch {}
+}
+
+// ─── Recent Reservations (overview) ─────────────────────────────────────
+async function loadRecentReservations() {
+    try {
+        const res  = await fetch('/api/admin/reservations');
+        const data = await res.json();
+        const tbody = document.getElementById('recent-tbody');
+        const recent = data.slice(0, 5);
+        if (!recent.length) {
+            tbody.innerHTML = '<tr><td colspan="5" class="text-center text-muted py-8">No reservations yet.</td></tr>';
+            return;
         }
+        tbody.innerHTML = recent.map(r => `
+            <tr>
+                <td class="font-semibold text-foreground">${esc(r.name)}</td>
+                <td class="text-muted">${r.date}</td>
+                <td class="text-muted">${esc(r.time)}</td>
+                <td class="text-muted">${esc(r.guests)}</td>
+                <td><span class="text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-full status-${r.status}">${r.status}</span></td>
+            </tr>`).join('');
+    } catch {}
+}
 
-        document.getElementById('logout').addEventListener('click', () => {
-            localStorage.removeItem('isAdmin');
-            window.location.href = 'login.html';
+// ─── All Reservations ────────────────────────────────────────────────────
+let allReservations = [];
+
+async function loadReservations() {
+    try {
+        const res  = await fetch('/api/admin/reservations');
+        allReservations = await res.json();
+        renderReservations();
+    } catch {}
+}
+
+function renderReservations() {
+    const filter = document.getElementById('res-filter').value;
+    const tbody  = document.getElementById('reservations-tbody');
+    const list   = filter ? allReservations.filter(r => r.status === filter) : allReservations;
+    if (!list.length) {
+        tbody.innerHTML = '<tr><td colspan="8" class="text-center text-muted py-8">No reservations found.</td></tr>';
+        return;
+    }
+    tbody.innerHTML = list.map(r => `
+        <tr>
+            <td class="font-semibold text-foreground whitespace-nowrap">${esc(r.name)}</td>
+            <td class="text-muted text-xs">${esc(r.email)}</td>
+            <td class="text-muted whitespace-nowrap">${r.date}</td>
+            <td class="text-muted">${esc(r.time)}</td>
+            <td class="text-muted">${esc(r.guests)}</td>
+            <td class="text-muted text-xs max-w-[120px] truncate" title="${esc(r.notes)}">${r.notes ? esc(r.notes) : '—'}</td>
+            <td><span class="text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-full status-${r.status}">${r.status}</span></td>
+            <td>
+                <div class="flex gap-1">
+                    <button onclick="updateResStatus('${r.id}','confirmed')" class="text-xs px-2.5 py-1 rounded-lg bg-green-500/10 text-green-500 hover:bg-green-500/20 transition-colors font-bold">✓</button>
+                    <button onclick="updateResStatus('${r.id}','pending')"   class="text-xs px-2.5 py-1 rounded-lg bg-yellow-500/10 text-yellow-500 hover:bg-yellow-500/20 transition-colors font-bold">⏳</button>
+                    <button onclick="updateResStatus('${r.id}','cancelled')" class="text-xs px-2.5 py-1 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 transition-colors font-bold">✕</button>
+                </div>
+            </td>
+        </tr>`).join('');
+}
+
+document.getElementById('res-filter').addEventListener('change', renderReservations);
+
+async function updateResStatus(id, status) {
+    await fetch(`/api/admin/reservations/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status })
+    });
+    loadReservations();
+    loadStats();
+}
+
+// ─── Menu Items ──────────────────────────────────────────────────────────
+let menuItems = [];
+
+async function loadMenuItems() {
+    try {
+        const res = await fetch('/api/menu');
+        menuItems = await res.json();
+        renderMenuItems();
+    } catch {}
+}
+
+function renderMenuItems() {
+    const tbody = document.getElementById('menu-tbody');
+    if (!menuItems.length) {
+        tbody.innerHTML = '<tr><td colspan="6" class="text-center text-muted py-8">No menu items yet.</td></tr>';
+        return;
+    }
+    tbody.innerHTML = menuItems.map((item, i) => `
+        <tr>
+            <td>
+                <img src="${esc(item.image)}" alt="${esc(item.name)}"
+                     class="w-12 h-12 rounded-xl object-cover bg-zinc-700"
+                     onerror="this.style.display='none'">
+            </td>
+            <td class="font-semibold text-foreground">${esc(item.name)}</td>
+            <td><span class="tag">${esc(item.category)}</span></td>
+            <td class="text-primary font-bold">${esc(item.price)}</td>
+            <td class="text-muted text-xs">${(item.dietary || []).map(d => esc(d)).join(', ') || '—'}</td>
+            <td>
+                <div class="flex gap-2">
+                    <button onclick="openEditModal(${i})" class="text-xs px-3 py-1.5 rounded-lg bg-primary/10 text-primary hover:bg-primary/20 transition-colors font-bold">Edit</button>
+                    <button onclick="deleteMenuItem(${i})" class="text-xs px-3 py-1.5 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 transition-colors font-bold">Delete</button>
+                </div>
+            </td>
+        </tr>`).join('');
+}
+
+async function deleteMenuItem(index) {
+    if (!confirm('Delete this menu item?')) return;
+    await fetch(`/api/menu/${index}`, { method: 'DELETE' });
+    loadMenuItems();
+    loadStats();
+}
+
+// ─── Modal ───────────────────────────────────────────────────────────────
+function openAddModal() {
+    document.getElementById('modal-title').textContent = 'Add Menu Item';
+    document.getElementById('item-form').reset();
+    document.getElementById('item-index').value = '';
+    document.querySelectorAll('.dietary-cb').forEach(cb => cb.checked = false);
+    document.getElementById('item-error').classList.add('hidden');
+    document.getElementById('item-modal').classList.remove('hidden');
+}
+
+function openEditModal(index) {
+    const item = menuItems[index];
+    if (!item) return;
+    document.getElementById('modal-title').textContent = 'Edit Menu Item';
+    document.getElementById('item-index').value = index;
+    document.getElementById('item-name').value  = item.name;
+    document.getElementById('item-price').value = item.price;
+    document.getElementById('item-desc').value  = item.description;
+    document.getElementById('item-cat').value   = item.category;
+    document.getElementById('item-image').value = item.image;
+    document.querySelectorAll('.dietary-cb').forEach(cb => {
+        cb.checked = (item.dietary || []).includes(cb.value);
+    });
+    document.getElementById('item-error').classList.add('hidden');
+    document.getElementById('item-modal').classList.remove('hidden');
+}
+
+function closeModal() {
+    document.getElementById('item-modal').classList.add('hidden');
+}
+
+document.getElementById('add-item-btn').addEventListener('click', openAddModal);
+document.getElementById('modal-close').addEventListener('click', closeModal);
+document.getElementById('modal-cancel').addEventListener('click', closeModal);
+document.getElementById('item-modal').addEventListener('click', e => {
+    if (e.target === document.getElementById('item-modal')) closeModal();
+});
+
+document.getElementById('item-form').addEventListener('submit', async e => {
+    e.preventDefault();
+    const errBox = document.getElementById('item-error');
+    errBox.classList.add('hidden');
+
+    const index = document.getElementById('item-index').value;
+    const payload = {
+        name:        document.getElementById('item-name').value.trim(),
+        price:       document.getElementById('item-price').value.trim(),
+        description: document.getElementById('item-desc').value.trim(),
+        category:    document.getElementById('item-cat').value,
+        image:       document.getElementById('item-image').value.trim(),
+        dietary:     [...document.querySelectorAll('.dietary-cb:checked')].map(cb => cb.value)
+    };
+
+    if (!payload.name || !payload.price) {
+        errBox.textContent = 'Name and price are required.';
+        errBox.classList.remove('hidden');
+        return;
+    }
+
+    const saveBtn = document.getElementById('item-save-btn');
+    saveBtn.textContent = 'Saving…';
+    saveBtn.disabled = true;
+
+    try {
+        const res = await fetch(index !== '' ? `/api/menu/${index}` : '/api/menu', {
+            method: index !== '' ? 'PUT' : 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
         });
+        if (!res.ok) throw new Error((await res.json()).error || 'Failed to save.');
+        closeModal();
+        loadMenuItems();
+        loadStats();
+    } catch (err) {
+        errBox.textContent = err.message;
+        errBox.classList.remove('hidden');
+    } finally {
+        saveBtn.textContent = 'Save Item';
+        saveBtn.disabled = false;
+    }
+});
 
-        document.getElementById('update-password-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const currentPassword = document.getElementById('current-password').value;
-            const newPassword = document.getElementById('new-password').value;
-            const message = document.getElementById('message');
+// ─── Password Change ─────────────────────────────────────────────────────
+document.getElementById('pw-form').addEventListener('submit', async e => {
+    e.preventDefault();
+    const msg     = document.getElementById('pw-message');
+    const curPw   = document.getElementById('cur-pw').value;
+    const newPw   = document.getElementById('new-pw').value;
 
-            const res = await fetch('../api/admin/update-password', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ currentPassword, newPassword })
-            });
+    if (newPw.length < 6) {
+        msg.textContent = 'New password must be at least 6 characters.';
+        msg.className = 'text-sm px-4 py-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400';
+        msg.classList.remove('hidden');
+        return;
+    }
 
-            message.classList.remove('hidden');
-            if (res.ok) {
-                message.textContent = 'Password updated successfully!';
-                message.className = 'text-sm text-blue-400';
-                e.target.reset();
-            } else {
-                message.textContent = 'Failed to update password.';
-                message.className = 'text-sm text-red-500';
-            }
-        });
-    </script>
+    const res  = await fetch('/api/admin/update-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ currentPassword: curPw, newPassword: newPw })
+    });
+    const data = await res.json();
+
+    msg.textContent = res.ok ? 'Password updated successfully!' : (data.error || 'Failed.');
+    msg.className = res.ok
+        ? 'text-sm px-4 py-3 rounded-xl bg-green-500/10 border border-green-500/20 text-green-400'
+        : 'text-sm px-4 py-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400';
+    msg.classList.remove('hidden');
+    if (res.ok) e.target.reset();
+});
+
+// ─── Utils ───────────────────────────────────────────────────────────────
+function esc(str) {
+    if (!str) return '';
+    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// Initial load
+switchPanel('overview');
+</script>
 </body>
 </html>

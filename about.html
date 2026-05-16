@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | Foodiecious</title>
+    <script>if(localStorage.getItem('theme')!=='light')document.documentElement.classList.add('dark');</script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@1&family=Barlow:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        background: 'hsl(var(--background))',
+                        foreground: 'hsl(var(--foreground))',
+                        primary:    'hsl(var(--primary))',
+                        secondary:  'hsl(var(--secondary))',
+                        muted:      'hsl(var(--muted-foreground))',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+
+<!-- ─── Navbar ─────────────────────────────────────────────────────────── -->
+<nav class="fixed top-0 left-0 right-0 z-50 px-4 py-4">
+    <div class="max-w-7xl mx-auto flex justify-between items-center nav-pill px-8 py-3">
+        <a href="/" class="text-2xl tracking-tight font-heading text-primary font-bold">
+            Foodiecious<span class="text-foreground italic">.</span>
+        </a>
+        <div class="hidden md:flex items-center gap-8">
+            <a href="/"             class="text-sm font-semibold uppercase tracking-widest text-muted hover:text-primary transition-colors">Home</a>
+            <a href="/about"        class="text-sm font-bold uppercase tracking-widest text-primary">About</a>
+            <a href="/menu"         class="text-sm font-semibold uppercase tracking-widest text-muted hover:text-primary transition-colors">Menu</a>
+            <a href="/reservations" class="text-sm font-semibold uppercase tracking-widest text-muted hover:text-primary transition-colors">Reserve</a>
+        </div>
+        <div class="flex items-center gap-3">
+            <button id="theme-toggle" class="w-10 h-10 liquid-glass rounded-full flex items-center justify-center text-foreground hover:bg-primary hover:text-white transition-all"></button>
+            <a href="/reservations" class="hidden md:block bg-primary text-white rounded-full px-6 py-2.5 text-sm font-bold hover:scale-[1.05] transition-transform shadow-lg shadow-primary/20">
+                Book a Table
+            </a>
+            <button id="mobile-menu-btn" class="md:hidden w-10 h-10 flex flex-col items-center justify-center gap-1.5">
+                <span class="w-5 h-0.5 bg-foreground rounded"></span>
+                <span class="w-5 h-0.5 bg-foreground rounded"></span>
+                <span class="w-5 h-0.5 bg-foreground rounded"></span>
+            </button>
+        </div>
+    </div>
+    <div id="mobile-nav" class="md:hidden mt-2">
+        <div class="liquid-glass rounded-2xl px-6 py-5 flex flex-col gap-4">
+            <a href="/"             class="text-sm font-semibold uppercase tracking-widest text-muted">Home</a>
+            <a href="/about"        class="text-sm font-bold uppercase tracking-widest text-primary">About</a>
+            <a href="/menu"         class="text-sm font-semibold uppercase tracking-widest text-muted">Menu</a>
+            <a href="/reservations" class="text-sm font-semibold uppercase tracking-widest text-muted">Reservations</a>
+            <a href="/reservations" class="btn-primary text-center mt-1">Book a Table</a>
+        </div>
+    </div>
+</nav>
+
+<!-- ─── Page Hero ──────────────────────────────────────────────────────── -->
+<section class="relative min-h-[60vh] flex items-end pb-20 overflow-hidden">
+    <div class="absolute inset-0 z-0">
+        <img src="/assets/images/about-interior.jpg" alt="Our Restaurant"
+             class="w-full h-full object-cover">
+        <div class="absolute inset-0 bg-gradient-to-t from-background via-background/70 to-background/20"></div>
+    </div>
+    <div class="relative z-10 max-w-7xl mx-auto px-6 pt-32">
+        <div class="text-xs uppercase tracking-widest text-primary font-bold mb-4 animate-fade-rise">// About Foodiecious</div>
+        <h1 class="font-heading text-6xl md:text-8xl text-foreground leading-[0.9] max-w-3xl animate-fade-rise-delay">
+            More Than a <span class="text-primary italic">Meal.</span>
+        </h1>
+    </div>
+</section>
+
+<!-- ─── Story Section ──────────────────────────────────────────────────── -->
+<section class="py-24 px-6 bg-background">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-20 items-center">
+        <div class="flex flex-col gap-8 reveal">
+            <div class="text-xs uppercase tracking-widest text-primary font-bold">// Our Story</div>
+            <h2 class="font-heading text-5xl md:text-6xl text-foreground leading-[0.95]">
+                A Kitchen Born from <span class="text-primary italic">Passion</span>
+            </h2>
+            <p class="text-muted text-lg leading-relaxed">
+                Foodiecious began in 2012 as a tiny family kitchen on Flavor Avenue with just five tables and one unwavering belief: food made with love tastes better. Our founder, Maria Delgado, grew up watching her grandmother cook slow-simmered sauces and hand-rolled pastas, and wanted to share that warmth with the world.
+            </p>
+            <p class="text-muted text-lg leading-relaxed">
+                What started as a weekend pop-up quickly became the talk of Downtown City. Within two years we had tripled our kitchen, trained a team of 25 chefs, and earned our first culinary recognition. Today, Foodiecious is a destination — but we've never lost sight of what brought us here: honest, soulful, unforgettable food.
+            </p>
+        </div>
+        <div class="grid grid-cols-2 gap-4 reveal">
+            <img src="/assets/images/about-chef.jpg" alt="Our Head Chef"
+                 class="rounded-3xl shadow-2xl w-full object-cover mt-10">
+            <img src="/assets/images/about-food.jpg" alt="Our Food"
+                 class="rounded-3xl shadow-xl w-full object-cover">
+            <div class="col-span-2 bg-primary/10 border border-primary/20 rounded-3xl p-6">
+                <div class="text-primary font-heading text-5xl italic mb-1">Est. 2012</div>
+                <div class="text-muted text-sm">Over a decade of flavour, family, and community.</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── Stats Bar ──────────────────────────────────────────────────────── -->
+<section class="py-20 px-6 bg-zinc-50 dark:bg-zinc-900/30">
+    <div class="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center reveal">
+        <div>
+            <div class="text-5xl font-heading text-primary mb-2">100%</div>
+            <div class="text-xs uppercase tracking-widest font-bold text-foreground">Fresh Ingredients</div>
+            <p class="text-muted text-sm mt-2">Sourced locally every morning</p>
+        </div>
+        <div>
+            <div class="text-5xl font-heading text-primary mb-2">25+</div>
+            <div class="text-xs uppercase tracking-widest font-bold text-foreground">Expert Chefs</div>
+            <p class="text-muted text-sm mt-2">Trained across 12 cuisines</p>
+        </div>
+        <div>
+            <div class="text-5xl font-heading text-primary mb-2">12+</div>
+            <div class="text-xs uppercase tracking-widest font-bold text-foreground">Years Open</div>
+            <p class="text-muted text-sm mt-2">Serving since 2012</p>
+        </div>
+        <div>
+            <div class="text-5xl font-heading text-primary mb-2">50k+</div>
+            <div class="text-xs uppercase tracking-widest font-bold text-foreground">Happy Guests</div>
+            <p class="text-muted text-sm mt-2">And counting every day</p>
+        </div>
+    </div>
+</section>
+
+<!-- ─── Values ─────────────────────────────────────────────────────────── -->
+<section class="py-24 px-6 bg-background">
+    <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-16 reveal">
+            <div class="text-xs uppercase tracking-widest text-primary font-bold mb-4">// Our Values</div>
+            <h2 class="font-heading text-5xl md:text-7xl text-foreground">What We Stand For</h2>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 reveal">
+            <div class="p-8 border border-foreground/8 rounded-[2rem] hover:border-primary/30 transition-colors">
+                <div class="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center mb-6 text-2xl">🌱</div>
+                <h3 class="font-heading text-3xl text-foreground mb-4">Freshness First</h3>
+                <p class="text-muted leading-relaxed">Every ingredient is sourced from trusted local farms and markets. We believe the best flavour starts long before the kitchen.</p>
+            </div>
+            <div class="p-8 border border-foreground/8 rounded-[2rem] hover:border-primary/30 transition-colors">
+                <div class="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center mb-6 text-2xl">👨‍🍳</div>
+                <h3 class="font-heading text-3xl text-foreground mb-4">Culinary Craft</h3>
+                <p class="text-muted leading-relaxed">Our chefs train for years to master each dish. Every plate is prepared with intention, technique, and care — never rushed.</p>
+            </div>
+            <div class="p-8 border border-foreground/8 rounded-[2rem] hover:border-primary/30 transition-colors">
+                <div class="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center mb-6 text-2xl">🤝</div>
+                <h3 class="font-heading text-3xl text-foreground mb-4">Community</h3>
+                <p class="text-muted leading-relaxed">We're proud to be part of Downtown City's fabric. From local supplier partnerships to supporting food banks, community is at our core.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── Team ───────────────────────────────────────────────────────────── -->
+<section class="py-24 px-6 bg-zinc-50 dark:bg-zinc-900/30">
+    <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-16 reveal">
+            <div class="text-xs uppercase tracking-widest text-primary font-bold mb-4">// Meet the Team</div>
+            <h2 class="font-heading text-5xl md:text-7xl text-foreground">The People Behind <span class="italic text-primary">Every Bite</span></h2>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 reveal">
+            <!-- Team Member 1 -->
+            <div class="text-center group">
+                <div class="relative w-48 h-48 mx-auto mb-6">
+                    <div class="absolute inset-0 bg-primary/20 rounded-full blur-[40px] group-hover:blur-[60px] transition-all duration-500"></div>
+                    <div class="relative w-full h-full rounded-full overflow-hidden border-4 border-primary/20 group-hover:border-primary/50 transition-colors">
+                        <img src="https://ui-avatars.com/api/?name=Maria+Delgado&background=e2691a&color=fff&size=256&bold=true&format=png"
+                             alt="Maria Delgado" class="w-full h-full object-cover">
+                    </div>
+                </div>
+                <h3 class="font-heading text-2xl text-foreground mb-1">Maria Delgado</h3>
+                <div class="text-primary text-xs font-bold uppercase tracking-widest mb-3">Founder & Executive Chef</div>
+                <p class="text-muted text-sm max-w-xs mx-auto leading-relaxed">With 20 years of culinary experience across Europe and South America, Maria brings global flavour to every dish.</p>
+            </div>
+            <!-- Team Member 2 -->
+            <div class="text-center group">
+                <div class="relative w-48 h-48 mx-auto mb-6">
+                    <div class="absolute inset-0 bg-primary/20 rounded-full blur-[40px] group-hover:blur-[60px] transition-all duration-500"></div>
+                    <div class="relative w-full h-full rounded-full overflow-hidden border-4 border-primary/20 group-hover:border-primary/50 transition-colors">
+                        <img src="https://ui-avatars.com/api/?name=James+Chen&background=e2691a&color=fff&size=256&bold=true&format=png"
+                             alt="James Chen" class="w-full h-full object-cover">
+                    </div>
+                </div>
+                <h3 class="font-heading text-2xl text-foreground mb-1">James Chen</h3>
+                <div class="text-primary text-xs font-bold uppercase tracking-widest mb-3">Head Pastry Chef</div>
+                <p class="text-muted text-sm max-w-xs mx-auto leading-relaxed">A graduate of Le Cordon Bleu Paris, James transforms desserts into art. His lava cake has been a signature since day one.</p>
+            </div>
+            <!-- Team Member 3 -->
+            <div class="text-center group">
+                <div class="relative w-48 h-48 mx-auto mb-6">
+                    <div class="absolute inset-0 bg-primary/20 rounded-full blur-[40px] group-hover:blur-[60px] transition-all duration-500"></div>
+                    <div class="relative w-full h-full rounded-full overflow-hidden border-4 border-primary/20 group-hover:border-primary/50 transition-colors">
+                        <img src="https://ui-avatars.com/api/?name=Sofia+Bianchi&background=e2691a&color=fff&size=256&bold=true&format=png"
+                             alt="Sofia Bianchi" class="w-full h-full object-cover">
+                    </div>
+                </div>
+                <h3 class="font-heading text-2xl text-foreground mb-1">Sofia Bianchi</h3>
+                <div class="text-primary text-xs font-bold uppercase tracking-widest mb-3">Restaurant Manager</div>
+                <p class="text-muted text-sm max-w-xs mx-auto leading-relaxed">Sofia ensures every guest leaves with a smile. Her dedication to hospitality sets the tone for every dining experience.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── Photo Gallery ──────────────────────────────────────────────────── -->
+<section class="py-24 px-6 bg-background overflow-hidden">
+    <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-16 reveal">
+            <div class="text-xs uppercase tracking-widest text-primary font-bold mb-4">// Gallery</div>
+            <h2 class="font-heading text-5xl md:text-6xl text-foreground">A Feast for the <span class="italic text-primary">Eyes</span></h2>
+        </div>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 reveal">
+            <img src="/assets/images/menu-burger.jpg"   alt="Burger"   class="rounded-3xl object-cover w-full h-48 md:h-64 hover:scale-105 transition-transform duration-500">
+            <img src="/assets/images/menu-pizza.jpg"    alt="Pizza"    class="rounded-3xl object-cover w-full h-48 md:h-64 hover:scale-105 transition-transform duration-500 md:mt-8">
+            <img src="/assets/images/menu-salmon.jpg"   alt="Salmon"   class="rounded-3xl object-cover w-full h-48 md:h-64 hover:scale-105 transition-transform duration-500">
+            <img src="/assets/images/menu-lava-cake.jpg" alt="Dessert" class="rounded-3xl object-cover w-full h-48 md:h-64 hover:scale-105 transition-transform duration-500 md:mt-8">
+        </div>
+    </div>
+</section>
+
+<!-- ─── CTA ────────────────────────────────────────────────────────────── -->
+<section class="py-24 px-6 bg-primary text-white">
+    <div class="max-w-4xl mx-auto text-center">
+        <h2 class="font-heading text-5xl md:text-7xl mb-6 leading-tight">
+            Come Experience <span class="italic">Our Story</span>
+        </h2>
+        <p class="opacity-80 text-lg mb-10 max-w-xl mx-auto">
+            Every visit to Foodiecious is a chapter in our story. We'd be honoured to have you at our table.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="/reservations" class="inline-block bg-white text-primary font-bold px-10 py-4 rounded-full hover:scale-[1.05] transition-transform shadow-2xl">
+                Reserve a Table
+            </a>
+            <a href="/menu" class="inline-block border-2 border-white/40 text-white font-bold px-10 py-4 rounded-full hover:border-white hover:bg-white/10 transition-all">
+                Explore Our Menu
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ─── Footer ─────────────────────────────────────────────────────────── -->
+<footer class="py-16 border-t border-foreground/5 bg-background">
+    <div class="max-w-7xl mx-auto px-8 flex flex-col md:flex-row justify-between items-center gap-8 text-sm text-muted">
+        <div class="font-heading text-2xl font-bold text-primary">Foodiecious<span class="text-foreground">.</span></div>
+        <div class="flex gap-8">
+            <a href="/"     class="hover:text-primary transition-colors">Home</a>
+            <a href="/menu" class="hover:text-primary transition-colors">Menu</a>
+            <a href="/reservations" class="hover:text-primary transition-colors">Reservations</a>
+        </div>
+        <div class="text-xs uppercase tracking-widest">© 2024 Foodiecious</div>
+    </div>
+</footer>
+
+<script type="module">
+    import { initTheme } from '/js/utils.js';
+    initTheme();
+
+    document.getElementById('mobile-menu-btn')?.addEventListener('click', () => {
+        document.getElementById('mobile-nav').classList.toggle('open');
+    });
+
+    // Scroll-reveal
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

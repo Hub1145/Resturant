@@ -19,15 +19,15 @@
       "price": "$18.50",
       "description": "Juicy prime beef patty, black truffle aioli, melted swiss cheese, and caramelized onions on a toasted brioche bun.",
       "category": "Main Course",
-      "image": "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&q=80&w=800",
-      "dietary": ["Meat Lover"]
+      "image": "/assets/images/menu-burger.jpg",
+      "dietary": ["Meat Lover", "Popular"]
     },
     {
       "name": "Artisanal Margherita Pizza",
       "price": "$16.00",
-      "description": "San Marzano tomato sauce, fresh buffalo mozzarella, aromatic basil, and a drizzle of extra virgin olive oil.",
+      "description": "San Marzano tomato sauce, fresh buffalo mozzarella, aromatic basil, and a drizzle of extra virgin olive oil on a wood-fired crust.",
       "category": "Pizzas",
-      "image": "https://images.unsplash.com/photo-1574071318508-1cdbad80ad50?auto=format&fit=crop&q=80&w=800",
+      "image": "/assets/images/menu-pizza.jpg",
       "dietary": ["Vegetarian"]
     },
     {
@@ -35,15 +35,15 @@
       "price": "$24.00",
       "description": "Wild-caught salmon, lemon-herb butter sauce, served with roasted asparagus and garlic mashed potatoes.",
       "category": "Main Course",
-      "image": "https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&q=80&w=800",
+      "image": "/assets/images/menu-salmon.jpg",
       "dietary": ["Healthy", "GF"]
     },
     {
       "name": "Honey Glazed Chicken Wings",
       "price": "$12.99",
-      "description": "Crispy wings tossed in our signature honey-chili glaze, served with a cooling ranch dip.",
+      "description": "Crispy wings tossed in our signature honey-chili glaze, served with a cooling ranch dip and celery sticks.",
       "category": "Starters",
-      "image": "https://images.unsplash.com/photo-1567620905732-2d1ec7bb7445?auto=format&fit=crop&q=80&w=800",
+      "image": "/assets/images/menu-wings.jpg",
       "dietary": ["Popular"]
     },
     {
@@ -51,23 +51,47 @@
       "price": "$9.50",
       "description": "Warm chocolate cake with a molten center, served with a scoop of Madagascar vanilla bean ice cream.",
       "category": "Desserts",
-      "image": "https://images.unsplash.com/photo-1563805042-7684c019e1cb?auto=format&fit=crop&q=80&w=800",
+      "image": "/assets/images/menu-lava-cake.jpg",
       "dietary": ["Vegetarian"]
+    },
+    {
+      "name": "Caesar Salad",
+      "price": "$13.50",
+      "description": "Crisp romaine lettuce, house-made Caesar dressing, shaved Parmesan, toasted croutons, and a squeeze of lemon.",
+      "category": "Starters",
+      "image": "/assets/images/menu-salad.jpg",
+      "dietary": ["Vegetarian", "Healthy"]
+    },
+    {
+      "name": "Mushroom Risotto",
+      "price": "$19.00",
+      "description": "Creamy Arborio rice with wild mushroom medley, truffle oil, aged Parmesan, and fresh herbs. A true Italian classic.",
+      "category": "Main Course",
+      "image": "/assets/images/menu-risotto.jpg",
+      "dietary": ["Vegetarian", "GF"]
+    },
+    {
+      "name": "Fresh Lemonade",
+      "price": "$6.50",
+      "description": "Hand-squeezed lemon juice with cane sugar syrup and sparkling water, garnished with mint and lemon slices.",
+      "category": "Drinks",
+      "image": "/assets/images/menu-lemonade.jpg",
+      "dietary": ["Vegetarian", "GF", "Healthy"]
     }
   ],
   "testimonials": [
     {
-      "text": "The Truffle Burger was incredible! Best meal I've had in a long time. The atmosphere is so cozy.",
+      "text": "The Truffle Burger was incredible! Best meal I've had in a long time. The atmosphere is so cozy and the staff are genuinely warm and welcoming.",
       "name": "Sarah Jenkins",
       "role": "Local Foodie"
     },
     {
-      "text": "Amazing service and even better food. The Margherita pizza tastes exactly like it does in Italy.",
+      "text": "Amazing service and even better food. The Margherita pizza tastes exactly like it does in Italy. I've been coming back every week!",
       "name": "Marco Rossi",
       "role": "Frequent Guest"
     },
     {
-      "text": "A perfect spot for family dinners. My kids loved the honey wings, and the desserts are to die for!",
+      "text": "A perfect spot for family dinners. My kids loved the honey wings, and the desserts are to die for! The lava cake is absolutely divine.",
       "name": "Emily Watson",
       "role": "Happy Parent"
     }

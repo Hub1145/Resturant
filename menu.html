@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu | Foodiecious</title>
+    <script>if(localStorage.getItem('theme')!=='light')document.documentElement.classList.add('dark');</script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@1&family=Barlow:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        background: 'hsl(var(--background))',
+                        foreground: 'hsl(var(--foreground))',
+                        primary:    'hsl(var(--primary))',
+                        secondary:  'hsl(var(--secondary))',
+                        muted:      'hsl(var(--muted-foreground))',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+
+<!-- ─── Navbar ─────────────────────────────────────────────────────────── -->
+<nav class="fixed top-0 left-0 right-0 z-50 px-4 py-4">
+    <div class="max-w-7xl mx-auto flex justify-between items-center nav-pill px-8 py-3">
+        <a href="/" class="text-2xl tracking-tight font-heading text-primary font-bold">
+            Foodiecious<span class="text-foreground italic">.</span>
+        </a>
+        <div class="hidden md:flex items-center gap-8">
+            <a href="/"             class="text-sm font-semibold uppercase tracking-widest text-muted hover:text-primary transition-colors">Home</a>
+            <a href="/about"        class="text-sm font-semibold uppercase tracking-widest text-muted hover:text-primary transition-colors">About</a>
+            <a href="/menu"         class="text-sm font-bold uppercase tracking-widest text-primary">Menu</a>
+            <a href="/reservations" class="text-sm font-semibold uppercase tracking-widest text-muted hover:text-primary transition-colors">Reserve</a>
+        </div>
+        <div class="flex items-center gap-3">
+            <button id="theme-toggle" class="w-10 h-10 liquid-glass rounded-full flex items-center justify-center text-foreground hover:bg-primary hover:text-white transition-all"></button>
+            <a href="/reservations" class="hidden md:block bg-primary text-white rounded-full px-6 py-2.5 text-sm font-bold hover:scale-[1.05] transition-transform shadow-lg shadow-primary/20">
+                Book a Table
+            </a>
+            <button id="mobile-menu-btn" class="md:hidden w-10 h-10 flex flex-col items-center justify-center gap-1.5">
+                <span class="w-5 h-0.5 bg-foreground rounded"></span>
+                <span class="w-5 h-0.5 bg-foreground rounded"></span>
+                <span class="w-5 h-0.5 bg-foreground rounded"></span>
+            </button>
+        </div>
+    </div>
+    <div id="mobile-nav" class="md:hidden mt-2">
+        <div class="liquid-glass rounded-2xl px-6 py-5 flex flex-col gap-4">
+            <a href="/"             class="text-sm font-semibold uppercase tracking-widest text-muted">Home</a>
+            <a href="/about"        class="text-sm font-semibold uppercase tracking-widest text-muted">About</a>
+            <a href="/menu"         class="text-sm font-bold uppercase tracking-widest text-primary">Menu</a>
+            <a href="/reservations" class="text-sm font-semibold uppercase tracking-widest text-muted">Reservations</a>
+            <a href="/reservations" class="btn-primary text-center mt-1">Book a Table</a>
+        </div>
+    </div>
+</nav>
+
+<!-- ─── Page Hero ──────────────────────────────────────────────────────── -->
+<section class="page-hero text-center">
+    <div class="max-w-3xl mx-auto">
+        <div class="text-xs uppercase tracking-widest text-primary font-bold mb-4 animate-fade-rise">// Our Menu</div>
+        <h1 class="font-heading text-6xl md:text-8xl text-foreground leading-[0.9] mb-6 animate-fade-rise-delay">
+            Every Bite <span class="text-primary italic">Tells a Story</span>
+        </h1>
+        <p class="text-muted text-lg animate-fade-rise-delay-2 max-w-xl mx-auto">
+            Crafted with the freshest ingredients and a passion for flavour. Filter by category or search for your favourite dish.
+        </p>
+    </div>
+</section>
+
+<!-- ─── Filters & Search ───────────────────────────────────────────────── -->
+<section class="py-10 px-6 bg-background sticky top-20 z-30 border-b border-foreground/5">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row gap-4 items-center justify-between">
+        <!-- Category filters -->
+        <div class="flex flex-wrap gap-2" id="category-filters">
+            <button class="filter-btn active" data-cat="All">All</button>
+            <button class="filter-btn" data-cat="Starters">Starters</button>
+            <button class="filter-btn" data-cat="Main Course">Mains</button>
+            <button class="filter-btn" data-cat="Pizzas">Pizzas</button>
+            <button class="filter-btn" data-cat="Desserts">Desserts</button>
+            <button class="filter-btn" data-cat="Drinks">Drinks</button>
+        </div>
+        <!-- Search -->
+        <div class="relative w-full sm:w-72">
+            <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-width="2" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z"/>
+            </svg>
+            <input id="search-input" type="text" placeholder="Search dishes…"
+                   class="form-input pl-11 py-3 rounded-full text-sm">
+        </div>
+    </div>
+</section>
+
+<!-- ─── Menu Grid ──────────────────────────────────────────────────────── -->
+<section class="py-16 px-6 bg-background min-h-[60vh]">
+    <div class="max-w-7xl mx-auto">
+        <div id="menu-count" class="text-sm text-muted mb-8 font-medium"></div>
+        <div id="menu-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <!-- Loading skeletons -->
+            <div class="rounded-[2rem] bg-zinc-200 dark:bg-zinc-800 h-72 animate-pulse"></div>
+            <div class="rounded-[2rem] bg-zinc-200 dark:bg-zinc-800 h-72 animate-pulse"></div>
+            <div class="rounded-[2rem] bg-zinc-200 dark:bg-zinc-800 h-72 animate-pulse"></div>
+            <div class="rounded-[2rem] bg-zinc-200 dark:bg-zinc-800 h-72 animate-pulse"></div>
+        </div>
+        <div id="menu-empty" class="hidden text-center py-24">
+            <div class="text-5xl mb-4">🍽️</div>
+            <p class="text-muted text-lg">No dishes found for this search.</p>
+            <button onclick="resetFilters()" class="btn-primary mt-6">Clear Filters</button>
+        </div>
+        <div id="menu-error" class="hidden text-center py-24">
+            <p class="text-muted text-lg">Could not load the menu. Please try refreshing the page.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ─── CTA ────────────────────────────────────────────────────────────── -->
+<section class="py-24 px-6 bg-primary text-white relative overflow-hidden">
+    <div class="absolute top-0 left-0 w-64 h-64 bg-white/10 blur-[80px] rounded-full pointer-events-none"></div>
+    <div class="max-w-4xl mx-auto text-center relative z-10">
+        <h2 class="font-heading text-5xl md:text-7xl mb-6 leading-tight">Ready to Order?</h2>
+        <p class="opacity-80 text-lg mb-10 max-w-xl mx-auto">
+            Reserve your table and enjoy these dishes in our warm and welcoming dining room.
+        </p>
+        <a href="/reservations" class="inline-block bg-white text-primary font-bold px-10 py-4 rounded-full hover:scale-[1.05] transition-transform shadow-2xl">
+            Book a Table
+        </a>
+    </div>
+</section>
+
+<!-- ─── Footer ─────────────────────────────────────────────────────────── -->
+<footer class="py-16 border-t border-foreground/5 bg-background">
+    <div class="max-w-7xl mx-auto px-8 flex flex-col md:flex-row justify-between items-center gap-8 text-sm text-muted">
+        <div class="font-heading text-2xl font-bold text-primary">Foodiecious<span class="text-foreground">.</span></div>
+        <div class="flex gap-8">
+            <a href="/"             class="hover:text-primary transition-colors">Home</a>
+            <a href="/about"        class="hover:text-primary transition-colors">About</a>
+            <a href="/reservations" class="hover:text-primary transition-colors">Reservations</a>
+        </div>
+        <div class="text-xs uppercase tracking-widest">© 2024 Foodiecious</div>
+    </div>
+</footer>
+
+<script type="module">
+    import { initTheme } from '/js/utils.js';
+    initTheme();
+
+    // Mobile nav
+    document.getElementById('mobile-menu-btn')?.addEventListener('click', () => {
+        document.getElementById('mobile-nav').classList.toggle('open');
+    });
+
+    let allItems = [];
+    let activeCategory = 'All';
+    let searchQuery = '';
+
+    function buildCard(item) {
+        const div = document.createElement('div');
+        div.className = 'group menu-card';
+        div.dataset.cat = item.category;
+        div.innerHTML = `
+            <div class="bg-white dark:bg-zinc-800/60 rounded-[2rem] overflow-hidden shadow-md shadow-black/5 hover:shadow-primary/10 transition-all duration-500 h-full flex flex-col">
+                <div class="aspect-[4/3] overflow-hidden">
+                    <img src="${item.image}" alt="${item.name}"
+                         class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                         loading="lazy" onerror="this.src='/assets/images/food-hero.jpg'">
+                </div>
+                <div class="p-5 flex flex-col flex-1">
+                    <div class="flex justify-between items-start gap-2 mb-2">
+                        <h3 class="font-heading text-xl font-bold text-foreground leading-tight">${item.name}</h3>
+                        <span class="text-primary font-bold text-lg whitespace-nowrap">${item.price}</span>
+                    </div>
+                    <p class="text-muted text-sm leading-relaxed mb-4 flex-1 line-clamp-3">${item.description}</p>
+                    <div class="flex flex-wrap gap-1.5 mb-4">
+                        ${(item.dietary || []).map(t => `<span class="tag">${t}</span>`).join('')}
+                    </div>
+                    <a href="/reservations" class="btn-primary text-center text-sm py-3 px-4 w-full block">
+                        Reserve to Try
+                    </a>
+                </div>
+            </div>`;
+        return div;
+    }
+
+    function applyFilters() {
+        const grid   = document.getElementById('menu-grid');
+        const empty  = document.getElementById('menu-empty');
+        const count  = document.getElementById('menu-count');
+        const q = searchQuery.toLowerCase();
+
+        const filtered = allItems.filter(item => {
+            const matchCat   = activeCategory === 'All' || item.category === activeCategory;
+            const matchSearch = !q || item.name.toLowerCase().includes(q) || item.description.toLowerCase().includes(q);
+            return matchCat && matchSearch;
+        });
+
+        grid.innerHTML = '';
+        if (filtered.length === 0) {
+            empty.classList.remove('hidden');
+            count.textContent = '';
+        } else {
+            empty.classList.add('hidden');
+            count.textContent = `Showing ${filtered.length} dish${filtered.length !== 1 ? 'es' : ''}${activeCategory !== 'All' ? ' in ' + activeCategory : ''}`;
+            filtered.forEach(item => grid.appendChild(buildCard(item)));
+        }
+    }
+
+    window.resetFilters = function() {
+        activeCategory = 'All';
+        searchQuery = '';
+        document.getElementById('search-input').value = '';
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.toggle('active', b.dataset.cat === 'All'));
+        applyFilters();
+    };
+
+    // Category buttons
+    document.getElementById('category-filters').addEventListener('click', e => {
+        const btn = e.target.closest('.filter-btn');
+        if (!btn) return;
+        activeCategory = btn.dataset.cat;
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.toggle('active', b === btn));
+        applyFilters();
+    });
+
+    // Search
+    let debounceTimer;
+    document.getElementById('search-input').addEventListener('input', e => {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(() => {
+            searchQuery = e.target.value;
+            applyFilters();
+        }, 250);
+    });
+
+    // Load data
+    fetch('/api/menu')
+        .then(r => { if (!r.ok) throw new Error(); return r.json(); })
+        .then(data => {
+            allItems = data;
+            applyFilters();
+        })
+        .catch(() => {
+            document.getElementById('menu-grid').innerHTML = '';
+            document.getElementById('menu-error').classList.remove('hidden');
+        });
+</script>
+</body>
+</html>

@@ -1,11 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Login | Foodiecious</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@1&family=Barlow:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -14,49 +17,129 @@
                     colors: {
                         background: 'hsl(var(--background))',
                         foreground: 'hsl(var(--foreground))',
+                        primary:    'hsl(var(--primary))',
+                        muted:      'hsl(var(--muted-foreground))',
                     }
                 }
             }
         }
     </script>
 </head>
-<body class="dark bg-background text-foreground h-screen flex items-center justify-center font-sans">
-    <div class="p-8 bg-zinc-900/50 backdrop-blur-xl border border-zinc-800 rounded-2xl w-full max-w-md">
-        <h1 class="text-3xl font-bold mb-6 text-center tracking-tighter uppercase font-heading italic text-primary">Foodiecious <span class="text-foreground">Admin</span></h1>
-        <form id="login-form" class="space-y-4">
-            <div>
-                <label class="block text-sm font-medium text-zinc-400 mb-1">Username</label>
-                <input type="text" id="username" class="w-full px-4 py-2 bg-black border border-zinc-700 rounded-lg focus:outline-none focus:border-blue-500 transition-colors" required>
+<body class="min-h-screen flex items-center justify-center px-4 py-12 bg-background relative overflow-hidden">
+
+    <!-- Background decoration -->
+    <div class="absolute inset-0 pointer-events-none">
+        <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/10 blur-[120px] rounded-full"></div>
+        <div class="absolute bottom-1/4 right-1/4 w-72 h-72 bg-primary/5 blur-[100px] rounded-full"></div>
+    </div>
+
+    <div class="relative z-10 w-full max-w-md">
+        <!-- Logo -->
+        <div class="text-center mb-10">
+            <a href="/" class="inline-block font-heading text-4xl font-bold text-primary">
+                Foodiecious<span class="text-foreground italic">.</span>
+            </a>
+            <div class="text-xs uppercase tracking-widest text-muted mt-3 font-bold">Admin Portal</div>
+        </div>
+
+        <!-- Card -->
+        <div class="liquid-glass rounded-[2rem] p-8 md:p-10">
+            <h1 class="font-heading text-3xl text-foreground mb-1">Welcome back</h1>
+            <p class="text-muted text-sm mb-8">Sign in to your admin dashboard.</p>
+
+            <form id="login-form" class="space-y-5" novalidate>
+                <div>
+                    <label class="block text-xs uppercase tracking-widest font-bold text-muted mb-2">Username</label>
+                    <input type="text" id="username" name="username" placeholder="admin"
+                           class="form-input" required autocomplete="username">
+                </div>
+                <div>
+                    <label class="block text-xs uppercase tracking-widest font-bold text-muted mb-2">Password</label>
+                    <div class="relative">
+                        <input type="password" id="password" name="password" placeholder="••••••••"
+                               class="form-input pr-12" required autocomplete="current-password">
+                        <button type="button" id="toggle-pw"
+                                class="absolute right-4 top-1/2 -translate-y-1/2 text-muted hover:text-foreground transition-colors">
+                            <svg id="eye-icon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-width="2"
+                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0zm-10.5 0C6.158 7.318 8.796 5 12 5s5.842 2.318 7.5 7c-1.658 4.682-4.296 7-7.5 7s-5.842-2.318-7.5-7z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div id="login-error" class="hidden bg-red-500/10 border border-red-500/20 text-red-400 text-sm px-4 py-3 rounded-xl">
+                    Invalid username or password.
+                </div>
+
+                <button type="submit" id="submit-btn"
+                        class="w-full bg-primary text-white py-4 rounded-2xl font-bold text-sm hover:scale-[1.02] transition-transform shadow-xl shadow-primary/25 flex items-center justify-center gap-3">
+                    <span id="submit-text">Sign In</span>
+                    <svg id="submit-spinner" class="hidden w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+                    </svg>
+                </button>
+            </form>
+
+            <div class="mt-6 pt-6 border-t border-foreground/8 text-center">
+                <a href="/" class="text-sm text-muted hover:text-primary transition-colors">← Back to Website</a>
             </div>
-            <div>
-                <label class="block text-sm font-medium text-zinc-400 mb-1">Password</label>
-                <input type="password" id="password" class="w-full px-4 py-2 bg-black border border-zinc-700 rounded-lg focus:outline-none focus:border-blue-500 transition-colors" required>
-            </div>
-            <p id="error" class="text-red-500 text-sm hidden">Invalid credentials</p>
-            <button type="submit" class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg transition-colors shadow-lg shadow-blue-500/20">
-                Login
-            </button>
-        </form>
+        </div>
+
+        <p class="text-center text-xs text-muted mt-6">
+            Default credentials: <span class="text-foreground font-mono">admin</span> / <span class="text-foreground font-mono">password</span>
+        </p>
     </div>
 
     <script>
-        document.getElementById('login-form').addEventListener('submit', async (e) => {
+        // Toggle password visibility
+        document.getElementById('toggle-pw').addEventListener('click', () => {
+            const pw = document.getElementById('password');
+            pw.type = pw.type === 'password' ? 'text' : 'password';
+        });
+
+        document.getElementById('login-form').addEventListener('submit', async e => {
             e.preventDefault();
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            const error = document.getElementById('error');
+            const username  = document.getElementById('username').value.trim();
+            const password  = document.getElementById('password').value;
+            const error     = document.getElementById('login-error');
+            const submitBtn = document.getElementById('submit-btn');
+            const submitText= document.getElementById('submit-text');
+            const spinner   = document.getElementById('submit-spinner');
 
-            const res = await fetch('../api/admin/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username, password })
-            });
-
-            if (res.ok) {
-                localStorage.setItem('isAdmin', 'true');
-                window.location.href = 'dashboard.html';
-            } else {
+            if (!username || !password) {
+                error.textContent = 'Please enter your username and password.';
                 error.classList.remove('hidden');
+                return;
+            }
+
+            submitBtn.disabled = true;
+            submitText.textContent = 'Signing in…';
+            spinner.classList.remove('hidden');
+            error.classList.add('hidden');
+
+            try {
+                const res = await fetch('/api/admin/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+
+                if (res.ok) {
+                    window.location.href = '/admin/dashboard';
+                } else {
+                    const data = await res.json();
+                    error.textContent = data.error || 'Invalid credentials.';
+                    error.classList.remove('hidden');
+                }
+            } catch {
+                error.textContent = 'Connection error. Please try again.';
+                error.classList.remove('hidden');
+            } finally {
+                submitBtn.disabled = false;
+                submitText.textContent = 'Sign In';
+                spinner.classList.add('hidden');
             }
         });
     </script>

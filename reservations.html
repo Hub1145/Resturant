@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservations | Foodiecious</title>
+    <script>if(localStorage.getItem('theme')!=='light')document.documentElement.classList.add('dark');</script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@1&family=Barlow:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        background: 'hsl(var(--background))',
+                        foreground: 'hsl(var(--foreground))',
+                        primary:    'hsl(var(--primary))',
+                        secondary:  'hsl(var(--secondary))',
+                        muted:      'hsl(var(--muted-foreground))',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+
+<!-- ─── Navbar ─────────────────────────────────────────────────────────── -->
+<nav class="fixed top-0 left-0 right-0 z-50 px-4 py-4">
+    <div class="max-w-7xl mx-auto flex justify-between items-center nav-pill px-8 py-3">
+        <a href="/" class="text-2xl tracking-tight font-heading text-primary font-bold">
+            Foodiecious<span class="text-foreground italic">.</span>
+        </a>
+        <div class="hidden md:flex items-center gap-8">
+            <a href="/"             class="text-sm font-semibold uppercase tracking-widest text-muted hover:text-primary transition-colors">Home</a>
+            <a href="/about"        class="text-sm font-semibold uppercase tracking-widest text-muted hover:text-primary transition-colors">About</a>
+            <a href="/menu"         class="text-sm font-semibold uppercase tracking-widest text-muted hover:text-primary transition-colors">Menu</a>
+            <a href="/reservations" class="text-sm font-bold uppercase tracking-widest text-primary">Reserve</a>
+        </div>
+        <div class="flex items-center gap-3">
+            <button id="theme-toggle" class="w-10 h-10 liquid-glass rounded-full flex items-center justify-center text-foreground hover:bg-primary hover:text-white transition-all"></button>
+            <a href="/reservations" class="hidden md:block bg-primary text-white rounded-full px-6 py-2.5 text-sm font-bold hover:scale-[1.05] transition-transform shadow-lg shadow-primary/20">
+                Book a Table
+            </a>
+            <button id="mobile-menu-btn" class="md:hidden w-10 h-10 flex flex-col items-center justify-center gap-1.5">
+                <span class="w-5 h-0.5 bg-foreground rounded"></span>
+                <span class="w-5 h-0.5 bg-foreground rounded"></span>
+                <span class="w-5 h-0.5 bg-foreground rounded"></span>
+            </button>
+        </div>
+    </div>
+    <div id="mobile-nav" class="md:hidden mt-2">
+        <div class="liquid-glass rounded-2xl px-6 py-5 flex flex-col gap-4">
+            <a href="/"             class="text-sm font-semibold uppercase tracking-widest text-muted">Home</a>
+            <a href="/about"        class="text-sm font-semibold uppercase tracking-widest text-muted">About</a>
+            <a href="/menu"         class="text-sm font-semibold uppercase tracking-widest text-muted">Menu</a>
+            <a href="/reservations" class="text-sm font-bold uppercase tracking-widest text-primary">Reservations</a>
+        </div>
+    </div>
+</nav>
+
+<!-- ─── Main Content ────────────────────────────────────────────────────── -->
+<main class="min-h-screen pt-28 pb-24 px-6 bg-background">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+
+        <!-- Left: Info Panel -->
+        <div class="flex flex-col gap-10 lg:sticky lg:top-32">
+            <div>
+                <div class="text-xs uppercase tracking-widest text-primary font-bold mb-4 animate-fade-rise">// Reservations</div>
+                <h1 class="font-heading text-5xl md:text-7xl text-foreground leading-[0.9] mb-6 animate-fade-rise-delay">
+                    Reserve Your <span class="text-primary italic">Table</span>
+                </h1>
+                <p class="text-muted text-lg leading-relaxed animate-fade-rise-delay-2">
+                    Book your spot at Foodiecious and enjoy an unforgettable dining experience. We recommend reserving at least 24 hours in advance, especially for weekends.
+                </p>
+            </div>
+
+            <!-- Restaurant image -->
+            <div class="relative rounded-[2.5rem] overflow-hidden aspect-[4/3] animate-fade-rise-delay-2">
+                <img src="/assets/images/restaurant-interior.jpg" alt="Restaurant Interior"
+                     class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-t from-background/60 to-transparent"></div>
+            </div>
+
+            <!-- Info Cards -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div class="stat-card">
+                    <div class="text-primary text-xl mb-2">📍</div>
+                    <div class="text-xs uppercase tracking-widest font-bold text-foreground mb-1">Address</div>
+                    <div class="text-sm text-muted">452 Flavor Ave,<br>Downtown City, SF</div>
+                </div>
+                <div class="stat-card">
+                    <div class="text-primary text-xl mb-2">📞</div>
+                    <div class="text-xs uppercase tracking-widest font-bold text-foreground mb-1">Phone</div>
+                    <a href="tel:+15551234663" class="text-sm text-muted hover:text-primary transition-colors">+1 (555) 123-FOOD</a>
+                </div>
+                <div class="stat-card">
+                    <div class="text-primary text-xl mb-2">🕐</div>
+                    <div class="text-xs uppercase tracking-widest font-bold text-foreground mb-1">Hours</div>
+                    <div class="text-sm text-muted">Mon–Fri 10–22<br>Sat–Sun 9–23:30</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right: Booking Form -->
+        <div class="bg-zinc-50 dark:bg-zinc-900/50 border border-foreground/8 rounded-[2.5rem] p-8 md:p-12">
+
+            <!-- Form state -->
+            <div id="form-state">
+                <h2 class="font-heading text-4xl text-foreground mb-8">Your Details</h2>
+                <form id="reservation-form" novalidate class="space-y-5">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                        <div>
+                            <label class="block text-xs uppercase tracking-widest font-bold text-muted mb-2">Full Name *</label>
+                            <input type="text" id="f-name" name="name" placeholder="John Smith"
+                                   class="form-input" required minlength="2">
+                            <p class="field-error hidden text-red-500 text-xs mt-1"></p>
+                        </div>
+                        <div>
+                            <label class="block text-xs uppercase tracking-widest font-bold text-muted mb-2">Email *</label>
+                            <input type="email" id="f-email" name="email" placeholder="john@example.com"
+                                   class="form-input" required>
+                            <p class="field-error hidden text-red-500 text-xs mt-1"></p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                        <div>
+                            <label class="block text-xs uppercase tracking-widest font-bold text-muted mb-2">Date *</label>
+                            <input type="date" id="f-date" name="date" class="form-input" required>
+                            <p class="field-error hidden text-red-500 text-xs mt-1"></p>
+                        </div>
+                        <div>
+                            <label class="block text-xs uppercase tracking-widest font-bold text-muted mb-2">Time *</label>
+                            <select id="f-time" name="time" class="form-input" required>
+                                <option value="">Select a time</option>
+                                <option>11:00 AM</option>
+                                <option>11:30 AM</option>
+                                <option>12:00 PM</option>
+                                <option>12:30 PM</option>
+                                <option>1:00 PM</option>
+                                <option>1:30 PM</option>
+                                <option>2:00 PM</option>
+                                <option>6:00 PM</option>
+                                <option>6:30 PM</option>
+                                <option>7:00 PM</option>
+                                <option>7:30 PM</option>
+                                <option>8:00 PM</option>
+                                <option>8:30 PM</option>
+                                <option>9:00 PM</option>
+                            </select>
+                            <p class="field-error hidden text-red-500 text-xs mt-1"></p>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs uppercase tracking-widest font-bold text-muted mb-2">Number of Guests *</label>
+                        <select id="f-guests" name="guests" class="form-input" required>
+                            <option value="">Select guests</option>
+                            <option>1 Person</option>
+                            <option>2 Persons</option>
+                            <option>3 Persons</option>
+                            <option>4 Persons</option>
+                            <option>5 Persons</option>
+                            <option>6 Persons</option>
+                            <option>7+ Persons (call us)</option>
+                        </select>
+                        <p class="field-error hidden text-red-500 text-xs mt-1"></p>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs uppercase tracking-widest font-bold text-muted mb-2">Special Requests</label>
+                        <textarea id="f-notes" name="notes" rows="3" placeholder="Allergies, celebrations, seating preferences…"
+                                  class="form-input resize-none"></textarea>
+                    </div>
+
+                    <!-- Global error -->
+                    <div id="form-error" class="hidden bg-red-500/10 border border-red-500/20 text-red-500 text-sm px-4 py-3 rounded-xl"></div>
+
+                    <button type="submit" id="submit-btn"
+                            class="w-full bg-primary text-white py-5 rounded-2xl font-bold text-base hover:scale-[1.02] transition-transform shadow-xl shadow-primary/20 flex items-center justify-center gap-3">
+                        <span id="submit-text">Confirm Reservation</span>
+                        <svg id="submit-spinner" class="hidden w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+                        </svg>
+                    </button>
+
+                    <p class="text-xs text-muted text-center leading-relaxed">
+                        By submitting you agree to our <a href="#" class="text-primary hover:underline">terms</a>.
+                        We'll confirm your reservation by email within 2 hours.
+                    </p>
+                </form>
+            </div>
+
+            <!-- Success state (hidden initially) -->
+            <div id="success-state" class="hidden text-center py-8">
+                <div class="success-check">
+                    <svg class="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                    </svg>
+                </div>
+                <h2 class="font-heading text-4xl text-foreground mb-3">You're Booked!</h2>
+                <p class="text-muted mb-2 text-lg">Your table reservation has been received.</p>
+                <p id="success-details" class="text-sm text-muted mb-8 leading-relaxed"></p>
+                <div class="bg-primary/8 border border-primary/15 rounded-2xl p-5 mb-8 text-left space-y-2">
+                    <div class="text-xs uppercase tracking-widest font-bold text-primary mb-3">What happens next?</div>
+                    <div class="flex items-start gap-3 text-sm text-muted"><span class="text-primary font-bold">1.</span> We'll review your booking and confirm availability.</div>
+                    <div class="flex items-start gap-3 text-sm text-muted"><span class="text-primary font-bold">2.</span> A confirmation will be sent to your email within 2 hours.</div>
+                    <div class="flex items-start gap-3 text-sm text-muted"><span class="text-primary font-bold">3.</span> Please arrive 5 minutes before your reservation time.</div>
+                </div>
+                <div class="flex flex-col sm:flex-row gap-3 justify-center">
+                    <a href="/menu" class="btn-primary">Browse Our Menu</a>
+                    <button id="book-another" class="btn-outline">Make Another Booking</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+<!-- ─── Footer ─────────────────────────────────────────────────────────── -->
+<footer class="py-16 border-t border-foreground/5 bg-background">
+    <div class="max-w-7xl mx-auto px-8 flex flex-col md:flex-row justify-between items-center gap-8 text-sm text-muted">
+        <div class="font-heading text-2xl font-bold text-primary">Foodiecious<span class="text-foreground">.</span></div>
+        <div class="flex gap-8">
+            <a href="/"     class="hover:text-primary transition-colors">Home</a>
+            <a href="/menu" class="hover:text-primary transition-colors">Menu</a>
+            <a href="/about" class="hover:text-primary transition-colors">About</a>
+        </div>
+        <div class="text-xs uppercase tracking-widest">© 2024 Foodiecious</div>
+    </div>
+</footer>
+
+<script type="module">
+    import { initTheme } from '/js/utils.js';
+    initTheme();
+
+    document.getElementById('mobile-menu-btn')?.addEventListener('click', () => {
+        document.getElementById('mobile-nav').classList.toggle('open');
+    });
+
+    // Set minimum date to today
+    const dateInput = document.getElementById('f-date');
+    const today = new Date().toISOString().split('T')[0];
+    dateInput.setAttribute('min', today);
+
+    function showFieldError(input, msg) {
+        const err = input.parentElement.querySelector('.field-error');
+        if (err) { err.textContent = msg; err.classList.remove('hidden'); }
+        input.classList.add('border-red-400');
+    }
+    function clearFieldError(input) {
+        const err = input.parentElement.querySelector('.field-error');
+        if (err) err.classList.add('hidden');
+        input.classList.remove('border-red-400');
+    }
+
+    // Real-time validation
+    ['f-name','f-email','f-date','f-time','f-guests'].forEach(id => {
+        document.getElementById(id)?.addEventListener('input', e => clearFieldError(e.target));
+    });
+
+    function validate() {
+        let ok = true;
+        const name   = document.getElementById('f-name');
+        const email  = document.getElementById('f-email');
+        const date   = document.getElementById('f-date');
+        const time   = document.getElementById('f-time');
+        const guests = document.getElementById('f-guests');
+
+        if (!name.value.trim() || name.value.trim().length < 2) {
+            showFieldError(name, 'Please enter your full name.'); ok = false;
+        }
+        const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRe.test(email.value.trim())) {
+            showFieldError(email, 'Please enter a valid email address.'); ok = false;
+        }
+        if (!date.value) {
+            showFieldError(date, 'Please select a date.'); ok = false;
+        } else if (date.value < today) {
+            showFieldError(date, 'Date cannot be in the past.'); ok = false;
+        }
+        if (!time.value) {
+            showFieldError(time, 'Please select a time.'); ok = false;
+        }
+        if (!guests.value) {
+            showFieldError(guests, 'Please select the number of guests.'); ok = false;
+        }
+        return ok;
+    }
+
+    document.getElementById('reservation-form').addEventListener('submit', async e => {
+        e.preventDefault();
+        if (!validate()) return;
+
+        const submitBtn  = document.getElementById('submit-btn');
+        const submitText = document.getElementById('submit-text');
+        const spinner    = document.getElementById('submit-spinner');
+        const formError  = document.getElementById('form-error');
+
+        submitBtn.disabled = true;
+        submitText.textContent = 'Sending…';
+        spinner.classList.remove('hidden');
+        formError.classList.add('hidden');
+
+        const payload = {
+            name:   document.getElementById('f-name').value.trim(),
+            email:  document.getElementById('f-email').value.trim(),
+            date:   document.getElementById('f-date').value,
+            time:   document.getElementById('f-time').value,
+            guests: document.getElementById('f-guests').value,
+            notes:  document.getElementById('f-notes').value.trim()
+        };
+
+        try {
+            const res  = await fetch('/api/reservations', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            const data = await res.json();
+
+            if (!res.ok) throw new Error(data.error || 'Something went wrong.');
+
+            // Show success
+            document.getElementById('form-state').classList.add('hidden');
+            const success = document.getElementById('success-state');
+            success.classList.remove('hidden');
+            document.getElementById('success-details').textContent =
+                `${payload.name} · ${payload.date} at ${payload.time} · ${payload.guests}`;
+
+        } catch (err) {
+            formError.textContent = err.message;
+            formError.classList.remove('hidden');
+        } finally {
+            submitBtn.disabled = false;
+            submitText.textContent = 'Confirm Reservation';
+            spinner.classList.add('hidden');
+        }
+    });
+
+    document.getElementById('book-another').addEventListener('click', () => {
+        document.getElementById('success-state').classList.add('hidden');
+        document.getElementById('form-state').classList.remove('hidden');
+        document.getElementById('reservation-form').reset();
+        ['f-name','f-email','f-date','f-time','f-guests'].forEach(id => {
+            clearFieldError(document.getElementById(id));
+        });
+    });
+</script>
+</body>
+</html>
