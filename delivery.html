@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delivery | Foodiecious</title>
+    <script>if(localStorage.getItem('theme')!=='light')document.documentElement.classList.add('dark');</script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@1&family=Barlow:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        background: 'hsl(var(--background))',
+                        foreground: 'hsl(var(--foreground))',
+                        primary:    'hsl(var(--primary))',
+                        secondary:  'hsl(var(--secondary))',
+                        muted:      'hsl(var(--muted-foreground))',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Cart sidebar */
+        #cart-sidebar {
+            position: fixed; inset: 0; z-index: 100;
+            display: flex; pointer-events: none;
+        }
+        #cart-overlay {
+            flex: 1;
+            background: rgba(0,0,0,0);
+            transition: background 0.35s ease;
+            pointer-events: none;
+        }
+        #cart-panel {
+            width: min(420px, 100vw);
+            height: 100%;
+            background: hsl(var(--background));
+            border-left: 1px solid hsl(var(--foreground)/0.08);
+            display: flex; flex-direction: column;
+            transform: translateX(100%);
+            transition: transform 0.35s cubic-bezier(0.23,1,0.32,1);
+            pointer-events: all;
+            box-shadow: -8px 0 40px rgba(0,0,0,0.15);
+        }
+        #cart-sidebar.open { pointer-events: all; }
+        #cart-sidebar.open #cart-overlay { background: rgba(0,0,0,0.45); backdrop-filter: blur(3px); pointer-events: all; }
+        #cart-sidebar.open #cart-panel   { transform: translateX(0); }
+
+        /* Floating cart button */
+        #cart-btn {
+            position: fixed; bottom: 2rem; right: 2rem; z-index: 90;
+            width: 3.5rem; height: 3.5rem;
+            background: hsl(var(--primary));
+            color: #fff; border-radius: 9999px;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 8px 24px hsl(var(--primary)/0.45);
+            cursor: pointer; border: none;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        #cart-btn:hover { transform: scale(1.1); box-shadow: 0 12px 32px hsl(var(--primary)/0.55); }
+        #cart-count {
+            position: absolute; top: -4px; right: -4px;
+            width: 1.35rem; height: 1.35rem;
+            background: #fff; color: hsl(var(--primary));
+            border-radius: 9999px; font-size: 0.7rem; font-weight: 800;
+            display: flex; align-items: center; justify-content: center;
+            display: none;
+        }
+
+        /* In-card quantity controls */
+        .qty-ctrl { display: flex; align-items: center; gap: 0.5rem; }
+        .qty-btn {
+            width: 2rem; height: 2rem;
+            border-radius: 9999px; border: none; cursor: pointer; font-weight: 800; font-size: 1rem;
+            display: flex; align-items: center; justify-content: center;
+            transition: transform 0.15s ease;
+        }
+        .qty-btn:hover { transform: scale(1.15); }
+        .qty-btn.minus { background: hsl(var(--primary)/0.12); color: hsl(var(--primary)); }
+        .qty-btn.plus  { background: hsl(var(--primary)); color: #fff; }
+    </style>
+</head>
+<body>
+
+<!-- ─── Navbar ─────────────────────────────────────────────────────────── -->
+<nav class="fixed top-0 left-0 right-0 z-50 px-4 py-4">
+    <div class="max-w-7xl mx-auto flex justify-between items-center nav-pill px-8 py-3">
+        <a href="/" class="text-2xl tracking-tight font-heading text-primary font-bold">
+            Foodiecious<span class="text-foreground italic">.</span>
+        </a>
+        <div class="hidden md:flex items-center gap-5">
+            <a href="/"             class="text-xs font-semibold uppercase tracking-widest text-muted hover:text-primary transition-colors">Home</a>
+            <a href="/menu"         class="text-xs font-semibold uppercase tracking-widest text-muted hover:text-primary transition-colors">Menu</a>
+            <a href="/delivery"     class="text-xs font-bold uppercase tracking-widest text-primary">Delivery</a>
+            <a href="/contact"      class="text-xs font-semibold uppercase tracking-widest text-muted hover:text-primary transition-colors">Contact</a>
+            <a href="/about"        class="text-xs font-semibold uppercase tracking-widest text-muted hover:text-primary transition-colors">About</a>
+        </div>
+        <div class="flex items-center gap-3">
+            <button id="theme-toggle" class="w-10 h-10 liquid-glass rounded-full flex items-center justify-center text-foreground hover:bg-primary hover:text-white transition-all"></button>
+            <a href="/reservations" class="hidden md:block bg-primary text-white rounded-full px-5 py-2.5 text-xs font-bold hover:scale-[1.05] transition-transform shadow-lg shadow-primary/20">
+                Book a Table
+            </a>
+            <button id="mobile-menu-btn" class="md:hidden w-10 h-10 flex flex-col items-center justify-center gap-1.5">
+                <span class="w-5 h-0.5 bg-foreground rounded"></span>
+                <span class="w-5 h-0.5 bg-foreground rounded"></span>
+                <span class="w-5 h-0.5 bg-foreground rounded"></span>
+            </button>
+        </div>
+    </div>
+    <div id="mobile-nav" class="md:hidden mt-2">
+        <div class="liquid-glass rounded-2xl px-6 py-5 flex flex-col gap-4">
+            <a href="/"             class="text-sm font-semibold uppercase tracking-widest text-muted">Home</a>
+            <a href="/menu"         class="text-sm font-semibold uppercase tracking-widest text-muted">Menu</a>
+            <a href="/delivery"     class="text-sm font-bold uppercase tracking-widest text-primary">Delivery</a>
+            <a href="/contact"      class="text-sm font-semibold uppercase tracking-widest text-muted">Contact</a>
+            <a href="/about"        class="text-sm font-semibold uppercase tracking-widest text-muted">About</a>
+            <a href="/reservations" class="btn-primary text-center mt-1">Book a Table</a>
+        </div>
+    </div>
+</nav>
+
+<!-- ─── Hero ───────────────────────────────────────────────────────────── -->
+<section class="page-hero text-center">
+    <div class="max-w-3xl mx-auto">
+        <div class="text-xs uppercase tracking-widest text-primary font-bold mb-4 animate-fade-rise">// Order for Delivery</div>
+        <h1 class="font-heading text-6xl md:text-8xl text-foreground leading-[0.9] mb-6 animate-fade-rise-delay">
+            Great Food, <span class="text-primary italic">Your Door.</span>
+        </h1>
+        <p class="text-muted text-lg animate-fade-rise-delay-2 max-w-xl mx-auto">
+            Build your order from our full menu. Free delivery on orders over $40. Estimated delivery: 30–45 minutes.
+        </p>
+        <div class="flex flex-wrap gap-6 justify-center mt-8 animate-fade-rise-delay-2">
+            <div class="flex items-center gap-2 text-sm text-muted font-medium">
+                <span class="text-primary text-lg">🚴</span> 30–45 min delivery
+            </div>
+            <div class="flex items-center gap-2 text-sm text-muted font-medium">
+                <span class="text-primary text-lg">💳</span> Cash or card on delivery
+            </div>
+            <div class="flex items-center gap-2 text-sm text-muted font-medium">
+                <span class="text-primary text-lg">🎁</span> Free delivery over $40
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── Filter bar ─────────────────────────────────────────────────────── -->
+<section class="py-8 px-6 bg-background sticky top-20 z-40 border-b border-foreground/5">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row gap-4 items-center justify-between">
+        <div class="flex flex-wrap gap-2" id="category-filters">
+            <button class="filter-btn active" data-cat="All">All</button>
+            <button class="filter-btn" data-cat="Starters">Starters</button>
+            <button class="filter-btn" data-cat="Main Course">Mains</button>
+            <button class="filter-btn" data-cat="Pizzas">Pizzas</button>
+            <button class="filter-btn" data-cat="Desserts">Desserts</button>
+            <button class="filter-btn" data-cat="Drinks">Drinks</button>
+        </div>
+        <div class="relative w-full sm:w-64">
+            <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-width="2" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z"/>
+            </svg>
+            <input id="search-input" type="text" placeholder="Search dishes…" class="form-input pl-11 py-3 rounded-full text-sm">
+        </div>
+    </div>
+</section>
+
+<!-- ─── Menu Grid ──────────────────────────────────────────────────────── -->
+<section class="py-12 px-6 bg-background min-h-[60vh]">
+    <div class="max-w-7xl mx-auto">
+        <div id="menu-count" class="text-sm text-muted mb-6 font-medium"></div>
+        <div id="menu-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+            <div class="rounded-[2rem] bg-zinc-200 dark:bg-zinc-800 h-72 animate-pulse"></div>
+            <div class="rounded-[2rem] bg-zinc-200 dark:bg-zinc-800 h-72 animate-pulse"></div>
+            <div class="rounded-[2rem] bg-zinc-200 dark:bg-zinc-800 h-72 animate-pulse"></div>
+            <div class="rounded-[2rem] bg-zinc-200 dark:bg-zinc-800 h-72 animate-pulse"></div>
+        </div>
+        <div id="menu-empty" class="hidden text-center py-24">
+            <div class="text-5xl mb-4">🔍</div>
+            <p class="text-muted text-lg">No dishes match your search.</p>
+            <button onclick="resetFilters()" class="btn-primary mt-6">Clear Filters</button>
+        </div>
+        <div id="menu-error" class="hidden text-center py-24">
+            <p class="text-muted">Could not load the menu. Please refresh.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ─── Footer ─────────────────────────────────────────────────────────── -->
+<footer class="py-12 border-t border-foreground/5 bg-background">
+    <div class="max-w-7xl mx-auto px-8 flex flex-col md:flex-row justify-between items-center gap-6 text-sm text-muted">
+        <div class="font-heading text-2xl font-bold text-primary">Foodiecious<span class="text-foreground">.</span></div>
+        <div class="flex gap-8">
+            <a href="/"             class="hover:text-primary transition-colors">Home</a>
+            <a href="/menu"         class="hover:text-primary transition-colors">Menu</a>
+            <a href="/reservations" class="hover:text-primary transition-colors">Reserve</a>
+            <a href="/contact"      class="hover:text-primary transition-colors">Contact</a>
+        </div>
+        <div class="text-xs uppercase tracking-widest">© 2024 Foodiecious</div>
+    </div>
+</footer>
+
+<!-- ─── Floating Cart Button ───────────────────────────────────────────── -->
+<button id="cart-btn" aria-label="Open cart">
+    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-width="2"
+            d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.5 7h12M7 13H5.4M10 18a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+    </svg>
+    <span id="cart-count">0</span>
+</button>
+
+<!-- ─── Cart Sidebar ───────────────────────────────────────────────────── -->
+<div id="cart-sidebar">
+    <div id="cart-overlay"></div>
+    <div id="cart-panel">
+        <!-- Cart Header -->
+        <div class="flex items-center justify-between px-6 py-5 border-b border-foreground/8">
+            <div>
+                <h2 class="font-heading text-2xl text-foreground">Your Order</h2>
+                <p id="cart-item-count" class="text-xs text-muted mt-0.5">0 items</p>
+            </div>
+            <button id="cart-close" class="w-9 h-9 rounded-full bg-foreground/8 flex items-center justify-center text-muted hover:bg-foreground/15 transition-colors">✕</button>
+        </div>
+
+        <!-- Cart Items -->
+        <div id="cart-items" class="flex-1 overflow-y-auto px-6 py-4 space-y-4">
+            <div id="cart-empty" class="text-center py-16">
+                <div class="text-4xl mb-4">🛒</div>
+                <p class="text-muted font-medium">Your cart is empty</p>
+                <p class="text-sm text-muted mt-2">Add some dishes to get started!</p>
+            </div>
+        </div>
+
+        <!-- Cart Footer -->
+        <div id="cart-footer" class="hidden border-t border-foreground/8 px-6 py-5 space-y-3">
+            <div class="flex justify-between text-sm text-muted">
+                <span>Subtotal</span><span id="cart-subtotal" class="font-semibold text-foreground">$0.00</span>
+            </div>
+            <div class="flex justify-between text-sm text-muted">
+                <span>Delivery fee</span><span id="cart-delivery-fee" class="font-semibold text-foreground">$3.99</span>
+            </div>
+            <div id="free-delivery-note" class="hidden text-xs text-green-500 font-bold">🎉 You qualify for free delivery!</div>
+            <div class="flex justify-between font-bold text-lg text-foreground border-t border-foreground/8 pt-3">
+                <span>Total</span><span id="cart-total">$0.00</span>
+            </div>
+            <button id="checkout-btn" class="btn-primary w-full py-4 text-base">Proceed to Checkout →</button>
+        </div>
+    </div>
+</div>
+
+<!-- ─── Checkout Modal ─────────────────────────────────────────────────── -->
+<div id="checkout-modal" class="modal-overlay hidden">
+    <div class="modal-box max-w-lg">
+
+        <!-- Order form -->
+        <div id="checkout-form-state">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="font-heading text-2xl text-foreground">Complete Your Order</h2>
+                <button id="checkout-close" class="w-8 h-8 rounded-full bg-foreground/8 flex items-center justify-center text-muted hover:bg-foreground/15">✕</button>
+            </div>
+
+            <!-- Order summary (compact) -->
+            <div class="bg-primary/5 border border-primary/15 rounded-2xl p-4 mb-6">
+                <div class="text-xs uppercase tracking-widest font-bold text-primary mb-3">Order Summary</div>
+                <div id="checkout-summary" class="space-y-1.5 text-sm text-muted"></div>
+                <div class="border-t border-foreground/8 mt-3 pt-3 flex justify-between font-bold text-foreground text-base">
+                    <span>Total</span>
+                    <span id="checkout-total-display"></span>
+                </div>
+            </div>
+
+            <form id="order-form" novalidate class="space-y-4">
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs uppercase tracking-widest font-bold text-muted mb-1.5">Full Name *</label>
+                        <input type="text" id="o-name" placeholder="John Smith" class="form-input" required>
+                        <p class="field-error hidden text-red-500 text-xs mt-1"></p>
+                    </div>
+                    <div>
+                        <label class="block text-xs uppercase tracking-widest font-bold text-muted mb-1.5">Email *</label>
+                        <input type="email" id="o-email" placeholder="john@email.com" class="form-input" required>
+                        <p class="field-error hidden text-red-500 text-xs mt-1"></p>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs uppercase tracking-widest font-bold text-muted mb-1.5">Phone *</label>
+                    <input type="tel" id="o-phone" placeholder="+1 (555) 000-0000" class="form-input" required>
+                    <p class="field-error hidden text-red-500 text-xs mt-1"></p>
+                </div>
+                <div>
+                    <label class="block text-xs uppercase tracking-widest font-bold text-muted mb-1.5">Delivery Address *</label>
+                    <input type="text" id="o-address" placeholder="123 Main St, City, State" class="form-input" required>
+                    <p class="field-error hidden text-red-500 text-xs mt-1"></p>
+                </div>
+                <div>
+                    <label class="block text-xs uppercase tracking-widest font-bold text-muted mb-1.5">Special Instructions</label>
+                    <textarea id="o-notes" rows="2" placeholder="Allergies, gate code, no onions…" class="form-input resize-none"></textarea>
+                </div>
+                <div>
+                    <label class="block text-xs uppercase tracking-widest font-bold text-muted mb-2">Payment Method</label>
+                    <div class="grid grid-cols-2 gap-3">
+                        <label id="pay-cash-label" class="payment-opt flex items-center gap-3 p-3 rounded-xl border-2 border-primary cursor-pointer transition-all">
+                            <input type="radio" name="payment" value="cash" checked class="accent-primary w-4 h-4">
+                            <div><div class="font-bold text-sm text-foreground">💵 Cash</div><div class="text-xs text-muted">Pay on delivery</div></div>
+                        </label>
+                        <label id="pay-card-label" class="payment-opt flex items-center gap-3 p-3 rounded-xl border-2 border-foreground/10 cursor-pointer transition-all">
+                            <input type="radio" name="payment" value="card" class="accent-primary w-4 h-4">
+                            <div><div class="font-bold text-sm text-foreground">💳 Card</div><div class="text-xs text-muted">Pay on delivery</div></div>
+                        </label>
+                    </div>
+                </div>
+                <div id="order-error" class="hidden bg-red-500/10 border border-red-500/20 text-red-400 text-sm px-4 py-3 rounded-xl"></div>
+                <button type="submit" id="place-order-btn"
+                        class="w-full bg-primary text-white py-4 rounded-2xl font-bold text-base hover:scale-[1.02] transition-transform shadow-xl shadow-primary/20 flex items-center justify-center gap-3">
+                    <span id="place-order-text">Place Order</span>
+                    <svg id="place-order-spinner" class="hidden w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+                    </svg>
+                </button>
+            </form>
+        </div>
+
+        <!-- Success state -->
+        <div id="checkout-success" class="hidden text-center py-6">
+            <div class="success-check">
+                <svg class="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                </svg>
+            </div>
+            <h2 class="font-heading text-3xl text-foreground mb-2">Order Placed!</h2>
+            <p class="text-muted mb-1">Thank you — your food is on its way.</p>
+            <p id="order-eta" class="text-sm font-bold text-primary mb-8">Estimated arrival: 30–45 minutes</p>
+            <div class="bg-primary/8 border border-primary/15 rounded-2xl p-4 text-left text-sm text-muted space-y-2 mb-6">
+                <div><span class="font-bold text-foreground">🚴 Status:</span> Your order is being prepared</div>
+                <div><span class="font-bold text-foreground">📧 Confirmation:</span> Sent to your email</div>
+                <div><span class="font-bold text-foreground">📞 Questions?</span> <a href="tel:+15551234663" class="text-primary">+1 (555) 123-FOOD</a></div>
+            </div>
+            <button id="order-again-btn" class="btn-primary w-full py-3">Order Again</button>
+        </div>
+
+    </div>
+</div>
+
+<script type="module">
+import { initTheme } from '/js/utils.js';
+initTheme();
+
+document.getElementById('mobile-menu-btn')?.addEventListener('click', () => {
+    document.getElementById('mobile-nav').classList.toggle('open');
+});
+
+// ─── State ───────────────────────────────────────────────────────────────
+let allItems = [];
+let activeCategory = 'All';
+let searchQuery = '';
+let cart = []; // [{id, name, price, priceNum, image, quantity}]
+
+const DELIVERY_FEE = 3.99;
+const FREE_DELIVERY_THRESHOLD = 40;
+
+function parsePrice(str) {
+    return parseFloat(String(str).replace(/[^0-9.]/g, '')) || 0;
+}
+function fmt(num) {
+    return '$' + num.toFixed(2);
+}
+
+// ─── Cart Logic ───────────────────────────────────────────────────────────
+function cartFind(id) { return cart.find(i => i.id === id); }
+
+function addToCart(item) {
+    const existing = cartFind(item.id);
+    if (existing) existing.quantity++;
+    else cart.push({ ...item, quantity: 1 });
+    syncCartUI();
+    updateCardControls(item.id);
+}
+
+function changeQty(id, delta) {
+    const item = cartFind(id);
+    if (!item) return;
+    item.quantity += delta;
+    if (item.quantity <= 0) cart = cart.filter(i => i.id !== id);
+    syncCartUI();
+    updateCardControls(id);
+}
+
+function cartSubtotal() {
+    return cart.reduce((s, i) => s + i.priceNum * i.quantity, 0);
+}
+function cartDeliveryFee(subtotal) {
+    return subtotal >= FREE_DELIVERY_THRESHOLD ? 0 : DELIVERY_FEE;
+}
+function cartTotal() {
+    const s = cartSubtotal();
+    return s + cartDeliveryFee(s);
+}
+
+function syncCartUI() {
+    const count = cart.reduce((s, i) => s + i.quantity, 0);
+    const countEl = document.getElementById('cart-count');
+    if (count > 0) { countEl.textContent = count; countEl.style.display = 'flex'; }
+    else            { countEl.style.display = 'none'; }
+    document.getElementById('cart-item-count').textContent = `${count} item${count !== 1 ? 's' : ''}`;
+
+    // Items list
+    const itemsEl  = document.getElementById('cart-items');
+    const emptyEl  = document.getElementById('cart-empty');
+    const footerEl = document.getElementById('cart-footer');
+
+    if (!cart.length) {
+        emptyEl.classList.remove('hidden');
+        footerEl.classList.add('hidden');
+        itemsEl.innerHTML = '';
+        itemsEl.appendChild(emptyEl);
+        return;
+    }
+
+    emptyEl.classList.add('hidden');
+    footerEl.classList.remove('hidden');
+    itemsEl.innerHTML = '';
+    cart.forEach(item => {
+        const row = document.createElement('div');
+        row.className = 'flex items-center gap-4 py-3 border-b border-foreground/5 last:border-0';
+        row.innerHTML = `
+            <img src="${item.image}" alt="${item.name}"
+                 class="w-16 h-16 rounded-xl object-cover shrink-0 bg-zinc-200 dark:bg-zinc-700"
+                 onerror="this.src='/assets/images/food-hero.jpg'">
+            <div class="flex-1 min-w-0">
+                <div class="font-semibold text-foreground text-sm leading-tight truncate">${item.name}</div>
+                <div class="text-primary font-bold text-sm mt-0.5">${fmt(item.priceNum * item.quantity)}</div>
+            </div>
+            <div class="qty-ctrl shrink-0">
+                <button class="qty-btn minus" onclick="changeQty(${item.id}, -1)">−</button>
+                <span class="font-bold text-foreground w-5 text-center text-sm">${item.quantity}</span>
+                <button class="qty-btn plus" onclick="changeQty(${item.id}, +1)">+</button>
+            </div>`;
+        itemsEl.appendChild(row);
+    });
+
+    // Totals
+    const sub = cartSubtotal();
+    const fee = cartDeliveryFee(sub);
+    document.getElementById('cart-subtotal').textContent = fmt(sub);
+    document.getElementById('cart-delivery-fee').textContent = fee === 0 ? 'FREE' : fmt(fee);
+    document.getElementById('cart-total').textContent = fmt(sub + fee);
+    document.getElementById('free-delivery-note').classList.toggle('hidden', fee !== 0);
+}
+
+window.changeQty = changeQty;
+
+// Update card buttons to show qty controls when in cart
+function updateCardControls(id) {
+    const card = document.querySelector(`[data-item-id="${id}"]`);
+    if (!card) return;
+    const item = cartFind(id);
+    const addBtn  = card.querySelector('.add-btn');
+    const qtyCtrl = card.querySelector('.qty-ctrl');
+    const qtyNum  = card.querySelector('.qty-num');
+    if (item) {
+        addBtn?.classList.add('hidden');
+        qtyCtrl?.classList.remove('hidden');
+        if (qtyNum) qtyNum.textContent = item.quantity;
+    } else {
+        addBtn?.classList.remove('hidden');
+        qtyCtrl?.classList.add('hidden');
+    }
+}
+
+// ─── Menu Rendering ───────────────────────────────────────────────────────
+function buildCard(item) {
+    const inCart = cartFind(item.id);
+    const div = document.createElement('div');
+    div.className = 'group menu-card';
+    div.dataset.itemId = item.id;
+    div.innerHTML = `
+        <div class="bg-white dark:bg-zinc-800/60 rounded-[2rem] overflow-hidden shadow-md shadow-black/5 transition-all duration-500 h-full flex flex-col">
+            <div class="aspect-[4/3] overflow-hidden relative">
+                <img src="${item.image}" alt="${item.name}"
+                     class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                     loading="lazy" onerror="this.src='/assets/images/food-hero.jpg'">
+                <div class="absolute top-3 right-3 flex flex-col gap-1">
+                    ${(item.dietary || []).slice(0,2).map(t => `<span class="tag text-[9px]">${t}</span>`).join('')}
+                </div>
+            </div>
+            <div class="p-4 flex flex-col flex-1">
+                <div class="flex justify-between items-start gap-2 mb-1">
+                    <h3 class="font-heading text-xl font-bold text-foreground leading-tight">${item.name}</h3>
+                    <span class="text-primary font-bold text-lg whitespace-nowrap">${item.price}</span>
+                </div>
+                <p class="text-muted text-xs leading-relaxed mb-4 flex-1 line-clamp-2">${item.description}</p>
+                <!-- Add button -->
+                <button class="add-btn btn-primary text-sm py-2.5 w-full ${inCart ? 'hidden' : ''}"
+                        onclick="addToCart({id:${item.id},name:'${item.name.replace(/'/g,"\\'")}',price:'${item.price}',priceNum:${parsePrice(item.price)},image:'${item.image}'})">
+                    + Add to Order
+                </button>
+                <!-- Qty controls -->
+                <div class="qty-ctrl justify-between ${inCart ? '' : 'hidden'}">
+                    <button class="qty-btn minus flex-1 mr-2" onclick="changeQty(${item.id},-1)">−</button>
+                    <span class="qty-num font-bold text-foreground text-base w-6 text-center">${inCart ? inCart.quantity : 1}</span>
+                    <button class="qty-btn plus flex-1 ml-2" onclick="changeQty(${item.id},+1)">+</button>
+                </div>
+            </div>
+        </div>`;
+    return div;
+}
+
+function applyFilters() {
+    const q = searchQuery.toLowerCase();
+    const grid  = document.getElementById('menu-grid');
+    const empty = document.getElementById('menu-empty');
+    const count = document.getElementById('menu-count');
+    const filtered = allItems.filter(item => {
+        const matchCat    = activeCategory === 'All' || item.category === activeCategory;
+        const matchSearch = !q || item.name.toLowerCase().includes(q) || item.description.toLowerCase().includes(q);
+        return matchCat && matchSearch;
+    });
+    grid.innerHTML = '';
+    if (!filtered.length) {
+        empty.classList.remove('hidden');
+        count.textContent = '';
+    } else {
+        empty.classList.add('hidden');
+        count.textContent = `Showing ${filtered.length} dish${filtered.length !== 1 ? 'es' : ''}`;
+        filtered.forEach(item => grid.appendChild(buildCard(item)));
+    }
+}
+
+window.resetFilters = function() {
+    activeCategory = 'All';
+    searchQuery = '';
+    document.getElementById('search-input').value = '';
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.toggle('active', b.dataset.cat === 'All'));
+    applyFilters();
+};
+
+document.getElementById('category-filters').addEventListener('click', e => {
+    const btn = e.target.closest('.filter-btn');
+    if (!btn) return;
+    activeCategory = btn.dataset.cat;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.toggle('active', b === btn));
+    applyFilters();
+});
+
+let debounceTimer;
+document.getElementById('search-input').addEventListener('input', e => {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => { searchQuery = e.target.value; applyFilters(); }, 250);
+});
+
+fetch('/api/menu')
+    .then(r => { if (!r.ok) throw new Error(); return r.json(); })
+    .then(data => { allItems = data; applyFilters(); })
+    .catch(() => {
+        document.getElementById('menu-grid').innerHTML = '';
+        document.getElementById('menu-error').classList.remove('hidden');
+    });
+
+// ─── Cart Sidebar ─────────────────────────────────────────────────────────
+const sidebar = document.getElementById('cart-sidebar');
+function openCart()  { sidebar.classList.add('open'); document.body.style.overflow = 'hidden'; }
+function closeCart() { sidebar.classList.remove('open'); document.body.style.overflow = ''; }
+document.getElementById('cart-btn').addEventListener('click', openCart);
+document.getElementById('cart-close').addEventListener('click', closeCart);
+document.getElementById('cart-overlay').addEventListener('click', closeCart);
+
+// ─── Checkout Modal ───────────────────────────────────────────────────────
+const modal = document.getElementById('checkout-modal');
+
+document.getElementById('checkout-btn').addEventListener('click', () => {
+    if (!cart.length) return;
+    closeCart();
+    // Populate summary
+    const summaryEl = document.getElementById('checkout-summary');
+    const sub = cartSubtotal();
+    const fee = cartDeliveryFee(sub);
+    summaryEl.innerHTML = cart.map(i =>
+        `<div class="flex justify-between"><span>${i.name} ×${i.quantity}</span><span class="font-semibold text-foreground">${fmt(i.priceNum * i.quantity)}</span></div>`
+    ).join('') + `<div class="flex justify-between text-xs mt-1"><span>Delivery</span><span>${fee === 0 ? 'FREE' : fmt(fee)}</span></div>`;
+    document.getElementById('checkout-total-display').textContent = fmt(cartTotal());
+    document.getElementById('checkout-form-state').classList.remove('hidden');
+    document.getElementById('checkout-success').classList.add('hidden');
+    modal.classList.remove('hidden');
+});
+
+document.getElementById('checkout-close').addEventListener('click', () => modal.classList.add('hidden'));
+modal.addEventListener('click', e => { if (e.target === modal) modal.classList.add('hidden'); });
+
+// Payment option styling
+document.querySelectorAll('input[name="payment"]').forEach(radio => {
+    radio.addEventListener('change', () => {
+        document.getElementById('pay-cash-label').classList.toggle('border-primary', radio.value === 'cash' || document.querySelector('input[name="payment"][value="cash"]').checked);
+        document.getElementById('pay-card-label').classList.toggle('border-primary', document.querySelector('input[name="payment"][value="card"]').checked);
+        document.getElementById('pay-cash-label').classList.toggle('border-foreground/10', !document.querySelector('input[name="payment"][value="cash"]').checked);
+        document.getElementById('pay-card-label').classList.toggle('border-foreground/10', !document.querySelector('input[name="payment"][value="card"]').checked);
+    });
+});
+
+// ─── Order Form ───────────────────────────────────────────────────────────
+function showErr(input, msg) {
+    const e = input.parentElement.querySelector('.field-error');
+    if (e) { e.textContent = msg; e.classList.remove('hidden'); }
+    input.classList.add('border-red-400');
+}
+function clearErr(input) {
+    const e = input.parentElement.querySelector('.field-error');
+    if (e) e.classList.add('hidden');
+    input.classList.remove('border-red-400');
+}
+
+['o-name','o-email','o-phone','o-address'].forEach(id => {
+    document.getElementById(id)?.addEventListener('input', e => clearErr(e.target));
+});
+
+function validateOrder() {
+    let ok = true;
+    const name    = document.getElementById('o-name');
+    const email   = document.getElementById('o-email');
+    const phone   = document.getElementById('o-phone');
+    const address = document.getElementById('o-address');
+    if (!name.value.trim()) { showErr(name, 'Name required.'); ok = false; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())) { showErr(email, 'Valid email required.'); ok = false; }
+    if (!phone.value.trim()) { showErr(phone, 'Phone required.'); ok = false; }
+    if (!address.value.trim() || address.value.trim().length < 5) { showErr(address, 'Full delivery address required.'); ok = false; }
+    return ok;
+}
+
+document.getElementById('order-form').addEventListener('submit', async e => {
+    e.preventDefault();
+    if (!validateOrder()) return;
+    const errBox = document.getElementById('order-error');
+    const btn    = document.getElementById('place-order-btn');
+    const btnTxt = document.getElementById('place-order-text');
+    const spin   = document.getElementById('place-order-spinner');
+    errBox.classList.add('hidden');
+    btn.disabled = true; btnTxt.textContent = 'Placing order…'; spin.classList.remove('hidden');
+
+    const sub = cartSubtotal();
+    const fee = cartDeliveryFee(sub);
+
+    try {
+        const res = await fetch('/api/orders', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                name:          document.getElementById('o-name').value.trim(),
+                email:         document.getElementById('o-email').value.trim(),
+                phone:         document.getElementById('o-phone').value.trim(),
+                address:       document.getElementById('o-address').value.trim(),
+                notes:         document.getElementById('o-notes').value.trim(),
+                paymentMethod: document.querySelector('input[name="payment"]:checked').value,
+                items:         cart.map(i => ({ name: i.name, price: i.price, quantity: i.quantity })),
+                subtotal:      fmt(sub),
+                deliveryFee:   fee === 0 ? 'FREE' : fmt(fee),
+                total:         fmt(cartTotal())
+            })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Something went wrong.');
+        // Success
+        document.getElementById('checkout-form-state').classList.add('hidden');
+        document.getElementById('checkout-success').classList.remove('hidden');
+        cart = [];
+        syncCartUI();
+    } catch (err) {
+        errBox.textContent = err.message;
+        errBox.classList.remove('hidden');
+    } finally {
+        btn.disabled = false; btnTxt.textContent = 'Place Order'; spin.classList.add('hidden');
+    }
+});
+
+document.getElementById('order-again-btn').addEventListener('click', () => {
+    modal.classList.add('hidden');
+    document.getElementById('order-form').reset();
+});
+
+syncCartUI();
+</script>
+</body>
+</html>

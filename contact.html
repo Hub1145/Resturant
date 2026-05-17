@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact | Foodiecious</title>
+    <script>if(localStorage.getItem('theme')!=='light')document.documentElement.classList.add('dark');</script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@1&family=Barlow:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        background: 'hsl(var(--background))',
+                        foreground: 'hsl(var(--foreground))',
+                        primary:    'hsl(var(--primary))',
+                        secondary:  'hsl(var(--secondary))',
+                        muted:      'hsl(var(--muted-foreground))',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .faq-item { border-bottom: 1px solid hsl(var(--foreground)/0.08); }
+        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.35s ease; }
+        .faq-item.open .faq-answer { max-height: 200px; padding-bottom: 1rem; }
+        .faq-icon { transition: transform 0.3s ease; }
+        .faq-item.open .faq-icon { transform: rotate(45deg); }
+    </style>
+</head>
+<body>
+
+<!-- ─── Navbar ─────────────────────────────────────────────────────────── -->
+<nav class="fixed top-0 left-0 right-0 z-50 px-4 py-4">
+    <div class="max-w-7xl mx-auto flex justify-between items-center nav-pill px-8 py-3">
+        <a href="/" class="text-2xl tracking-tight font-heading text-primary font-bold">
+            Foodiecious<span class="text-foreground italic">.</span>
+        </a>
+        <div class="hidden md:flex items-center gap-5">
+            <a href="/"             class="text-xs font-semibold uppercase tracking-widest text-muted hover:text-primary transition-colors">Home</a>
+            <a href="/menu"         class="text-xs font-semibold uppercase tracking-widest text-muted hover:text-primary transition-colors">Menu</a>
+            <a href="/delivery"     class="text-xs font-semibold uppercase tracking-widest text-muted hover:text-primary transition-colors">Delivery</a>
+            <a href="/contact"      class="text-xs font-bold uppercase tracking-widest text-primary">Contact</a>
+            <a href="/about"        class="text-xs font-semibold uppercase tracking-widest text-muted hover:text-primary transition-colors">About</a>
+        </div>
+        <div class="flex items-center gap-3">
+            <button id="theme-toggle" class="w-10 h-10 liquid-glass rounded-full flex items-center justify-center text-foreground hover:bg-primary hover:text-white transition-all"></button>
+            <a href="/reservations" class="hidden md:block bg-primary text-white rounded-full px-5 py-2.5 text-xs font-bold hover:scale-[1.05] transition-transform shadow-lg shadow-primary/20">
+                Book a Table
+            </a>
+            <button id="mobile-menu-btn" class="md:hidden w-10 h-10 flex flex-col items-center justify-center gap-1.5">
+                <span class="w-5 h-0.5 bg-foreground rounded"></span>
+                <span class="w-5 h-0.5 bg-foreground rounded"></span>
+                <span class="w-5 h-0.5 bg-foreground rounded"></span>
+            </button>
+        </div>
+    </div>
+    <div id="mobile-nav" class="md:hidden mt-2">
+        <div class="liquid-glass rounded-2xl px-6 py-5 flex flex-col gap-4">
+            <a href="/"             class="text-sm font-semibold uppercase tracking-widest text-muted">Home</a>
+            <a href="/menu"         class="text-sm font-semibold uppercase tracking-widest text-muted">Menu</a>
+            <a href="/delivery"     class="text-sm font-semibold uppercase tracking-widest text-muted">Delivery</a>
+            <a href="/contact"      class="text-sm font-bold uppercase tracking-widest text-primary">Contact</a>
+            <a href="/about"        class="text-sm font-semibold uppercase tracking-widest text-muted">About</a>
+            <a href="/reservations" class="btn-primary text-center mt-1">Book a Table</a>
+        </div>
+    </div>
+</nav>
+
+<!-- ─── Page Hero ──────────────────────────────────────────────────────── -->
+<section class="page-hero text-center">
+    <div class="max-w-3xl mx-auto">
+        <div class="text-xs uppercase tracking-widest text-primary font-bold mb-4 animate-fade-rise">// Get in Touch</div>
+        <h1 class="font-heading text-6xl md:text-8xl text-foreground leading-[0.9] mb-6 animate-fade-rise-delay">
+            We'd Love to <span class="text-primary italic">Hear You</span>
+        </h1>
+        <p class="text-muted text-lg animate-fade-rise-delay-2 max-w-xl mx-auto">
+            Questions, feedback, or just want to say hello — we're here for you. Drop us a message and we'll get back within a few hours.
+        </p>
+    </div>
+</section>
+
+<!-- ─── Main Content ───────────────────────────────────────────────────── -->
+<section class="py-16 px-6 bg-background">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+
+        <!-- Left: Contact Form -->
+        <div class="reveal">
+            <div id="form-state">
+                <h2 class="font-heading text-4xl text-foreground mb-8">Send a Message</h2>
+                <form id="contact-form" novalidate class="space-y-5">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                        <div>
+                            <label class="block text-xs uppercase tracking-widest font-bold text-muted mb-2">Your Name *</label>
+                            <input type="text" id="c-name" placeholder="Jane Smith" class="form-input" required>
+                            <p class="field-error hidden text-red-500 text-xs mt-1"></p>
+                        </div>
+                        <div>
+                            <label class="block text-xs uppercase tracking-widest font-bold text-muted mb-2">Email *</label>
+                            <input type="email" id="c-email" placeholder="jane@email.com" class="form-input" required>
+                            <p class="field-error hidden text-red-500 text-xs mt-1"></p>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs uppercase tracking-widest font-bold text-muted mb-2">Subject</label>
+                        <select id="c-subject" class="form-input">
+                            <option value="">Select a topic…</option>
+                            <option>General Enquiry</option>
+                            <option>Reservation Help</option>
+                            <option>Delivery Issue</option>
+                            <option>Feedback</option>
+                            <option>Private Event / Catering</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs uppercase tracking-widest font-bold text-muted mb-2">Message *</label>
+                        <textarea id="c-message" rows="5" placeholder="Tell us how we can help…" class="form-input resize-none" required></textarea>
+                        <p class="field-error hidden text-red-500 text-xs mt-1"></p>
+                    </div>
+                    <div id="form-error" class="hidden bg-red-500/10 border border-red-500/20 text-red-400 text-sm px-4 py-3 rounded-xl"></div>
+                    <button type="submit" id="send-btn"
+                            class="btn-primary w-full py-4 text-base flex items-center justify-center gap-3">
+                        <span id="send-text">Send Message</span>
+                        <svg id="send-spinner" class="hidden w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+                        </svg>
+                    </button>
+                </form>
+            </div>
+
+            <!-- Success -->
+            <div id="success-state" class="hidden text-center py-12">
+                <div class="success-check">
+                    <svg class="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                    </svg>
+                </div>
+                <h2 class="font-heading text-3xl text-foreground mb-3">Message Sent!</h2>
+                <p class="text-muted text-lg mb-8">Thanks for reaching out. We'll get back to you within a few hours.</p>
+                <button id="send-another" class="btn-primary">Send Another Message</button>
+            </div>
+        </div>
+
+        <!-- Right: Info + Map -->
+        <div class="space-y-6 reveal">
+            <!-- Info Cards -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="stat-card">
+                    <div class="text-2xl mb-3">📍</div>
+                    <div class="text-xs uppercase tracking-widest font-bold text-primary mb-2">Address</div>
+                    <div class="text-sm text-muted leading-relaxed">452 Flavor Avenue<br>Downtown City, SF 94103</div>
+                    <a href="https://maps.google.com" target="_blank"
+                       class="text-xs text-primary font-bold mt-3 inline-block hover:underline">Get Directions →</a>
+                </div>
+                <div class="stat-card">
+                    <div class="text-2xl mb-3">📞</div>
+                    <div class="text-xs uppercase tracking-widest font-bold text-primary mb-2">Phone</div>
+                    <a href="tel:+15551234663" class="text-sm text-muted hover:text-primary transition-colors">+1 (555) 123-FOOD</a>
+                    <div class="text-xs text-muted mt-2">Mon–Fri: 10am–10pm</div>
+                </div>
+                <div class="stat-card">
+                    <div class="text-2xl mb-3">✉️</div>
+                    <div class="text-xs uppercase tracking-widest font-bold text-primary mb-2">Email</div>
+                    <a href="mailto:hello@foodiecious.com" class="text-sm text-muted hover:text-primary transition-colors break-all">hello@foodiecious.com</a>
+                    <div class="text-xs text-muted mt-2">Response within 2–4 hours</div>
+                </div>
+                <div class="stat-card">
+                    <div class="text-2xl mb-3">🕐</div>
+                    <div class="text-xs uppercase tracking-widest font-bold text-primary mb-2">Opening Hours</div>
+                    <div class="text-sm text-muted space-y-1">
+                        <div>Mon–Fri: <span class="text-foreground font-medium">10am – 10pm</span></div>
+                        <div>Sat–Sun: <span class="text-foreground font-medium">9am – 11:30pm</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Map placeholder -->
+            <div class="rounded-[2rem] overflow-hidden aspect-[16/9] bg-zinc-100 dark:bg-zinc-800 relative">
+                <img src="/assets/images/about-interior.jpg" alt="Our Location"
+                     class="w-full h-full object-cover opacity-60">
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <div class="liquid-glass px-6 py-4 rounded-2xl text-center">
+                        <div class="text-primary text-2xl mb-1">📍</div>
+                        <div class="font-bold text-foreground text-sm">452 Flavor Avenue</div>
+                        <div class="text-muted text-xs">Downtown City, SF 94103</div>
+                        <a href="https://maps.google.com" target="_blank"
+                           class="block mt-3 text-xs font-bold text-primary hover:underline">Open in Maps →</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Social Links -->
+            <div class="flex items-center gap-4">
+                <div class="text-xs uppercase tracking-widest font-bold text-muted">Follow Us</div>
+                <div class="flex gap-3">
+                    <a href="#" class="w-10 h-10 bg-zinc-100 dark:bg-zinc-800 rounded-full flex items-center justify-center text-xs font-bold hover:bg-primary hover:text-white transition-all">FB</a>
+                    <a href="#" class="w-10 h-10 bg-zinc-100 dark:bg-zinc-800 rounded-full flex items-center justify-center text-xs font-bold hover:bg-primary hover:text-white transition-all">IG</a>
+                    <a href="#" class="w-10 h-10 bg-zinc-100 dark:bg-zinc-800 rounded-full flex items-center justify-center text-xs font-bold hover:bg-primary hover:text-white transition-all">TW</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── FAQ ────────────────────────────────────────────────────────────── -->
+<section class="py-24 px-6 bg-zinc-50 dark:bg-zinc-900/30">
+    <div class="max-w-3xl mx-auto">
+        <div class="text-center mb-14 reveal">
+            <div class="text-xs uppercase tracking-widest text-primary font-bold mb-4">// FAQ</div>
+            <h2 class="font-heading text-5xl md:text-6xl text-foreground">Frequently Asked <span class="italic text-primary">Questions</span></h2>
+        </div>
+        <div class="space-y-0 reveal" id="faq-list">
+            <!-- FAQs injected by JS -->
+        </div>
+    </div>
+</section>
+
+<!-- ─── Quick CTA ──────────────────────────────────────────────────────── -->
+<section class="py-20 px-6 bg-primary text-white">
+    <div class="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
+        <div>
+            <h2 class="font-heading text-4xl md:text-5xl mb-2">Prefer to call?</h2>
+            <p class="opacity-80">Our team is available 7 days a week.</p>
+        </div>
+        <a href="tel:+15551234663"
+           class="inline-block bg-white text-primary font-bold px-10 py-4 rounded-full hover:scale-[1.05] transition-transform shadow-2xl whitespace-nowrap text-lg">
+            +1 (555) 123-FOOD
+        </a>
+    </div>
+</section>
+
+<!-- ─── Footer ─────────────────────────────────────────────────────────── -->
+<footer class="py-16 border-t border-foreground/5 bg-background">
+    <div class="max-w-7xl mx-auto px-8 flex flex-col md:flex-row justify-between items-center gap-8 text-sm text-muted">
+        <div class="font-heading text-2xl font-bold text-primary">Foodiecious<span class="text-foreground">.</span></div>
+        <div class="flex gap-8">
+            <a href="/"     class="hover:text-primary transition-colors">Home</a>
+            <a href="/menu" class="hover:text-primary transition-colors">Menu</a>
+            <a href="/delivery" class="hover:text-primary transition-colors">Delivery</a>
+            <a href="/reservations" class="hover:text-primary transition-colors">Reserve</a>
+        </div>
+        <div class="text-xs uppercase tracking-widest">© 2024 Foodiecious</div>
+    </div>
+</footer>
+
+<script type="module">
+import { initTheme } from '/js/utils.js';
+initTheme();
+
+document.getElementById('mobile-menu-btn')?.addEventListener('click', () => {
+    document.getElementById('mobile-nav').classList.toggle('open');
+});
+
+// Scroll-reveal
+const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// ─── Form ─────────────────────────────────────────────────────────────────
+function showErr(input, msg) {
+    const e = input.parentElement.querySelector('.field-error');
+    if (e) { e.textContent = msg; e.classList.remove('hidden'); }
+    input.classList.add('border-red-400');
+}
+function clearErr(input) {
+    const e = input.parentElement.querySelector('.field-error');
+    if (e) e.classList.add('hidden');
+    input.classList.remove('border-red-400');
+}
+['c-name','c-email','c-message'].forEach(id => {
+    document.getElementById(id)?.addEventListener('input', e => clearErr(e.target));
+});
+
+document.getElementById('contact-form').addEventListener('submit', async e => {
+    e.preventDefault();
+    let ok = true;
+    const name    = document.getElementById('c-name');
+    const email   = document.getElementById('c-email');
+    const message = document.getElementById('c-message');
+    if (!name.value.trim())    { showErr(name, 'Name is required.'); ok = false; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())) { showErr(email, 'Valid email required.'); ok = false; }
+    if (!message.value.trim()) { showErr(message, 'Message is required.'); ok = false; }
+    if (!ok) return;
+
+    const errBox = document.getElementById('form-error');
+    const btn    = document.getElementById('send-btn');
+    const txt    = document.getElementById('send-text');
+    const spin   = document.getElementById('send-spinner');
+    errBox.classList.add('hidden');
+    btn.disabled = true; txt.textContent = 'Sending…'; spin.classList.remove('hidden');
+
+    try {
+        const res  = await fetch('/api/contact', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                name:    name.value.trim(),
+                email:   email.value.trim(),
+                subject: document.getElementById('c-subject').value,
+                message: message.value.trim()
+            })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Something went wrong.');
+        document.getElementById('form-state').classList.add('hidden');
+        document.getElementById('success-state').classList.remove('hidden');
+    } catch (err) {
+        errBox.textContent = err.message;
+        errBox.classList.remove('hidden');
+    } finally {
+        btn.disabled = false; txt.textContent = 'Send Message'; spin.classList.add('hidden');
+    }
+});
+
+document.getElementById('send-another').addEventListener('click', () => {
+    document.getElementById('success-state').classList.add('hidden');
+    document.getElementById('form-state').classList.remove('hidden');
+    document.getElementById('contact-form').reset();
+    ['c-name','c-email','c-message'].forEach(id => clearErr(document.getElementById(id)));
+});
+
+// ─── FAQ ──────────────────────────────────────────────────────────────────
+const faqs = [
+    { q: 'Do you offer delivery?', a: 'Yes! Order from our Delivery page — we deliver within a 5-mile radius. Estimated time is 30–45 minutes, with free delivery on orders over $40.' },
+    { q: 'How far in advance should I book a table?', a: 'We recommend at least 24 hours in advance, especially for weekends and holidays. For groups of 7+, please call us directly.' },
+    { q: 'Do you cater for dietary requirements?', a: 'Absolutely. We have vegetarian, vegan, and gluten-free options. All allergens are marked on the menu. Just let us know when booking.' },
+    { q: 'Is parking available?', a: 'Yes, there is free street parking on Flavor Avenue and in the adjacent lot on Market Street (evenings and weekends only).' },
+    { q: 'Can I cancel or change my reservation?', a: 'Yes — please cancel at least 2 hours before your reservation. You can call us or reply to your confirmation email.' },
+    { q: 'Do you host private events or catering?', a: 'We love it! We host private dining events, birthdays, and corporate events. Send us a message via the contact form above and our events team will be in touch.' },
+];
+
+const faqList = document.getElementById('faq-list');
+faqs.forEach(({ q, a }) => {
+    const item = document.createElement('div');
+    item.className = 'faq-item py-5 cursor-pointer';
+    item.innerHTML = `
+        <div class="flex items-center justify-between gap-4" onclick="this.parentElement.classList.toggle('open')">
+            <h3 class="font-semibold text-foreground text-base">${q}</h3>
+            <span class="faq-icon text-primary text-2xl font-light shrink-0 leading-none">+</span>
+        </div>
+        <div class="faq-answer text-muted text-sm leading-relaxed pt-2">${a}</div>`;
+    faqList.appendChild(item);
+});
+</script>
+</body>
+</html>

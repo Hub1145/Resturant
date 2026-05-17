@@ -13,9 +13,11 @@ const JWT_SECRET = 'foodiecious-jwt-secret-2024-change-in-production';
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-const ADMIN_FILE = path.join(__dirname, 'data/admin.json');
-const RESTAURANT_FILE = path.join(__dirname, 'data/restaurant.json');
+const ADMIN_FILE        = path.join(__dirname, 'data/admin.json');
+const RESTAURANT_FILE   = path.join(__dirname, 'data/restaurant.json');
 const RESERVATIONS_FILE = path.join(__dirname, 'data/reservations.json');
+const ORDERS_FILE       = path.join(__dirname, 'data/orders.json');
+const MESSAGES_FILE     = path.join(__dirname, 'data/messages.json');
 
 function readJSON(file) {
     return JSON.parse(fs.readFileSync(file, 'utf8'));
@@ -57,6 +59,8 @@ app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'index.html')));
 app.get('/menu', (req, res) => res.sendFile(path.join(__dirname, 'menu.html')));
 app.get('/about', (req, res) => res.sendFile(path.join(__dirname, 'about.html')));
 app.get('/reservations', (req, res) => res.sendFile(path.join(__dirname, 'reservations.html')));
+app.get('/delivery',     (req, res) => res.sendFile(path.join(__dirname, 'delivery.html')));
+app.get('/contact',      (req, res) => res.sendFile(path.join(__dirname, 'contact.html')));
 
 // Admin pages
 app.get('/admin', (req, res) => res.sendFile(path.join(__dirname, 'admin/login.html')));
@@ -100,6 +104,60 @@ app.post('/api/reservations', (req, res) => {
     data.reservations.push(reservation);
     writeJSON(RESERVATIONS_FILE, data);
     res.json({ success: true, reservation });
+});
+
+// Contact form
+app.post('/api/contact', (req, res) => {
+    const { name, email, subject, message } = req.body;
+    if (!name || !email || !message) {
+        return res.status(400).json({ error: 'Name, email and message are required.' });
+    }
+    const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRe.test(email)) {
+        return res.status(400).json({ error: 'Please provide a valid email address.' });
+    }
+    const data = readJSON(MESSAGES_FILE);
+    data.messages.push({
+        id: Date.now().toString(),
+        name: name.trim(),
+        email: email.trim().toLowerCase(),
+        subject: (subject || '').trim(),
+        message: message.trim(),
+        createdAt: new Date().toISOString()
+    });
+    writeJSON(MESSAGES_FILE, data);
+    res.json({ success: true });
+});
+
+// Delivery orders
+app.post('/api/orders', (req, res) => {
+    const { name, email, phone, address, items, subtotal, deliveryFee, total, notes, paymentMethod } = req.body;
+    if (!name || !email || !phone || !address || !Array.isArray(items) || !items.length) {
+        return res.status(400).json({ error: 'All fields and at least one item are required.' });
+    }
+    const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRe.test(email)) {
+        return res.status(400).json({ error: 'Please provide a valid email address.' });
+    }
+    const data = readJSON(ORDERS_FILE);
+    const order = {
+        id: Date.now().toString(),
+        name: name.trim(),
+        email: email.trim().toLowerCase(),
+        phone: phone.trim(),
+        address: address.trim(),
+        items,
+        subtotal,
+        deliveryFee,
+        total,
+        notes: (notes || '').trim(),
+        paymentMethod: paymentMethod || 'cash',
+        status: 'pending',
+        createdAt: new Date().toISOString()
+    };
+    data.orders.push(order);
+    writeJSON(ORDERS_FILE, data);
+    res.json({ success: true, order });
 });
 
 // ─── Admin Auth APIs ─────────────────────────────────────────────────────────
@@ -160,13 +218,19 @@ app.post('/api/admin/update-password', requireAdmin, async (req, res) => {
 app.get('/api/admin/stats', requireAdmin, (req, res) => {
     const restaurant = readJSON(RESTAURANT_FILE);
     const reservationsData = readJSON(RESERVATIONS_FILE);
+    const ordersData = readJSON(ORDERS_FILE);
+    const messagesData = readJSON(MESSAGES_FILE);
     const all = reservationsData.reservations;
+    const allOrders = ordersData.orders;
     res.json({
         menuItems: restaurant.menu.length,
         totalReservations: all.length,
         pendingReservations: all.filter(r => r.status === 'pending').length,
         confirmedReservations: all.filter(r => r.status === 'confirmed').length,
-        cancelledReservations: all.filter(r => r.status === 'cancelled').length
+        cancelledReservations: all.filter(r => r.status === 'cancelled').length,
+        totalOrders: allOrders.length,
+        pendingOrders: allOrders.filter(o => o.status === 'pending').length,
+        newMessages: messagesData.messages.length
     });
 });
 
@@ -240,6 +304,29 @@ app.delete('/api/menu/:index', requireAdmin, (req, res) => {
     data.menu.splice(index, 1);
     writeJSON(RESTAURANT_FILE, data);
     res.json({ success: true });
+});
+
+app.get('/api/admin/orders', requireAdmin, (req, res) => {
+    const data = readJSON(ORDERS_FILE);
+    res.json(data.orders.slice().reverse());
+});
+
+app.put('/api/admin/orders/:id', requireAdmin, (req, res) => {
+    const { id } = req.params;
+    const { status } = req.body;
+    const allowed = ['pending', 'preparing', 'out-for-delivery', 'delivered', 'cancelled'];
+    if (!allowed.includes(status)) return res.status(400).json({ error: 'Invalid status.' });
+    const data = readJSON(ORDERS_FILE);
+    const order = data.orders.find(o => o.id === id);
+    if (!order) return res.status(404).json({ error: 'Order not found.' });
+    order.status = status;
+    writeJSON(ORDERS_FILE, data);
+    res.json({ success: true, order });
+});
+
+app.get('/api/admin/messages', requireAdmin, (req, res) => {
+    const data = readJSON(MESSAGES_FILE);
+    res.json(data.messages.slice().reverse());
 });
 
 app.listen(PORT, () => {

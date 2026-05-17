@@ -228,13 +228,17 @@ body {
     color: #fff;
 }
 
-/* ─── Reservation status pills ──────────────────────────────────────────── */
+/* ─── Status pills ──────────────────────────────────────────────────────── */
 .status-pending   { background: hsl(45 93% 47% / 0.15); color: hsl(45 93% 35%); }
 .status-confirmed { background: hsl(142 70% 45% / 0.15); color: hsl(142 70% 30%); }
 .status-cancelled { background: hsl(0 80% 60% / 0.12);  color: hsl(0 80% 45%); }
+.status-preparing { background: hsl(210 80% 55% / 0.15); color: hsl(210 80% 35%); }
+.status-delivered { background: hsl(142 70% 45% / 0.15); color: hsl(142 70% 30%); }
 .dark .status-pending   { color: hsl(45 93% 65%); }
 .dark .status-confirmed { color: hsl(142 70% 65%); }
 .dark .status-cancelled { color: hsl(0 80% 70%); }
+.dark .status-preparing { color: hsl(210 80% 70%); }
+.dark .status-delivered { color: hsl(142 70% 65%); }
 
 /* ─── Admin table ───────────────────────────────────────────────────────── */
 .admin-table th {

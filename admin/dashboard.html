@@ -58,6 +58,14 @@
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                 Reservations
             </button>
+            <button class="sidebar-link" data-panel="orders">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.5 7h12M7 13H5.4M10 18a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/></svg>
+                Delivery Orders
+            </button>
+            <button class="sidebar-link" data-panel="messages">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                Messages
+            </button>
             <button class="sidebar-link" data-panel="menu">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
                 Menu Items
@@ -91,7 +99,9 @@
         <!-- Mobile nav tabs -->
         <div class="md:hidden flex gap-2 mb-8 overflow-x-auto pb-2">
             <button class="sidebar-link active shrink-0" data-panel="overview">Overview</button>
-            <button class="sidebar-link shrink-0" data-panel="reservations">Reservations</button>
+            <button class="sidebar-link shrink-0" data-panel="reservations">Bookings</button>
+            <button class="sidebar-link shrink-0" data-panel="orders">Orders</button>
+            <button class="sidebar-link shrink-0" data-panel="messages">Messages</button>
             <button class="sidebar-link shrink-0" data-panel="menu">Menu</button>
             <button class="sidebar-link shrink-0" data-panel="settings">Settings</button>
         </div>
@@ -106,14 +116,9 @@
             <!-- Stats grid -->
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
                 <div class="stat-card">
-                    <div class="text-xs uppercase tracking-widest text-muted font-bold mb-3">Total Reservations</div>
+                    <div class="text-xs uppercase tracking-widest text-muted font-bold mb-3">Table Bookings</div>
                     <div class="font-heading text-4xl text-foreground" id="stat-total">—</div>
-                    <div class="text-xs text-muted mt-1">all time</div>
-                </div>
-                <div class="stat-card">
-                    <div class="text-xs uppercase tracking-widest text-muted font-bold mb-3">Pending</div>
-                    <div class="font-heading text-4xl text-primary" id="stat-pending">—</div>
-                    <div class="text-xs text-muted mt-1">awaiting confirmation</div>
+                    <div class="text-xs text-muted mt-1"><span id="stat-pending" class="text-primary font-bold">—</span> pending</div>
                 </div>
                 <div class="stat-card">
                     <div class="text-xs uppercase tracking-widest text-muted font-bold mb-3">Confirmed</div>
@@ -121,9 +126,14 @@
                     <div class="text-xs text-muted mt-1">accepted bookings</div>
                 </div>
                 <div class="stat-card">
-                    <div class="text-xs uppercase tracking-widest text-muted font-bold mb-3">Menu Items</div>
-                    <div class="font-heading text-4xl text-foreground" id="stat-menu">—</div>
-                    <div class="text-xs text-muted mt-1">active dishes</div>
+                    <div class="text-xs uppercase tracking-widest text-muted font-bold mb-3">Delivery Orders</div>
+                    <div class="font-heading text-4xl text-foreground" id="stat-orders">—</div>
+                    <div class="text-xs text-muted mt-1"><span id="stat-orders-pending" class="text-primary font-bold">—</span> pending</div>
+                </div>
+                <div class="stat-card">
+                    <div class="text-xs uppercase tracking-widest text-muted font-bold mb-3">Messages</div>
+                    <div class="font-heading text-4xl text-foreground" id="stat-messages">—</div>
+                    <div class="text-xs text-muted mt-1">contact form</div>
                 </div>
             </div>
 
@@ -164,6 +174,48 @@
                     </tr></thead>
                     <tbody id="reservations-tbody">
                         <tr><td colspan="8" class="text-center text-muted py-8">Loading…</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ── Orders Panel ───────────────────────────────────────────── -->
+        <div id="panel-orders" class="panel">
+            <div class="mb-8 flex items-center justify-between gap-4">
+                <h1 class="font-heading text-4xl text-foreground">Delivery Orders</h1>
+                <select id="ord-filter" class="form-input py-2 px-4 text-sm rounded-xl w-auto">
+                    <option value="">All</option>
+                    <option value="pending">Pending</option>
+                    <option value="preparing">Preparing</option>
+                    <option value="delivered">Delivered</option>
+                    <option value="cancelled">Cancelled</option>
+                </select>
+            </div>
+            <div class="overflow-x-auto rounded-2xl border border-foreground/8">
+                <table class="admin-table w-full">
+                    <thead><tr>
+                        <th>Customer</th><th>Address</th><th>Items</th><th>Total</th><th>Payment</th><th>Status</th><th>Date</th><th>Actions</th>
+                    </tr></thead>
+                    <tbody id="orders-tbody">
+                        <tr><td colspan="8" class="text-center text-muted py-8">Loading…</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ── Messages Panel ─────────────────────────────────────────── -->
+        <div id="panel-messages" class="panel">
+            <div class="mb-8">
+                <h1 class="font-heading text-4xl text-foreground">Messages</h1>
+                <p class="text-muted text-sm mt-1">Contact form submissions from visitors.</p>
+            </div>
+            <div class="overflow-x-auto rounded-2xl border border-foreground/8">
+                <table class="admin-table w-full">
+                    <thead><tr>
+                        <th>Name</th><th>Email</th><th>Subject</th><th>Message</th><th>Date</th>
+                    </tr></thead>
+                    <tbody id="messages-tbody">
+                        <tr><td colspan="5" class="text-center text-muted py-8">Loading…</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -301,6 +353,8 @@ function switchPanel(name) {
 
     if (name === 'overview')     loadStats(), loadRecentReservations();
     if (name === 'reservations') loadReservations();
+    if (name === 'orders')       loadOrders();
+    if (name === 'messages')     loadMessages();
     if (name === 'menu')         loadMenuItems();
 }
 
@@ -322,10 +376,12 @@ async function loadStats() {
     try {
         const res  = await fetch('/api/admin/stats');
         const data = await res.json();
-        document.getElementById('stat-total').textContent     = data.totalReservations;
-        document.getElementById('stat-pending').textContent   = data.pendingReservations;
-        document.getElementById('stat-confirmed').textContent = data.confirmedReservations;
-        document.getElementById('stat-menu').textContent      = data.menuItems;
+        document.getElementById('stat-total').textContent          = data.totalReservations;
+        document.getElementById('stat-pending').textContent        = data.pendingReservations;
+        document.getElementById('stat-confirmed').textContent      = data.confirmedReservations;
+        document.getElementById('stat-orders').textContent         = data.totalOrders ?? '—';
+        document.getElementById('stat-orders-pending').textContent = data.pendingOrders ?? '—';
+        document.getElementById('stat-messages').textContent       = data.newMessages ?? '—';
     } catch {}
 }
 
@@ -399,6 +455,89 @@ async function updateResStatus(id, status) {
     });
     loadReservations();
     loadStats();
+}
+
+// ─── Orders ──────────────────────────────────────────────────────────────
+let allOrders = [];
+
+async function loadOrders() {
+    try {
+        const res = await fetch('/api/admin/orders');
+        allOrders = await res.json();
+        renderOrders();
+    } catch {}
+}
+
+function renderOrders() {
+    const filter = document.getElementById('ord-filter').value;
+    const tbody  = document.getElementById('orders-tbody');
+    const list   = filter ? allOrders.filter(o => o.status === filter) : allOrders;
+    if (!list.length) {
+        tbody.innerHTML = '<tr><td colspan="8" class="text-center text-muted py-8">No orders yet.</td></tr>';
+        return;
+    }
+    tbody.innerHTML = list.map(o => {
+        const itemsSummary = (o.items || []).map(i => `${i.name} ×${i.qty}`).join(', ');
+        const date = o.createdAt ? new Date(o.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }) : '—';
+        return `
+        <tr>
+            <td>
+                <div class="font-semibold text-foreground">${esc(o.name)}</div>
+                <div class="text-xs text-muted">${esc(o.email)}</div>
+            </td>
+            <td class="text-muted text-xs max-w-[140px] truncate" title="${esc(o.address)}">${esc(o.address)}</td>
+            <td class="text-muted text-xs max-w-[160px]" title="${esc(itemsSummary)}">${esc(itemsSummary.length > 60 ? itemsSummary.slice(0, 57) + '…' : itemsSummary)}</td>
+            <td class="text-primary font-bold whitespace-nowrap">$${(+o.total || 0).toFixed(2)}</td>
+            <td class="text-muted text-xs capitalize">${esc(o.payment || '—')}</td>
+            <td><span class="text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-full status-${o.status}">${esc(o.status)}</span></td>
+            <td class="text-muted text-xs whitespace-nowrap">${date}</td>
+            <td>
+                <div class="flex gap-1">
+                    <button onclick="updateOrderStatus('${o.id}','preparing')" class="text-xs px-2 py-1 rounded-lg bg-yellow-500/10 text-yellow-400 hover:bg-yellow-500/20 transition-colors font-bold">🍳</button>
+                    <button onclick="updateOrderStatus('${o.id}','delivered')" class="text-xs px-2 py-1 rounded-lg bg-green-500/10 text-green-500 hover:bg-green-500/20 transition-colors font-bold">✓</button>
+                    <button onclick="updateOrderStatus('${o.id}','cancelled')" class="text-xs px-2 py-1 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 transition-colors font-bold">✕</button>
+                </div>
+            </td>
+        </tr>`;
+    }).join('');
+}
+
+document.getElementById('ord-filter').addEventListener('change', renderOrders);
+
+async function updateOrderStatus(id, status) {
+    await fetch(`/api/admin/orders/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status })
+    });
+    loadOrders();
+    loadStats();
+}
+
+// ─── Messages ────────────────────────────────────────────────────────────
+async function loadMessages() {
+    try {
+        const res  = await fetch('/api/admin/messages');
+        const data = await res.json();
+        const tbody = document.getElementById('messages-tbody');
+        if (!data.length) {
+            tbody.innerHTML = '<tr><td colspan="5" class="text-center text-muted py-8">No messages yet.</td></tr>';
+            return;
+        }
+        tbody.innerHTML = data.map(m => {
+            const date = m.createdAt ? new Date(m.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '—';
+            return `
+            <tr>
+                <td class="font-semibold text-foreground whitespace-nowrap">${esc(m.name)}</td>
+                <td class="text-muted text-xs">${esc(m.email)}</td>
+                <td class="text-muted text-xs">${esc(m.subject || '—')}</td>
+                <td class="text-muted text-xs max-w-[260px]">
+                    <div class="line-clamp-2 cursor-pointer hover:text-foreground transition-colors" title="${esc(m.message)}">${esc(m.message)}</div>
+                </td>
+                <td class="text-muted text-xs whitespace-nowrap">${date}</td>
+            </tr>`;
+        }).join('');
+    } catch {}
 }
 
 // ─── Menu Items ──────────────────────────────────────────────────────────
